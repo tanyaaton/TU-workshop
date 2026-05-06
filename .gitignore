@@ -1,11 +1,197 @@
+# ============================================
+# SECRETS & CREDENTIALS - CRITICAL
+# ============================================
+# Environment files with secrets
 .env
-.DS_Store
-node_modules/
-__pycache__/
-*.pyc
-*.zip
-.venv/
-_backup/
+.env.*
+!.env.example
+!.env.template
+*.env
+backup/.env
+**/backup/.env
+
+# API Keys and credentials
+*credentials.json
+*token.json
+*.pem
+*.key
+*.p12
+*.pfx
+*.cer
+*.crt
+*.der
+id_rsa*
+*.ppk
+
+# IBM Cloud credentials
+ibmcloud_api_key*
+*apikey*
+*api_key*
+
+# Shell scripts with credentials
 set_connection_creds.sh
-venv
+**/deploy_*.sh
+**/build_and_push.sh
+
+# ============================================
+# PYTHON
+# ============================================
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+.virtualenv/
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# ============================================
+# DATABASES
+# ============================================
+# SQLite databases (may contain sensitive data)
+*.db
+*.sqlite
+*.sqlite3
+!**/schema.sql
+!**/create_database.py
+
+# ============================================
+# BACKUPS & TEMPORARY FILES
+# ============================================
+_backup/
+backup/
+*.backup
+*.bak
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Archives
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+
+# ============================================
+# IDE & EDITORS
+# ============================================
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+.settings/
+
+# ============================================
+# NODE.JS
+# ============================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# ============================================
+# LOGS
+# ============================================
+*.log
+logs/
+*.log.*
+
+# ============================================
+# EXPORTS & GENERATED FILES
+# ============================================
 export/
+output/
+*.generated.*
+
+# ============================================
+# OS SPECIFIC
+# ============================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.directory
+.Trash-*
+
+# ============================================
+# DOCKER
+# ============================================
+.dockerignore
+docker-compose.override.yml
+
+# ============================================
+# MISC
+# ============================================
+.cache/
+.local/
+*.pid
+*.seed
+*.pid.lock

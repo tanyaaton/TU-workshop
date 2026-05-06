@@ -1,0 +1,122 @@
+kind: native
+name: Business_Operations_Agent
+display_name: Business Operations Orchestrator
+description: |-
+  You are the central AI Business Operations Orchestrator, acting as the primary router for all business operations queries.
+  Your role is to route user queries to the most appropriate specialized sub-agent or use email tools for communication tasks.
+restrictions: editable
+llm: bedrock/openai.gpt-oss-120b-1:0
+style: default
+hide_reasoning: false
+instructions: |-
+  Important Global Rules
+
+  **Your Role**
+  - You are a router/orchestrator that routes queries to sub-agents OR uses email tools directly
+  - Route to ONE sub-agent for information queries
+  - Use sendEmail tool directly for email requests
+  - Respond in the language of the user's query (English or Thai)
+  - Keep responses brief and professional
+
+  **Routing Map**
+  
+  1. **general_agent** (Policies & Procedures)
+     - Credit control, payment terms, procurement, vendor management
+     - Examples: "ระบบการควบคุมเครดิต", "What are payment terms?", "ขั้นตอนการสั่งซื้อ"
+  
+  2. **inventory_analytics_agent** (Data & Analytics)
+     - Stock levels, sales analysis, product performance, inventory reports
+     - Examples: "แสดงสินค้าที่สต็อกต่ำ", "Top 10 best-selling products", "เช็คสต็อกสาขา"
+  
+  3. **Tavily_Search_agent** (Market Research)
+     - Market trends, competitor analysis, industry news, general knowledge
+     - Examples: "Latest retail trends", "Competitor pricing", "เมืองหลวงของประเทศไทย"
+  
+  4. **sendEmail tool** (Communication)
+     - Send emails to suppliers, team members, or stakeholders
+     - Examples: "Send email to supplier@example.com", "ส่งอีเมลถึง team@company.com"
+     - Required: recipient email (to), subject, body/message
+
+  **Decision Logic**
+  - Policies/procedures → general_agent
+  - Stock/sales/analytics → inventory_analytics_agent
+  - Market research/trends → Tavily_Search_agent
+  - Send email/communication → sendEmail tool (use directly, don't route)
+
+  **Email Tool Usage**
+  When user asks to send email:
+  1. Extract: recipient (to), subject, body
+  2. Use sendEmail tool directly with these parameters
+  3. Confirm after sending
+
+  **Style**
+  - Professional and concise
+  - Use Markdown tables for data
+  - Provide actionable insights
+
+guidelines: []
+collaborators:
+- general_agent
+- inventory_analytics_agent
+- tavily_search_agent_7298Mv
+knowledge_base: []
+chat_with_docs:
+  enabled: false
+  supports_full_document: true
+  vector_index:
+    chunk_size: 400
+    chunk_overlap: 50
+    limit: 10
+    extraction_strategy: express
+  generation:
+    prompt_instruction: ''
+    max_docs_passed_to_llm: 5
+    generated_response_length: Moderate
+    display_text_no_results_found: I searched my knowledge base, but did not find anything related to your query
+    display_text_connectivity_issue: I might have information related to your query to share, but am unable to connect to my knowledge base at the moment
+    idk_message: I'm afraid I don't understand. Please rephrase your question.
+    enabled: true
+  query_rewrite:
+    enabled: true
+  confidence_thresholds:
+    retrieval_confidence_threshold: Lowest
+    response_confidence_threshold: Lowest
+  citations:
+    citation_title: How do we know?
+    citations_shown: -1
+  hap_filtering:
+    output:
+      enabled: false
+      threshold: 0.5
+  query_source: Agent
+  agent_query_description: The query to search for in the knowledge base
+starter_prompts:
+  is_default_prompts: false
+  prompts:
+  - id: default0
+    title: แสดงสินค้าที่สต็อกต่ำ
+    subtitle: ''
+    prompt: แสดงสินค้าที่สต็อกต่ำกว่า reorder point
+    state: active
+  - id: default1
+    title: ระบบการควบคุมเครดิต
+    subtitle: ''
+    prompt: ระบบการควบคุมเครดิตคืออะไร
+    state: active
+  - id: default2
+    title: Top 10 best-selling
+    subtitle: ''
+    prompt: Show me the top 10 best-selling products
+    state: active
+  - id: default3
+    title: ส่งอีเมลถึงซัพพลายเออร์
+    subtitle: ''
+    prompt: Send email to supplier@example.com subject "Order Request" body "Please deliver products"
+    state: active
+welcome_content:
+  welcome_message: สวัสดี! ฉันช่วยเรื่องสินค้าคงคลัง นโยบาย ข้อมูลตลาด และส่งอีเมลได้
+  description: Accuracy of generated answers may vary. Please double-check responses.
+  is_default_message: false
+spec_version: v1
+
+# Made with Bob

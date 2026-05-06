@@ -2,19 +2,20 @@ spec_version: v1
 kind: knowledge_base
 name: general_knowledge_base
 description: |
-  This knowledge base provides a comprehensive and authoritative reference for the company’s general policies and complete set of employee leave guidelines. It consolidates all essential rules, responsibilities, procedures, and eligibility criteria required for employees and managers to operate within the company’s standards.
-  - Defines the overarching principles governing workplace operations, including policy scope, working hours, employee conduct, confidentiality obligations, and safety responsibilities across all departments.
-  - Contains detailed leave policies applicable to all employee categories — permanent, contract, temporary, and probationary staff — ensuring consistent policy enforcement throughout the organization.
-  - Establishes clear definitions and conditions for all major leave types, such as annual leave, personal/business leave, sick leave, maternity leave, paternity leave, marriage leave, bereavement leave, leave without pay, compensatory off, statutory leaves, and other special leave categories recognized by law or internal regulations.
-  - Specifies eligibility criteria, required documentation, and approval steps for each leave type, including medical certificates for extended sick leave and advance-notice expectations for planned absences.
-  - Outlines employees’ responsibilities when requesting leave, including timely notification, accurate submission of supporting documents, compliance with HR procedures, and proper use of leave entitlements.
-  - Provides clear rules and disciplinary actions related to unauthorized absences, misuse of leave, unreported leave, or failure to follow established procedures.
-  - Clarifies managerial responsibilities for reviewing, approving, or rejecting leave requests based on operational needs, workforce planning, and adherence to company standards.
-  - States that the company reserves the right to revise, amend, or update leave policies in response to legal changes, compliance requirements, or evolving business needs.
-  - Serves as a unified policy reference designed to help employees understand their rights, obligations, behavioral expectations, and the correct processes concerning workplace conduct and leave management.
+  This knowledge base provides a comprehensive and authoritative reference for the company's Credit Control System and procurement policies. It consolidates all essential rules, procedures, guidelines, and best practices required for procurement teams, finance departments, and business operations to manage credit, payments, and vendor relationships effectively.
+  - Defines the overarching principles governing credit control operations, including credit policy framework, risk assessment criteria, credit limit determination, payment terms, and collection procedures across all business units.
+  - Contains detailed credit management policies applicable to all customer categories — new customers, existing customers, high-value accounts, and special credit arrangements — ensuring consistent credit risk management throughout the organization.
+  - Establishes clear definitions and conditions for credit terms, payment schedules, early payment discounts, late payment penalties, credit holds, and debt collection escalation procedures.
+  - Specifies eligibility criteria, required documentation, and approval workflows for credit applications, credit limit increases, payment term extensions, and special credit arrangements.
+  - Outlines procurement team responsibilities for vendor selection, purchase order management, invoice processing, payment authorization, and maintaining accurate financial records in compliance with company procedures.
+  - Provides clear guidelines for managing overdue accounts, including reminder schedules, collection strategies, legal action thresholds, and bad debt write-off procedures.
+  - Clarifies management responsibilities for reviewing credit applications, approving credit limits, monitoring accounts receivable aging, and making decisions on credit holds or account suspensions based on payment history and risk assessment.
+  - Defines vendor management procedures including supplier evaluation, contract negotiation, performance monitoring, and dispute resolution processes.
+  - States that the company reserves the right to revise, amend, or update credit control and procurement policies in response to market conditions, regulatory changes, or evolving business needs.
+  - Serves as a unified policy reference designed to help procurement and finance teams understand their responsibilities, operational procedures, risk management protocols, and the correct processes for credit control and business operations management.
 
 documents:
-  - path: ./thai_policy_latest.pdf
+  - path: ./CreditControlSystem_v2.pdf
 
 vector_index:
   embeddings_model_name: intfloat/multilingual-e5-large
