@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://be-gmail.29fv367qfr6n.us-south.codeengine.appdomain.cloud/",
+      "url": "https://be-gmail.2bn98grayb7r.us-south.codeengine.appdomain.cloud",
       "description": "Production server"
     }
   ],
