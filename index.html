@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IBM watsonx Orchestrate — BDMS Workshop Lab Guide</title>
+  <title>IBM watsonx Orchestrate — HR Helpdesk Agent Workshop</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -167,6 +167,8 @@
     .step-body p { font-size: 13px; color: var(--text-secondary); margin-bottom: .4rem; }
     .step-body p:last-child { margin-bottom: 0; }
     .step-title { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: .35rem; }
+    .tech-tags { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .6rem; }
+    .tech-tag { display: inline-flex; align-items: center; gap: .25rem; font-size: 11px; font-weight: 600; padding: .2rem .55rem; border-radius: 999px; white-space: nowrap; }
 
     /* ── HINT TOGGLE ── */
     .hint-toggle {
@@ -585,7 +587,7 @@
       <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">☰</button>
       <div class="logo-dot" aria-hidden="true"></div>
       <div>
-        <div class="brand-kicker">IBM watsonx Orchestrate — BDMS Workshop</div>
+        <div class="brand-kicker">IBM watsonx Orchestrate — HR Helpdesk Agent Workshop</div>
         <h1 class="brand-title">RAG Agent &middot; Web Search &middot; Email Agent &middot; Text-to-SQL &middot; Multi-Agent</h1>
       </div>
     </div>
@@ -640,7 +642,7 @@
 
       <!-- HERO -->
       <div class="hero-banner">
-        <span class="brand-kicker">IBM watsonx Orchestrate — BDMS Samitivej Workshop</span>
+        <span class="brand-kicker">IBM watsonx Orchestrate — HR Helpdesk Agent Workshop</span>
         <h2>Welcome to the Lab Guide</h2>
         <p>In this workshop you will build five labs on IBM watsonx Orchestrate — four specialised sub-agents and a master orchestrator that ties them all together. Follow each section in order.</p>
       </div>
@@ -741,6 +743,11 @@
               <div class="step-body">
                 <div class="step-title">Policy RAG Agent</div>
                 <p>Upload HR and company policy PDFs to a knowledge base. The agent uses RAG to answer employee and HR staff questions accurately from those documents.</p>
+                <div class="tech-tags">
+                  <span class="tech-tag" style="background:#dbeafe;color:#1e40af;">📄 PDF / RAG</span>
+                  <span class="tech-tag" style="background:#ede9fe;color:#4c1d95;">🧠 Embeddings</span>
+                  <span class="tech-tag" style="background:#e0f2fe;color:#0c4a6e;">🗃️ Vector DB</span>
+                </div>
               </div>
             </li>
             <li class="step-item">
@@ -748,6 +755,9 @@
               <div class="step-body">
                 <div class="step-title">Web Search Agent</div>
                 <p>Connect a live internet search tool so HR can ask about current regulations, market salary data, or any topic that requires up-to-date information.</p>
+                <div class="tech-tags">
+                  <span class="tech-tag" style="background:#fce7f3;color:#9d174d;">🔍 Tavily</span>
+                </div>
               </div>
             </li>
             <li class="step-item">
@@ -755,6 +765,11 @@
               <div class="step-body">
                 <div class="step-title">Email Manager Agent</div>
                 <p>Deploy a pre-built Gmail agent that reads incoming HR emails, categorises them, drafts responses, and sends replies — saving hours of manual inbox management.</p>
+                <div class="tech-tags">
+                  <span class="tech-tag" style="background:#fee2e2;color:#991b1b;">📧 Gmail</span>
+                  <span class="tech-tag" style="background:#dcfce7;color:#166534;">🔐 Google Auth</span>
+                  <span class="tech-tag" style="background:#fef9c3;color:#854d0e;">🐍 Python</span>
+                </div>
               </div>
             </li>
             <li class="step-item">
@@ -762,6 +777,12 @@
               <div class="step-body">
                 <div class="step-title">HR Analytics Agent (Text-to-SQL)</div>
                 <p>Connect a pre-imported Python tool to a SQLite HR database. The agent translates natural language questions into SQL and returns structured results about employees, salaries, leave, and performance.</p>
+                <div class="tech-tags">
+                  <span class="tech-tag" style="background:#fef9c3;color:#854d0e;">🐍 Python</span>
+                  <span class="tech-tag" style="background:#fff7ed;color:#9a3412;">⚡ Python Runtime</span>
+                  <span class="tech-tag" style="background:#e0f2fe;color:#075985;">🗄️ SQL</span>
+                  <span class="tech-tag" style="background:#f3e8ff;color:#6b21a8;">💾 SQLite</span>
+                </div>
               </div>
             </li>
             <li class="step-item">
@@ -769,6 +790,14 @@
               <div class="step-body">
                 <div class="step-title">HR Helpdesk Orchestrator (Master Agent)</div>
                 <p>Combine all four sub-agents into a single master agent. HR admins interact with one chat interface and the orchestrator automatically delegates to the right specialist agent.</p>
+                <div class="tech-tags">
+                  <span class="tech-tag" style="background:#fce7f3;color:#9d174d;">🔍 Tavily</span>
+                  <span class="tech-tag" style="background:#fee2e2;color:#991b1b;">📧 Gmail</span>
+                  <span class="tech-tag" style="background:#dcfce7;color:#166534;">🔐 Google Auth</span>
+                  <span class="tech-tag" style="background:#fef9c3;color:#854d0e;">🐍 Python</span>
+                  <span class="tech-tag" style="background:#e0f2fe;color:#075985;">🗄️ SQL</span>
+                  <span class="tech-tag" style="background:#f3e8ff;color:#6b21a8;">💾 SQLite</span>
+                </div>
               </div>
             </li>
           </ol>
@@ -1095,7 +1124,7 @@ bash import_all.sh</div>
                   </tr>
                 </table>
                 <!-- <img src="LAB_2_MCP_TAVILY/images/image-5.png" alt="Create tavily agent" style="margin-top:.75rem;max-width:100%;border:1px solid var(--border-color);border-radius:6px;"> -->
-                <img src="LAB_2_MCP_TAVILY/images/image.png" alt="Agent name and description" style="margin-top:.5rem;max-width:60%;border:1px solid var(--border-color);border-radius:6px;">
+                <!-- <img src="LAB_2_MCP_TAVILY/images/image.png" alt="Agent name and description" style="margin-top:.5rem;max-width:60%;border:1px solid var(--border-color);border-radius:6px;"> -->
               </div>
             </li>
             <li class="step-item">
@@ -1115,7 +1144,7 @@ bash import_all.sh</div>
               <div class="step-num">5</div>
               <div class="step-body">
                 <div class="step-title">Scroll to the Tools section and click Add tool +</div>
-                <img src="LAB_2_MCP_TAVILY/images/image-1.png" alt="Add tool button" style="margin-top:.75rem;max-width:100%;border:1px solid var(--border-color);border-radius:6px;">
+                <!-- <img src="LAB_2_MCP_TAVILY/images/image-1.png" alt="Add tool button" style="margin-top:.75rem;max-width:100%;border:1px solid var(--border-color);border-radius:6px;"> -->
               </div>
             </li>
             <li class="step-item">
@@ -1135,6 +1164,14 @@ bash import_all.sh</div>
             <li class="step-item">
               <div class="step-num">8</div>
               <div class="step-body">
+                <div class="step-title">Select <strong>Local MCP server</strong> as the server type</div>
+                <p>In the <em>Add an MCP server</em> dialog, choose <strong>Local MCP server</strong> and click <strong>Next</strong>.</p>
+                <img src="LAB_2_MCP_TAVILY/images/image-7.png" alt="Select Local MCP server type" style="margin-top:.75rem;max-width:50%;border:1px solid var(--border-color);border-radius:6px;">
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">9</div>
+              <div class="step-body">
                 <div class="step-title">Enter the server name and connection command</div>
                 <p>Set the server name to <code>tavily-server</code> and paste the command below, replacing <code>&lt;your-api-key&gt;</code> with your Tavily API key. Then click <strong>Connect</strong> and <strong>Done</strong>.</p>
                 <div class="prompt-card">
@@ -1148,7 +1185,7 @@ bash import_all.sh</div>
               </div>
             </li>
             <li class="step-item">
-              <div class="step-num">9</div>
+              <div class="step-num">10</div>
               <div class="step-body">
                 <div class="step-title">Activate tavily-mcp:tavily_search</div>
                 <p>Find <strong>tavily-mcp:tavily_search</strong> in the tool list and toggle it on.</p>
