@@ -1,21 +1,17 @@
 spec_version: v1
 kind: knowledge_base
-name: general_knowledge_base
+name: hr_policy_knowledge_base
 description: |
-  This knowledge base provides a comprehensive and authoritative reference for the company's Credit Control System and procurement policies. It consolidates all essential rules, procedures, guidelines, and best practices required for procurement teams, finance departments, and business operations to manage credit, payments, and vendor relationships effectively.
-  - Defines the overarching principles governing credit control operations, including credit policy framework, risk assessment criteria, credit limit determination, payment terms, and collection procedures across all business units.
-  - Contains detailed credit management policies applicable to all customer categories — new customers, existing customers, high-value accounts, and special credit arrangements — ensuring consistent credit risk management throughout the organization.
-  - Establishes clear definitions and conditions for credit terms, payment schedules, early payment discounts, late payment penalties, credit holds, and debt collection escalation procedures.
-  - Specifies eligibility criteria, required documentation, and approval workflows for credit applications, credit limit increases, payment term extensions, and special credit arrangements.
-  - Outlines procurement team responsibilities for vendor selection, purchase order management, invoice processing, payment authorization, and maintaining accurate financial records in compliance with company procedures.
-  - Provides clear guidelines for managing overdue accounts, including reminder schedules, collection strategies, legal action thresholds, and bad debt write-off procedures.
-  - Clarifies management responsibilities for reviewing credit applications, approving credit limits, monitoring accounts receivable aging, and making decisions on credit holds or account suspensions based on payment history and risk assessment.
-  - Defines vendor management procedures including supplier evaluation, contract negotiation, performance monitoring, and dispute resolution processes.
-  - States that the company reserves the right to revise, amend, or update credit control and procurement policies in response to market conditions, regulatory changes, or evolving business needs.
-  - Serves as a unified policy reference designed to help procurement and finance teams understand their responsibilities, operational procedures, risk management protocols, and the correct processes for credit control and business operations management.
+  This knowledge base provides a comprehensive and authoritative reference for the company's HR policies and guidelines. It consolidates all essential rules, procedures, and best practices required for HR teams and employees to understand workplace regulations, data privacy, information security, and talent management.
+  - Defines the company's privacy policy (HR-PL-001) covering employee personal data handling, data subject rights, consent management, and data retention procedures in compliance with applicable data protection regulations.
+  - Contains the IT security policy (HR-IT-002) establishing information security standards, acceptable use guidelines, access control procedures, incident response protocols, and employees' responsibilities for protecting company data and systems.
+  - Outlines the succession planning policy (HR-TM-003) describing the framework for identifying, developing, and retaining high-potential employees for critical roles, including talent assessment criteria, development pathways, and transition procedures.
+  - Serves as the primary reference for HR staff and employees seeking guidance on HR compliance, data privacy rights, IT security obligations, and career development frameworks.
 
 documents:
-  - path: ./CreditControlSystem_v2.pdf
+  - path: ./HR-PL-001_นโยบายความเป็นส่วนตัว.pdf
+  - path: ./HR-IT-002_นโยบายความมั่นคงปลอดภัยด้านเทคโนโลยีสารสนเทศ.pdf
+  - path: ./HR-TM-003_นโยบายแผนการสืบทอดตำแหน่ง.pdf
 
 vector_index:
   embeddings_model_name: intfloat/multilingual-e5-large
@@ -37,4 +33,3 @@ conversational_search_tool:
   citations:
     citations_shown: -1
   supports_full_document: True
-  

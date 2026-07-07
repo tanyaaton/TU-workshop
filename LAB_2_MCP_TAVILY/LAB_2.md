@@ -49,10 +49,18 @@ This guide walks you through integrating Tavily search capabilities with Watson 
 Always use the tavily search tools for every user questions. Do not use your own training data and knowledge.
 ```
 
-Test the agent with the following question
+Test the agent with the following questions:
 
+**General**
 - เมืองหลวงของประเทศไทยคืออะไร
 - ช่วยลิสคำถามที่มักถูกถามตอนสัมภาษณ์งานหน่อย
+
+**HR Use-Case — Web Search**
+- What is the current minimum wage in Thailand? / ค่าแรงขั้นต่ำในประเทศไทยตอนนี้เท่าไหร่?
+- What are the public holidays in Thailand this year? / วันหยุดราชการ/วันหยุดนักขัตฤกษ์ในประเทศไทยปีนี้มีวันไหนบ้าง?
+- What is the current social security contribution rate? / อัตราเงินสมทบประกันสังคมปัจจุบันเท่าไหร่?
+- What are the requirements for a work permit for a foreign employee in Thailand? / เงื่อนไขการขอใบอนุญาตทำงาน (Work Permit) สำหรับพนักงานต่างชาติในไทยมีอะไรบ้าง?
+- What is the standard severance pay calculation under Thai labor law? / การคำนวณค่าชดเชยตามกฎหมายแรงงานไทยคำนวณอย่างไร?
 
 
 

@@ -351,6 +351,150 @@
     .feature-card h4 { font-size: 13px; font-weight: 600; margin-bottom: .4rem; }
     .feature-card p  { font-size: 12px; color: var(--text-secondary); line-height: 1.55; }
 
+    /* ── OVERVIEW / AGENT CARDS ── */
+    .agent-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.25rem;
+      margin: 1.75rem 0;
+    }
+    .agent-card {
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1.5rem 1.25rem 1.25rem;
+      background: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .agent-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+    }
+    .agent-card--blue::before   { background: #0f62fe; }
+    .agent-card--teal::before   { background: #007d79; }
+    .agent-card--purple::before { background: #8a3ffc; }
+    .agent-card--green::before  { background: #198038; }
+    .agent-card--orange::before { background: #e65100; }
+    .agent-card__icon {
+      width: 40px; height: 40px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1rem;
+    }
+    .agent-card--blue   .agent-card__icon { background: #eaf0ff; }
+    .agent-card--teal   .agent-card__icon { background: #d9fbfb; }
+    .agent-card--purple .agent-card__icon { background: #f6f2ff; }
+    .agent-card--green  .agent-card__icon { background: #defbe6; }
+    .agent-card--orange .agent-card__icon { background: #fff3e0; }
+    .agent-card__num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+      margin-bottom: .4rem;
+    }
+    .agent-card--blue   .agent-card__num { color: #0f62fe; }
+    .agent-card--teal   .agent-card__num { color: #007d79; }
+    .agent-card--purple .agent-card__num { color: #8a3ffc; }
+    .agent-card--green  .agent-card__num { color: #198038; }
+    .agent-card--orange .agent-card__num { color: #c45000; }
+    .agent-card h4 {
+      font-size: 13px; font-weight: 700;
+      color: var(--text-primary); margin-bottom: .4rem;
+    }
+    .agent-card p {
+      font-size: 12px; color: var(--text-secondary);
+      line-height: 1.6; margin: 0;
+    }
+
+    /* flow arrow between agents */
+    .agent-flow {
+      display: flex; align-items: center;
+      gap: .5rem; flex-wrap: wrap;
+      margin: 1.5rem 0 .5rem;
+    }
+    .agent-flow__item {
+      display: flex; align-items: center;
+      gap: .5rem;
+    }
+    .agent-flow__pill {
+      font-size: 12px; font-weight: 600;
+      padding: .35rem .85rem;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .agent-flow__pill--sub  { background: #e8f0fe; color: #0f62fe; }
+    .agent-flow__pill--master { background: #161616; color: #fff; }
+    .agent-flow__arrow {
+      color: var(--text-secondary); font-size: 14px; line-height: 1;
+    }
+
+    .overview-arch {
+      margin-top: 1.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .overview-arch__header {
+      background: var(--bg-alt);
+      border-bottom: 1px solid var(--border-color);
+      padding: .65rem 1rem;
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .1em; color: var(--text-secondary);
+    }
+    .overview-arch__body {
+      padding: 1.5rem 1.25rem;
+    }
+    .arch-row {
+      display: flex; align-items: stretch; gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .arch-master {
+      flex: 0 0 160px;
+      background: #161616; color: #fff;
+      border-radius: 8px;
+      padding: 1.25rem 1rem;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      text-align: center;
+      gap: .5rem;
+    }
+    .arch-master__label {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .1em; color: #a8a8a8;
+    }
+    .arch-master__name {
+      font-size: 14px; font-weight: 700; color: #fff;
+    }
+    .arch-connector {
+      display: flex; align-items: center;
+      color: var(--text-secondary); font-size: 18px;
+    }
+    .arch-sub-agents {
+      flex: 1; display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px,1fr));
+      gap: .75rem;
+    }
+    .arch-sub {
+      border-radius: 6px;
+      padding: .9rem .85rem;
+      border: 1px solid var(--border-color);
+      font-size: 12px;
+    }
+    .arch-sub__tag {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .08em; margin-bottom: .3rem;
+    }
+    .arch-sub__name { font-weight: 600; color: var(--text-primary); font-size: 12px; }
+    .arch-sub--rag    { background: #eaf0ff; border-color: #b0c8f5; }
+    .arch-sub--rag    .arch-sub__tag { color: #0f62fe; }
+    .arch-sub--web    { background: #d9fbfb; border-color: #8cd6d0; }
+    .arch-sub--web    .arch-sub__tag { color: #007d79; }
+    .arch-sub--email  { background: #f6f2ff; border-color: #c7b0f7; }
+    .arch-sub--email  .arch-sub__tag { color: #8a3ffc; }
+    .arch-sub--api    { background: #defbe6; border-color: #8dcfa3; }
+    .arch-sub--api    .arch-sub__tag { color: #198038; }
+
     /* ── INLINE CODE ── */
     code {
       font-family: 'IBM Plex Mono', monospace; font-size: 12px;
@@ -419,39 +563,44 @@
       <div class="sidebar__title">Lab Sections</div>
       <nav class="sidebar__nav" aria-label="Table of contents">
 
-        <a class="sidebar__link active" href="#setup">
+        <a class="sidebar__link active" href="#overview">
           <span class="sidebar__num">00</span>
+          <span>Overview</span>
+        </a>
+
+        <a class="sidebar__link" href="#setup">
+          <span class="sidebar__num">01</span>
           <span>Setup</span>
         </a>
         <a class="sidebar__sublink" href="#setup-trial">Free Trial</a>
         <a class="sidebar__sublink" href="#setup-launch">Launch Instance</a>
 
         <a class="sidebar__link" href="#lab1">
-          <span class="sidebar__num">01</span>
-          <span>Lab 1 — Email Agent</span>
-        </a>
-        <a class="sidebar__sublink" href="#lab1-discovery">Discovery</a>
-        <a class="sidebar__sublink" href="#lab1-connection">Configure Connection</a>
-        <a class="sidebar__sublink" href="#lab1-test">Test the Agent</a>
+            <span class="sidebar__num">02</span>
+            <span>Lab 1 — Email Agent</span>
+          </a>
+          <a class="sidebar__sublink" href="#lab1-discovery">Discovery</a>
+          <a class="sidebar__sublink" href="#lab1-connection">Configure Connection</a>
+          <a class="sidebar__sublink" href="#lab1-test">Test the Agent</a>
 
-        <a class="sidebar__link" href="#lab2">
-          <span class="sidebar__num">02</span>
-          <span>Lab 2 — RAG Agent</span>
-        </a>
-        <a class="sidebar__sublink" href="#lab2-ui">UI Approach</a>
-        <a class="sidebar__sublink" href="#lab2-adk">ADK Approach</a>
+          <a class="sidebar__link" href="#lab2">
+            <span class="sidebar__num">03</span>
+            <span>Lab 2 — RAG Agent</span>
+          </a>
+          <a class="sidebar__sublink" href="#lab2-ui">UI Approach</a>
+          <a class="sidebar__sublink" href="#lab2-adk">ADK Approach</a>
 
-        <a class="sidebar__link" href="#lab3">
-          <span class="sidebar__num">03</span>
-          <span>Lab 3 — Multi-Agent</span>
-        </a>
-        <a class="sidebar__sublink" href="#lab3-build">Build Multi-Agent</a>
-        <a class="sidebar__sublink" href="#lab3-test">Test Questions</a>
+          <a class="sidebar__link" href="#lab3">
+            <span class="sidebar__num">04</span>
+            <span>Lab 3 — Multi-Agent</span>
+          </a>
+          <a class="sidebar__sublink" href="#lab3-build">Build Multi-Agent</a>
+          <a class="sidebar__sublink" href="#lab3-test">Test Questions</a>
 
-        <a class="sidebar__link" href="#lab4">
-          <span class="sidebar__num">04</span>
-          <span>Agent Ops</span>
-        </a>
+          <a class="sidebar__link" href="#lab4">
+            <span class="sidebar__num">05</span>
+            <span>Agent Ops</span>
+          </a>
 
       </nav>
     </aside>
@@ -463,11 +612,142 @@
       <div class="hero-banner">
         <span class="brand-kicker">IBM watsonx Orchestrate — BDMS Samitivej Workshop</span>
         <h2>Welcome to the Lab Guide</h2>
-        <p>This guide walks you through four hands-on labs covering IBM watsonx Orchestrate: setting up your environment, deploying a pre-built Email agent, building a RAG agent with a knowledge base, and composing a multi-agent system. Follow each section in order.</p>
+        <p>In this workshop you will build a suite of HR Helpdesk agents on IBM watsonx Orchestrate — four specialised sub-agents and a master orchestrator that ties them all together. Follow each section in order.</p>
       </div>
 
       <!-- ════════════════════════════════════════════════ -->
-      <!-- SECTION 0 — SETUP -->
+      <!-- SECTION 0 — OVERVIEW -->
+      <!-- ════════════════════════════════════════════════ -->
+      <section class="section" id="overview">
+        <div class="section-header">
+          <div class="section-kicker">Lab Overview</div>
+          <h2>HR Helpdesk Agent System</h2>
+          <p class="section-lead">This workshop focuses on an <strong>HR use-case</strong>. You will build a set of intelligent agents that help HR teams automate day-to-day work — from answering policy questions to managing emails and connecting to live data — then unify them under a single master agent.</p>
+        </div>
+
+        <!-- Agent cards -->
+        <div class="agent-grid">
+
+          <div class="agent-card agent-card--blue">
+            <div class="agent-card__icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f62fe" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            </div>
+            <div class="agent-card__num">Sub-agent 1</div>
+            <h4>Policy RAG Agent</h4>
+            <p>Answers questions by searching through internal HR and company policy documents using Retrieval-Augmented Generation.</p>
+          </div>
+
+          <div class="agent-card agent-card--teal">
+            <div class="agent-card__icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#007d79" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </div>
+            <div class="agent-card__num">Sub-agent 2</div>
+            <h4>Web Search Agent</h4>
+            <p>Finds up-to-date information from the internet — salary benchmarks, labour law updates, industry news, and more.</p>
+          </div>
+
+          <div class="agent-card agent-card--purple">
+            <div class="agent-card__icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8a3ffc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div class="agent-card__num">Sub-agent 3</div>
+            <h4>Email Manager Agent</h4>
+            <p>Reads and triages incoming HR emails, drafts replies, and sends outbound messages — all through a connected Gmail account.</p>
+          </div>
+
+          <div class="agent-card agent-card--green">
+            <div class="agent-card__icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#198038" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+            </div>
+            <div class="agent-card__num">Sub-agent 4</div>
+            <h4>Database / API Agent</h4>
+            <p>Connects to HR systems and databases via API tools to look up employee records, leave balances, payroll data, and more.</p>
+          </div>
+
+        </div>
+
+        <!-- Architecture diagram -->
+        <div class="overview-arch">
+          <div class="overview-arch__header">System Architecture — How the agents connect</div>
+          <div class="overview-arch__body">
+            <div class="arch-row">
+              <div class="arch-sub-agents">
+                <div class="arch-sub arch-sub--rag">
+                  <div class="arch-sub__tag">Sub-agent 1</div>
+                  <div class="arch-sub__name">Policy RAG Agent</div>
+                </div>
+                <div class="arch-sub arch-sub--web">
+                  <div class="arch-sub__tag">Sub-agent 2</div>
+                  <div class="arch-sub__name">Web Search Agent</div>
+                </div>
+                <div class="arch-sub arch-sub--email">
+                  <div class="arch-sub__tag">Sub-agent 3</div>
+                  <div class="arch-sub__name">Email Manager Agent</div>
+                </div>
+                <div class="arch-sub arch-sub--api">
+                  <div class="arch-sub__tag">Sub-agent 4</div>
+                  <div class="arch-sub__name">Database / API Agent</div>
+                </div>
+              </div>
+              <div class="arch-connector">&#8594;</div>
+              <div class="arch-master">
+                <div class="arch-master__label">Master Agent</div>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#78a9ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <div class="arch-master__name">HR Helpdesk Orchestrator</div>
+              </div>
+            </div>
+            <p style="font-size:12px;color:var(--text-secondary);margin-top:1rem;">
+              The <strong>HR Helpdesk Orchestrator</strong> receives every request from the HR admin and automatically routes it to the correct sub-agent. Admins interact with a single chat interface — the orchestrator handles the rest.
+            </p>
+          </div>
+        </div>
+
+        <!-- What you will build list -->
+        <div class="subsection">
+          <h3>What You Will Build</h3>
+          <ol class="step-list">
+            <li class="step-item">
+              <div class="step-num" style="background:#0f62fe;">1</div>
+              <div class="step-body">
+                <div class="step-title">Policy RAG Agent</div>
+                <p>Upload HR and company policy PDFs to a knowledge base. The agent uses RAG to answer employee and HR staff questions accurately from those documents.</p>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num" style="background:#007d79;">2</div>
+              <div class="step-body">
+                <div class="step-title">Web Search Agent</div>
+                <p>Connect a live internet search tool so HR can ask about current regulations, market salary data, or any topic that requires up-to-date information.</p>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num" style="background:#8a3ffc;">3</div>
+              <div class="step-body">
+                <div class="step-title">Email Manager Agent</div>
+                <p>Deploy a pre-built Gmail agent that reads incoming HR emails, categorises them, drafts responses, and sends replies — saving hours of manual inbox management.</p>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num" style="background:#198038;">4</div>
+              <div class="step-body">
+                <div class="step-title">Database / API Agent</div>
+                <p>Expose HR system APIs as tools so the agent can query employee records, leave balances, payroll details, and other live data on demand.</p>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num" style="background:#c45000;">5</div>
+              <div class="step-body">
+                <div class="step-title">HR Helpdesk Orchestrator (Master Agent)</div>
+                <p>Combine all four sub-agents into a single master agent. HR admins interact with one chat interface and the orchestrator automatically delegates to the right specialist agent.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+      </section>
+
+      <!-- ════════════════════════════════════════════════ -->
+      <!-- SECTION 1 — SETUP -->
       <!-- ════════════════════════════════════════════════ -->
       <section class="section" id="setup">
         <div class="section-header">
