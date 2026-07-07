@@ -572,35 +572,38 @@
           <span class="sidebar__num">01</span>
           <span>Setup</span>
         </a>
-        <a class="sidebar__sublink" href="#setup-trial">Free Trial</a>
-        <a class="sidebar__sublink" href="#setup-launch">Launch Instance</a>
+        <a class="sidebar__sublink" href="#setup-invite">Accept Invitation</a>
 
         <a class="sidebar__link" href="#lab1">
-            <span class="sidebar__num">02</span>
-            <span>Lab 1 — Email Agent</span>
-          </a>
-          <a class="sidebar__sublink" href="#lab1-discovery">Discovery</a>
-          <a class="sidebar__sublink" href="#lab1-connection">Configure Connection</a>
-          <a class="sidebar__sublink" href="#lab1-test">Test the Agent</a>
+          <span class="sidebar__num">02</span>
+          <span>Lab 1 — HR Policy RAG</span>
+        </a>
+        <a class="sidebar__sublink" href="#lab1-create">Create Agent</a>
+        <a class="sidebar__sublink" href="#lab1-kb">Knowledge Base</a>
+        <a class="sidebar__sublink" href="#lab1-behaviour">Behaviour</a>
+        <a class="sidebar__sublink" href="#lab1-test">Test Questions</a>
 
-          <a class="sidebar__link" href="#lab2">
-            <span class="sidebar__num">03</span>
-            <span>Lab 2 — RAG Agent</span>
-          </a>
-          <a class="sidebar__sublink" href="#lab2-ui">UI Approach</a>
-          <a class="sidebar__sublink" href="#lab2-adk">ADK Approach</a>
+        <a class="sidebar__link" href="#lab2">
+          <span class="sidebar__num">03</span>
+          <span>Lab 2 — Web Search Agent</span>
+        </a>
+        <a class="sidebar__sublink" href="#lab2-apikey">Tavily API Key</a>
+        <a class="sidebar__sublink" href="#lab2-create">Create Agent</a>
+        <a class="sidebar__sublink" href="#lab2-mcp">MCP Server</a>
+        <a class="sidebar__sublink" href="#lab2-test">Test Questions</a>
 
-          <a class="sidebar__link" href="#lab3">
-            <span class="sidebar__num">04</span>
-            <span>Lab 3 — Multi-Agent</span>
-          </a>
-          <a class="sidebar__sublink" href="#lab3-build">Build Multi-Agent</a>
-          <a class="sidebar__sublink" href="#lab3-test">Test Questions</a>
+        <a class="sidebar__link" href="#lab3">
+          <span class="sidebar__num">04</span>
+          <span>Lab 3 — Email Agent</span>
+        </a>
+        <a class="sidebar__sublink" href="#lab3-discovery">Discovery</a>
+        <a class="sidebar__sublink" href="#lab3-connection">Gmail Connection</a>
+        <a class="sidebar__sublink" href="#lab3-test">Test</a>
 
-          <a class="sidebar__link" href="#lab4">
-            <span class="sidebar__num">05</span>
-            <span>Agent Ops</span>
-          </a>
+        <a class="sidebar__link" href="#lab4">
+          <span class="sidebar__num">05</span>
+          <span>Agent Ops</span>
+        </a>
 
       </nav>
     </aside>
@@ -753,60 +756,33 @@
         <div class="section-header">
           <div class="section-kicker">Before You Begin</div>
           <h2>Setup</h2>
-          <p class="section-lead">Complete this once before starting any lab. You will register for a free trial, access the IBM dashboard, and launch a watsonx Orchestrate instance.</p>
+          <p class="section-lead">Complete these steps once before starting any lab. You will receive an invitation email to join the shared watsonx Orchestrate instance, create your IBM ID, and log in.</p>
         </div>
 
-        <div id="setup-trial" class="subsection">
-          <h3>Step 1 — Register for a Free Trial</h3>
+        <div id="setup-invite" class="subsection">
+          <h3>Step 1 — Accept Your Invitation Email</h3>
           <ol class="step-list">
             <li class="step-item">
               <div class="step-num">1</div>
               <div class="step-body">
-                <div class="step-title">Go to the watsonx Orchestrate product page</div>
-                <p>Open your browser and navigate to the IBM watsonx Orchestrate product page.</p>
-                <a href="https://www.ibm.com/products/watsonx-orchestrate" class="download-btn" target="_blank" rel="noopener">Open IBM watsonx Orchestrate</a>
+                <div class="step-title">Check your inbox for the invitation email</div>
+                <p>You will receive an email invitation to join the IBM watsonx Orchestrate instance for this workshop. Open the email and click <strong>Join</strong>.</p>
+                <img src="00_SETUP/image.png" alt="Invitation email screenshot" style="margin-top:.75rem;max-width:100%;border:1px solid var(--border-color);border-radius:6px;">
               </div>
             </li>
             <li class="step-item">
               <div class="step-num">2</div>
               <div class="step-body">
-                <div class="step-title">Start the free trial</div>
-                <p>Scroll to the bottom of the page, click <strong>Free Trial</strong>, and fill in your account information to register.</p>
+                <div class="step-title">Create your IBM ID (if you don't have one)</div>
+                <p>If you do not already have an IBM ID, follow the on-screen prompts to create one. If you already have one, simply log in with your existing credentials.</p>
               </div>
             </li>
-          </ol>
-        </div>
-
-        <div id="setup-launch" class="subsection">
-          <h3>Step 2 — Launch Your Instance</h3>
-          <ol class="step-list">
             <li class="step-item">
               <div class="step-num">3</div>
               <div class="step-body">
-                <div class="step-title">Go to the IBM dashboard</div>
-                <p>After registration, navigate to your IBM product dashboard.</p>
-                <a href="https://myibm.ibm.com/dashboard/" class="download-btn" target="_blank" rel="noopener">Open IBM Dashboard</a>
-              </div>
-            </li>
-            <li class="step-item">
-              <div class="step-num">4</div>
-              <div class="step-body">
-                <div class="step-title">Find watsonx Orchestrate and click Launch</div>
-                <p>Under <strong>My Products</strong>, locate IBM watsonx Orchestrate and click <strong>Launch</strong>.</p>
-              </div>
-            </li>
-            <li class="step-item">
-              <div class="step-num">5</div>
-              <div class="step-body">
-                <div class="step-title">Create a new instance</div>
-                <p>Click <strong>Create new instance</strong> and select the <strong>us-east</strong> region.</p>
-              </div>
-            </li>
-            <li class="step-item">
-              <div class="step-num">6</div>
-              <div class="step-body">
-                <div class="step-title">Launch the instance</div>
-                <p>Click <strong>Launch</strong>. You should now see the watsonx Orchestrate front page and are ready to start the labs.</p>
+                <div class="step-title">Log in to IBM watsonx Orchestrate</div>
+                <p>Sign in using your IBM ID. You should arrive at the watsonx Orchestrate landing page and are ready to start the labs.</p>
+                <img src="00_SETUP/image-1.png" alt="watsonx Orchestrate landing page" style="margin-top:.75rem;max-width:100%;border:1px solid var(--border-color);border-radius:6px;">
                 <div class="callout callout--success" style="margin-top:.75rem;">
                   <div class="callout__label">You're all set</div>
                   <p>Once you can see the watsonx Orchestrate home screen, proceed to Lab 1.</p>
@@ -815,94 +791,395 @@
             </li>
           </ol>
         </div>
+
+        <!-- Optional: Free trial toggle -->
+        <div class="subsection">
+          <details class="hint-toggle">
+            <summary>Optional — Register for your own Free Trial instead</summary>
+            <div class="hint-toggle__body">
+              <p>If you would like to continue experimenting on your own after the workshop, you can sign up for a free trial:</p>
+              <ol style="margin:.5rem 0 0 1.25rem;font-size:13px;line-height:2;">
+                <li>Go to <a href="https://www.ibm.com/products/watsonx-orchestrate" target="_blank" rel="noopener" style="color:var(--primary-color)">ibm.com/products/watsonx-orchestrate</a> and click <strong>Free Trial</strong>.</li>
+                <li>Fill in your account information to register.</li>
+                <li>Navigate to the <a href="https://myibm.ibm.com/dashboard/" target="_blank" rel="noopener" style="color:var(--primary-color)">IBM Dashboard</a>, locate watsonx Orchestrate under <strong>My Products</strong>, and click <strong>Launch</strong>.</li>
+                <li>Click <strong>Create new instance</strong>, select the <strong>us-east</strong> region, then click <strong>Launch</strong>.</li>
+              </ol>
+            </div>
+          </details>
+        </div>
       </section>
 
       <!-- ════════════════════════════════════════════════ -->
-      <!-- SECTION 1 — LAB 1 -->
+      <!-- SECTION 1 — LAB 1: HR POLICY RAG AGENT -->
       <!-- ════════════════════════════════════════════════ -->
       <section class="section" id="lab1">
         <div class="section-header">
           <div class="section-kicker">Lab 1</div>
-          <h2>Pre-built Email Agent</h2>
-          <p class="section-lead">Deploy and configure a pre-built Google Email Manager agent from the watsonx Orchestrate Discovery catalogue, connect it to Gmail via OAuth2, and send your first AI-generated email.</p>
+          <h2>HR Policy RAG Agent</h2>
+          <p class="section-lead">Create an AI agent from scratch that can answer questions about company HR policies. You will upload three HR policy documents as a knowledge base, so the agent can retrieve and cite accurate information directly from those documents.</p>
         </div>
 
-        <!-- Discovery -->
-        <div id="lab1-discovery" class="subsection">
-          <h3>Step 1 — Find the Email Manager Agent</h3>
+        <div id="lab1-create" class="subsection">
+          <h3>Step 1 — Create a New Agent</h3>
           <ol class="step-list">
             <li class="step-item">
               <div class="step-num">1</div>
               <div class="step-body">
-                <div class="step-title">Open the Discovery page</div>
-                <p>In watsonx Orchestrate, navigate to the <strong>Discovery</strong> page using the left-hand navigation.</p>
+                <div class="step-title">Open the Agent Builder</div>
+                <p>Click the <strong>hamburger menu</strong> (☰) in the top-left corner, then select <strong>Build</strong>.</p>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <div class="step-title">Create agent from scratch</div>
+                <p>Click <strong>Create agent</strong>, then select <strong>Create from scratch</strong>.</p>
+                <img src="LAB_1_RAG_AGENT/image.png" alt="Create agent from scratch" style="margin-top:.75rem;max-width:100%;border:1px solid var(--border-color);border-radius:6px;">
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <div class="step-title">Name and describe your agent</div>
+                <p>Enter the following details:</p>
+                <table class="creds-table" style="margin-top:.5rem;">
+                  <tr>
+                    <td>Name</td>
+                    <td><code>hr_policy_agent</code></td>
+                  </tr>
+                  <tr>
+                    <td>Description</td>
+                    <td>HR Policy Assistant — answers questions about company HR policies including Privacy (HR-PL-001), IT Security (HR-IT-002), and Succession Planning (HR-TM-003).</td>
+                  </tr>
+                </table>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <div id="lab1-kb" class="subsection">
+          <h3>Step 2 — Add the HR Policy Knowledge Base</h3>
+          <ol class="step-list">
+            <li class="step-item">
+              <div class="step-num">4</div>
+              <div class="step-body">
+                <div class="step-title">Scroll down to the Knowledge Base section</div>
+                <p>In the agent editor, scroll down to find the <strong>Knowledge Base</strong> section and click <strong>Upload file</strong>.</p>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">5</div>
+              <div class="step-body">
+                <div class="step-title">Upload the three HR policy PDFs</div>
+                <p>Upload all three files from the <code>LAB_1_RAG_AGENT/policy/</code> folder:</p>
+                <div class="feature-grid" style="margin-top:.5rem;">
+                  <div class="feature-card">
+                    <h4>HR-PL-001</h4>
+                    <p>นโยบายความเป็นส่วนตัว<br><em>(Privacy Policy)</em></p>
+                  </div>
+                  <div class="feature-card">
+                    <h4>HR-IT-002</h4>
+                    <p>นโยบายความมั่นคงปลอดภัยด้านเทคโนโลยีสารสนเทศ<br><em>(IT Security Policy)</em></p>
+                  </div>
+                  <div class="feature-card">
+                    <h4>HR-TM-003</h4>
+                    <p>นโยบายแผนการสืบทอดตำแหน่ง<br><em>(Succession Planning Policy)</em></p>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <div id="lab1-behaviour" class="subsection">
+          <h3>Step 3 — Set Agent Behaviour</h3>
+          <ol class="step-list">
+            <li class="step-item">
+              <div class="step-num">6</div>
+              <div class="step-body">
+                <div class="step-title">Add the agent instruction</div>
+                <p>Scroll down to the <strong>Behaviour</strong> section and paste the following instruction:</p>
+                <div class="prompt-card">
+                  <div class="prompt-card__header">
+                    <span class="prompt-card__title">Agent instruction</span>
+                    <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+                  </div>
+                  <div class="prompt-body">You are an HR Policy Assistant who specializes in helping HR staff and employees understand the company's human resources policies. You have access to three official HR policy documents: the Privacy Policy (HR-PL-001), the IT Security Policy (HR-IT-002), and the Succession Planning Policy (HR-TM-003).
+
+Always query the knowledge base before answering. Respond in the same language as the user's query (Thai or English). Provide specific references to the relevant policy document and section when available. If information is not found in the knowledge base, clearly state this and suggest contacting the HR department directly.</div>
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <div id="lab1-test" class="subsection">
+          <h3>Step 4 — Test the Agent</h3>
+          <p style="font-size:13px;color:var(--text-secondary);margin-bottom:.75rem;">Try the following questions to verify the agent retrieves answers from each policy document.</p>
+
+          <div class="subsection" style="margin-top:1rem;">
+            <div class="step-subheading">Document 1 — นโยบายความเป็นส่วนตัว (HR-PL-001)</div>
+            <ul style="font-size:13px;color:var(--text-secondary);margin:.5rem 0 0 1.25rem;line-height:2;">
+              <li>บริษัทเก็บรักษาข้อมูลส่วนบุคคลของพนักงานไว้นานเท่าใดหลังพ้นสภาพการเป็นพนักงาน?</li>
+              <li>เจ้าของข้อมูลส่วนบุคคลมีสิทธิอะไรบ้างตามนโยบายนี้?</li>
+              <li>หากเกิดเหตุการละเมิดข้อมูลส่วนบุคคล พนักงานต้องรายงานต่อ DPO ภายในกี่ชั่วโมง และบริษัทต้องแจ้ง สคส. ภายในกี่ชั่วโมง?</li>
+              <li>ใครเป็นผู้รับผิดชอบดูแลข้อมูลส่วนบุคคลของพนักงานและผู้สมัครงาน?</li>
+              <li>นโยบายนี้จะได้รับการทบทวนบ่อยแค่ไหน?</li>
+            </ul>
+          </div>
+
+          <div class="subsection" style="margin-top:1rem;">
+            <div class="step-subheading">Document 2 — นโยบายความมั่นคงปลอดภัยด้านเทคโนโลยีสารสนเทศ (HR-IT-002)</div>
+            <ul style="font-size:13px;color:var(--text-secondary);margin:.5rem 0 0 1.25rem;line-height:2;">
+              <li>รหัสผ่านของพนักงานต้องมีความยาวขั้นต่ำกี่ตัวอักษร และต้องเปลี่ยนทุกกี่วัน?</li>
+              <li>ระบบจะล็อกบัญชีผู้ใช้โดยอัตโนมัติเมื่อพบการเข้าสู่ระบบผิดพลาดกี่ครั้ง?</li>
+              <li>เหตุการณ์ระดับ "วิกฤต (Critical)" ต้องได้รับการตอบสนองภายในระยะเวลาเท่าใด?</li>
+              <li>การเข้าถึงระบบภายในจากภายนอกต้องผ่านช่องทางใด?</li>
+              <li>ช่องโหว่ที่มีความเสี่ยงระดับวิกฤตต้องได้รับการแก้ไขภายในกี่วัน?</li>
+            </ul>
+          </div>
+
+          <div class="subsection" style="margin-top:1rem;">
+            <div class="step-subheading">Document 3 — นโยบายแผนการสืบทอดตำแหน่ง (HR-TM-003)</div>
+            <ul style="font-size:13px;color:var(--text-secondary);margin:.5rem 0 0 1.25rem;line-height:2;">
+              <li>เครื่องมือใดที่ใช้ในการประเมินศักยภาพผู้สมัครเป็นผู้สืบทอดตำแหน่ง?</li>
+              <li>ระดับความพร้อม "Ready Now" หมายถึงอะไร?</li>
+              <li>ใครเป็นผู้อนุมัติแผนสืบทอดตำแหน่งสำหรับตำแหน่งผู้บริหารระดับสูง?</li>
+              <li>แผนสืบทอดตำแหน่งมีกี่ขั้นตอน และขั้นตอนแรกคืออะไร?</li>
+              <li>ข้อมูลผลการประเมินและรายชื่อผู้สืบทอดตำแหน่งต้องถูกจัดการอย่างไรเพื่อรักษาความลับ?</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ADK toggle -->
+        <div class="subsection">
+          <details class="hint-toggle">
+            <summary>For developers — Deploy via ADK (CLI)</summary>
+            <div class="hint-toggle__body">
+              <p>If you prefer to deploy the agent programmatically using the Agent Development Kit CLI, activate your environment and run the import script:</p>
+              <div class="prompt-card" style="margin-top:.5rem;">
+                <div class="prompt-card__header">
+                  <span class="prompt-card__title">Terminal</span>
+                  <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+                </div>
+                <div class="prompt-body">orchestrate env activate &lt;your-env-name&gt; -a &lt;your-api-key&gt;
+cd LAB_1_RAG_AGENT
+bash import_all.sh</div>
+              </div>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════ -->
+      <!-- SECTION 2 — LAB 2: WEB SEARCH AGENT -->
+      <!-- ════════════════════════════════════════════════ -->
+      <section class="section" id="lab2">
+        <div class="section-header">
+          <div class="section-kicker">Lab 2</div>
+          <h2>Web Search Agent (Tavily MCP)</h2>
+          <p class="section-lead">Build an agent that can search the internet in real time using the Tavily search tool connected via Model Context Protocol (MCP). This agent gives HR access to up-to-date labour law information, salary benchmarks, and current news.</p>
+        </div>
+
+        <div id="lab2-apikey" class="subsection">
+          <h3>Step 1 — Get Your Tavily API Key</h3>
+          <ol class="step-list">
+            <li class="step-item">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <div class="step-title">Visit the Tavily website and sign up</div>
+                <p>Go to <a href="https://www.tavily.com/" target="_blank" rel="noopener" style="color:var(--primary-color)">tavily.com</a>, sign up or log in to your account.</p>
+                <img src="LAB_2_MCP_TAVILY/images/image3.png" alt="Tavily website" style="margin-top:.75rem;max-width:100%;border:1px solid var(--border-color);border-radius:6px;">
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <div class="step-title">Copy your API key</div>
+                <p>From your Tavily dashboard, copy your API key — you will need it in Step 3.</p>
+                <img src="LAB_2_MCP_TAVILY/images/image4.png" alt="Tavily API key" style="margin-top:.75rem;max-width:100%;border:1px solid var(--border-color);border-radius:6px;">
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <div id="lab2-create" class="subsection">
+          <h3>Step 2 — Create the Web Search Agent</h3>
+          <ol class="step-list">
+            <li class="step-item">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <div class="step-title">Open Agent Builder and create a new agent</div>
+                <p>In watsonx Orchestrate, go to <strong>Agent Builder</strong> and click <strong>Create agent</strong>. Use the following details:</p>
+                <table class="creds-table" style="margin-top:.5rem;">
+                  <tr>
+                    <td>Name</td>
+                    <td><code>tavily_search_agent</code></td>
+                  </tr>
+                  <tr>
+                    <td>Description</td>
+                    <td>Responsible for fetching external, real-time information from the internet. Use this agent for general world knowledge, news, current events, and facts that are completely unrelated to internal company documents, HR policies, or employee data.</td>
+                  </tr>
+                </table>
+                <img src="LAB_2_MCP_TAVILY/images/image-5.png" alt="Create tavily agent" style="margin-top:.75rem;max-width:100%;border:1px solid var(--border-color);border-radius:6px;">
+                <img src="LAB_2_MCP_TAVILY/images/image.png" alt="Agent name and description" style="margin-top:.5rem;max-width:100%;border:1px solid var(--border-color);border-radius:6px;">
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">4</div>
+              <div class="step-body">
+                <div class="step-title">Click Create</div>
+                <p>Confirm by clicking <strong>Create</strong>.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <div id="lab2-mcp" class="subsection">
+          <h3>Step 3 — Connect the Tavily MCP Server</h3>
+          <ol class="step-list">
+            <li class="step-item">
+              <div class="step-num">5</div>
+              <div class="step-body">
+                <div class="step-title">Scroll to the Tools section and click Add tool +</div>
+                <img src="LAB_2_MCP_TAVILY/images/image-1.png" alt="Add tool button" style="margin-top:.75rem;max-width:100%;border:1px solid var(--border-color);border-radius:6px;">
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">6</div>
+              <div class="step-body">
+                <div class="step-title">Choose MCP Server tools</div>
+                <img src="LAB_2_MCP_TAVILY/images/image-6.png" alt="Choose MCP Server" style="margin-top:.75rem;max-width:100%;border:1px solid var(--border-color);border-radius:6px;">
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">7</div>
+              <div class="step-body">
+                <div class="step-title">Click Add MCP Server in the top-right corner</div>
+                <img src="LAB_2_MCP_TAVILY/images/image-2.png" alt="Add MCP Server button" style="margin-top:.75rem;max-width:100%;border:1px solid var(--border-color);border-radius:6px;">
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">8</div>
+              <div class="step-body">
+                <div class="step-title">Enter the server name and connection command</div>
+                <p>Set the server name to <code>tavily-server</code> and paste the command below, replacing <code>&lt;your-api-key&gt;</code> with your Tavily API key. Then click <strong>Connect</strong> and <strong>Done</strong>.</p>
+                <div class="prompt-card">
+                  <div class="prompt-card__header">
+                    <span class="prompt-card__title">MCP Server command</span>
+                    <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+                  </div>
+                  <div class="prompt-body">npx -y mcp-remote https://mcp.tavily.com/mcp/?tavilyApiKey=&lt;your-api-key&gt;</div>
+                </div>
+                <img src="LAB_2_MCP_TAVILY/images/image-3.png" alt="MCP server connection" style="margin-top:.75rem;max-width:100%;border:1px solid var(--border-color);border-radius:6px;">
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">9</div>
+              <div class="step-body">
+                <div class="step-title">Activate tavily-mcp:tavily_search</div>
+                <p>Find <strong>tavily-mcp:tavily_search</strong> in the tool list and toggle it on.</p>
+                <img src="LAB_2_MCP_TAVILY/images/image-4.png" alt="Activate tavily search tool" style="margin-top:.75rem;max-width:100%;border:1px solid var(--border-color);border-radius:6px;">
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <div id="lab2-behaviour" class="subsection">
+          <h3>Step 4 — Set Agent Behaviour</h3>
+          <ol class="step-list">
+            <li class="step-item">
+              <div class="step-num">10</div>
+              <div class="step-body">
+                <div class="step-title">Scroll to the Behaviour section and add the instruction</div>
+                <div class="prompt-card">
+                  <div class="prompt-card__header">
+                    <span class="prompt-card__title">Agent instruction</span>
+                    <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+                  </div>
+                  <div class="prompt-body">Always use the tavily search tools for every user questions. Do not use your own training data and knowledge.</div>
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <div id="lab2-test" class="subsection">
+          <h3>Step 5 — Test the Agent</h3>
+          <p style="font-size:13px;color:var(--text-secondary);margin-bottom:.75rem;">Try the following questions to confirm the agent retrieves live data from the web.</p>
+          <div class="step-subheading">General</div>
+          <ul style="font-size:13px;color:var(--text-secondary);margin:.5rem 0 .75rem 1.25rem;line-height:2;">
+            <li>เมืองหลวงของประเทศไทยคืออะไร</li>
+            <li>ช่วยลิสคำถามที่มักถูกถามตอนสัมภาษณ์งานหน่อย</li>
+          </ul>
+          <div class="step-subheading">HR Use-Case</div>
+          <ul style="font-size:13px;color:var(--text-secondary);margin:.5rem 0 0 1.25rem;line-height:2;">
+            <li>What is the current minimum wage in Thailand? / ค่าแรงขั้นต่ำในประเทศไทยตอนนี้เท่าไหร่?</li>
+            <li>What are the public holidays in Thailand this year? / วันหยุดราชการในประเทศไทยปีนี้มีวันไหนบ้าง?</li>
+            <li>What is the current social security contribution rate? / อัตราเงินสมทบประกันสังคมปัจจุบันเท่าไหร่?</li>
+            <li>What are the requirements for a work permit for a foreign employee in Thailand? / เงื่อนไขการขอใบอนุญาตทำงาน (Work Permit) สำหรับพนักงานต่างชาติในไทยมีอะไรบ้าง?</li>
+            <li>What is the standard severance pay calculation under Thai labor law? / การคำนวณค่าชดเชยตามกฎหมายแรงงานไทยคำนวณอย่างไร?</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════ -->
+      <!-- SECTION 3 — LAB 3: EMAIL AGENT -->
+      <!-- ════════════════════════════════════════════════ -->
+      <section class="section" id="lab3">
+        <div class="section-header">
+          <div class="section-kicker">Lab 3</div>
+          <h2>Pre-built Email Manager Agent</h2>
+          <p class="section-lead">Deploy a pre-built Google Email Manager agent from the watsonx Orchestrate Discovery catalogue, connect it to a Gmail account via OAuth2, and send your first AI-drafted HR email.</p>
+        </div>
+
+        <div id="lab3-discovery" class="subsection">
+          <h3>Step 1 — Find the Pre-built Email Manager</h3>
+          <ol class="step-list">
+            <li class="step-item">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <div class="step-title">Go to the Discovery page</div>
+                <p>In watsonx Orchestrate, navigate to the <strong>Discovery</strong> page from the left-hand menu.</p>
               </div>
             </li>
             <li class="step-item">
               <div class="step-num">2</div>
               <div class="step-body">
                 <div class="step-title">Search for the Google pre-built agent</div>
-                <p>In the search bar, type <code>google</code> to filter the catalogue. Locate and select <strong>Email Manager</strong>.</p>
+                <p>In the search bar, type <code>google</code>. Find and select <strong>Email Manager</strong>.</p>
               </div>
             </li>
           </ol>
         </div>
 
-        <!-- Connection -->
-        <div id="lab1-connection" class="subsection">
+        <div id="lab3-connection" class="subsection">
           <h3>Step 2 — Configure the Gmail Connection</h3>
           <ol class="step-list">
             <li class="step-item">
               <div class="step-num">3</div>
               <div class="step-body">
-                <div class="step-title">Open the Tools &gt; Connection settings</div>
-                <p>Inside the Email Manager agent, click <strong>Tools</strong> in the top tabs, then select <strong>Connection</strong>.</p>
+                <div class="step-title">Open Tools &gt; Connection</div>
+                <p>Inside the Email Manager agent, click the <strong>Tools</strong> tab, then select <strong>Connection</strong>.</p>
               </div>
             </li>
             <li class="step-item">
               <div class="step-num">4</div>
               <div class="step-body">
-                <div class="step-title">Enter the Gmail OAuth2 credentials</div>
-                <p>Fill in the connection form using the values below. You will need a Client ID and Client Secret from your Google Cloud OAuth2 App (step 4 of the Google setup).</p>
-                <table class="creds-table">
-                  <tr>
-                    <td>Authentication type</td>
-                    <td>OAuth2 Authorization Code</td>
-                  </tr>
-                  <tr>
-                    <td>Server URL</td>
-                    <td>https://gmail.googleapis.com/</td>
-                  </tr>
-                  <tr>
-                    <td>Token URL</td>
-                    <td>https://oauth2.googleapis.com/token</td>
-                  </tr>
-                  <tr>
-                    <td>Authorization URL</td>
-                    <td>https://accounts.google.com/o/oauth2/v2/auth</td>
-                  </tr>
-                  <tr>
-                    <td>Client ID</td>
-                    <td><em>(from your Google Cloud OAuth2 App)</em></td>
-                  </tr>
-                  <tr>
-                    <td>Client Secret</td>
-                    <td><em>(from your Google Cloud OAuth2 App)</em></td>
-                  </tr>
-                  <tr>
-                    <td>Scope</td>
-                    <td>https://mail.google.com/</td>
-                  </tr>
-                  <tr>
-                    <td>Token request field</td>
-                    <td>prompt = consent</td>
-                  </tr>
-                  <tr>
-                    <td>Auth request fields</td>
-                    <td>base_url = https://gmail.googleapis.com/<br>access_type = offline</td>
-                  </tr>
+                <div class="step-title">Fill in the OAuth2 credentials</div>
+                <p>Enter the following values in the connection form. The Client ID and Client Secret come from your Google Cloud OAuth2 App.</p>
+                <table class="creds-table" style="margin-top:.5rem;">
+                  <tr><td>Authentication type</td><td>OAuth2 Authorization Code</td></tr>
+                  <tr><td>Server URL</td><td>https://gmail.googleapis.com/</td></tr>
+                  <tr><td>Token URL</td><td>https://oauth2.googleapis.com/token</td></tr>
+                  <tr><td>Authorization URL</td><td>https://accounts.google.com/o/oauth2/v2/auth</td></tr>
+                  <tr><td>Client ID</td><td><em>(from your Google Cloud OAuth2 App)</em></td></tr>
+                  <tr><td>Client Secret</td><td><em>(from your Google Cloud OAuth2 App)</em></td></tr>
+                  <tr><td>Scope</td><td>https://mail.google.com/</td></tr>
+                  <tr><td>Token request field</td><td>prompt = consent</td></tr>
+                  <tr><td>Auth request fields</td><td>base_url = https://gmail.googleapis.com/<br>access_type = offline</td></tr>
                 </table>
-                <details class="hint-toggle">
+                <details class="hint-toggle" style="margin-top:.75rem;">
                   <summary>Where do I get the Client ID and Secret?</summary>
                   <div class="hint-toggle__body">
                     <p>Go to the <a href="https://console.cloud.google.com/" target="_blank" rel="noopener" style="color:var(--primary-color)">Google Cloud Console</a>, create or select a project, navigate to <strong>APIs &amp; Services &gt; Credentials</strong>, and create an OAuth 2.0 Client ID. Make sure the Gmail API is enabled for your project.</p>
@@ -913,163 +1190,21 @@
           </ol>
         </div>
 
-        <!-- Test -->
-        <div id="lab1-test" class="subsection">
+        <div id="lab3-test" class="subsection">
           <h3>Step 3 — Test the Email Agent</h3>
-          <p style="font-size:13px;color:var(--text-secondary);margin-bottom:.75rem;">
-            Once the connection is configured, test the agent by sending yourself an email using the prompt below.
-          </p>
+          <p style="font-size:13px;color:var(--text-secondary);margin-bottom:.75rem;">Once the connection is configured, send a test email with the prompt below.</p>
           <div class="prompt-card">
             <div class="prompt-card__header">
-              <span class="prompt-card__title">Sample prompt — send a test email</span>
+              <span class="prompt-card__title">Sample prompt — HR email</span>
               <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
             </div>
-            <div class="prompt-body">send email to &lt;your email&gt; with 
-topic: Your dental appointment
-content: we have already scheduled your appointment</div>
+            <div class="prompt-body">send email to &lt;your email&gt; with
+topic: Reminder — Annual Leave Policy Update
+content: Dear Team, please be informed that the annual leave policy has been updated. Kindly review the new policy document shared by HR and ensure compliance by the end of this month. For any questions, contact the HR department directly.</div>
           </div>
           <div class="callout callout--info" style="margin-top:1rem;">
             <div class="callout__label">Tip</div>
-            <p>Replace <code>&lt;your email&gt;</code> with your actual email address. The agent will compose and send the message through your connected Gmail account.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- ════════════════════════════════════════════════ -->
-      <!-- SECTION 2 — LAB 2 -->
-      <!-- ════════════════════════════════════════════════ -->
-      <section class="section" id="lab2">
-        <div class="section-header">
-          <div class="section-kicker">Lab 2</div>
-          <h2>RAG Agent with Knowledge Base</h2>
-          <p class="section-lead">Build an agent from scratch, attach a PDF knowledge base, and enable retrieval-augmented generation (RAG) so the agent can answer questions grounded in your documents. You can complete this lab using either the UI or the ADK CLI.</p>
-        </div>
-
-        <!-- UI Approach -->
-        <div id="lab2-ui" class="subsection">
-          <h3>Option A — UI Approach</h3>
-          <ol class="step-list">
-            <li class="step-item">
-              <div class="step-num">1</div>
-              <div class="step-body">
-                <div class="step-title">Create a new agent from scratch</div>
-                <p>In watsonx Orchestrate, click <strong>Create agent</strong> and choose the <strong>from scratch</strong> option. Give the agent a name and description.</p>
-              </div>
-            </li>
-            <li class="step-item">
-              <div class="step-num">2</div>
-              <div class="step-body">
-                <div class="step-title">Add a Knowledge Base</div>
-                <p>Inside the agent editor, click <strong>Add Knowledge Base</strong> and choose <strong>Import file</strong>.</p>
-              </div>
-            </li>
-            <li class="step-item">
-              <div class="step-num">3</div>
-              <div class="step-body">
-                <div class="step-title">Upload the dental department knowledge base</div>
-                <p>Upload one of the following PDF files from the workshop repository:</p>
-                <div class="feature-grid" style="margin-top:.5rem;">
-                  <div class="feature-card">
-                    <h4>English version</h4>
-                    <p><code>LAB_2_RAG _AGENT/policy/dental_department_knowledge_base.pdf</code></p>
-                  </div>
-                  <div class="feature-card">
-                    <h4>Thai version</h4>
-                    <p><code>LAB_2_RAG _AGENT/policy/dental_department_knowledge_base_th.pdf</code></p>
-                  </div>
-                </div>
-              </div>
-            </li>
-          </ol>
-        </div>
-
-        <!-- ADK Approach -->
-        <div id="lab2-adk" class="subsection">
-          <h3>Option B — ADK (CLI) Approach</h3>
-          <ol class="step-list">
-            <li class="step-item">
-              <div class="step-num">1</div>
-              <div class="step-body">
-                <div class="step-title">Activate your environment</div>
-                <p>Open a terminal and run the following command, replacing the placeholders with your environment name and API key:</p>
-                <div class="prompt-card">
-                  <div class="prompt-card__header">
-                    <span class="prompt-card__title">Terminal — activate environment</span>
-                    <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
-                  </div>
-                  <div class="prompt-body">orchestrate env activate &lt;your-env-name&gt; -a &lt;your-api-key&gt;</div>
-                </div>
-              </div>
-            </li>
-            <li class="step-item">
-              <div class="step-num">2</div>
-              <div class="step-body">
-                <div class="step-title">Run the import script</div>
-                <p>Execute the provided import script to deploy all agent resources in one go:</p>
-                <div class="prompt-card">
-                  <div class="prompt-card__header">
-                    <span class="prompt-card__title">Terminal — import all resources</span>
-                    <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
-                  </div>
-                  <div class="prompt-body">bash import_all.sh</div>
-                </div>
-              </div>
-            </li>
-          </ol>
-        </div>
-      </section>
-
-      <!-- ════════════════════════════════════════════════ -->
-      <!-- SECTION 3 — LAB 3 -->
-      <!-- ════════════════════════════════════════════════ -->
-      <section class="section" id="lab3">
-        <div class="section-header">
-          <div class="section-kicker">Lab 3</div>
-          <h2>Multi-Agent System</h2>
-          <p class="section-lead">Compose a multi-agent system by connecting the Email Agent from Lab 1 and the RAG Agent from Lab 2 as collaborators, then deploy and test the orchestrator agent end-to-end.</p>
-        </div>
-
-        <!-- Build -->
-        <div id="lab3-build" class="subsection">
-          <h3>Step 1 — Build the Multi-Agent Orchestrator</h3>
-          <ol class="step-list">
-            <li class="step-item">
-              <div class="step-num">1</div>
-              <div class="step-body">
-                <div class="step-title">Create a new agent from scratch</div>
-                <p>In watsonx Orchestrate, click <strong>Create agent</strong> and choose the <strong>from scratch</strong> option. This will be your orchestrator agent.</p>
-              </div>
-            </li>
-            <li class="step-item">
-              <div class="step-num">2</div>
-              <div class="step-body">
-                <div class="step-title">Add collaborator agents</div>
-                <p>In the agent editor, select the <strong>Collaborators</strong> section and add both:</p>
-                <ul style="font-size:13px;color:var(--text-secondary);margin:.5rem 0 0 1.25rem;line-height:1.8;">
-                  <li>The <strong>Email Manager Agent</strong> created in Lab 1</li>
-                  <li>The <strong>RAG Agent</strong> (Dental Knowledge Base) created in Lab 2</li>
-                </ul>
-              </div>
-            </li>
-            <li class="step-item">
-              <div class="step-num">3</div>
-              <div class="step-body">
-                <div class="step-title">Deploy the orchestrator agent</div>
-                <p>Click <strong>Deploy</strong> to publish the multi-agent system and make it available for testing.</p>
-              </div>
-            </li>
-          </ol>
-        </div>
-
-        <!-- Test -->
-        <div id="lab3-test" class="subsection">
-          <h3>Step 2 — Test the Multi-Agent System</h3>
-          <p style="font-size:13px;color:var(--text-secondary);margin-bottom:.75rem;">
-            Use the following test questions to verify that the orchestrator correctly routes requests to the appropriate collaborator agent.
-          </p>
-          <div class="callout callout--warning">
-            <div class="callout__label">Coming Soon</div>
-            <p>Sample test questions will be added here. Try asking questions that combine knowledge retrieval from the dental policy documents <strong>and</strong> sending an email with the answer.</p>
+            <p>Replace <code>&lt;your email&gt;</code> with your actual email address. The agent will compose and send the message through the connected Gmail account.</p>
           </div>
         </div>
       </section>
