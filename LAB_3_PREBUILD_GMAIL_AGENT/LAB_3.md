@@ -1,23 +1,9 @@
-1. do to `Discovery` page, search for google pre-built agent
+1. do to `Discovery` page, search for `google` pre-built agent ![alt text](<Screenshot 2569-07-07 at 19.49.28.png>)
 2. choose "Email manager"
-3. click in tools > connection
-4. configure connection as follow:
+3. click use tamplate![alt text](image.png)
+3. scroll down to the tools section and you will see the prebuild tools![alt text](image-1.png)
+4. click on three dot next to the tools > Edit details. then you will see that the connection have already been configured ![alt text](<Screenshot 2569-07-07 at 19.54.56.png>)
 
-
-#### Credentials Summary (Gmail)
-
-```
-Authentication type:   OAuth2 Authorization Code
-Server URL:            https://gmail.googleapis.com/
-Token URL:             https://oauth2.googleapis.com/token
-Authorization URL:     https://accounts.google.com/o/oauth2/v2/auth
-Client ID:             (from Step 4 above)
-Client Secret:         (from Step 4 above)
-Scope:                 https://mail.google.com/
-Token request field:   prompt = consent
-Auth request fields:   base_url = https://gmail.googleapis.com/
-                       access_type = offline
-```
 
 
 try the following prompt:

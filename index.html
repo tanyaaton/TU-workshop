@@ -600,11 +600,6 @@
         <a class="sidebar__sublink" href="#lab3-connection">Gmail Connection</a>
         <a class="sidebar__sublink" href="#lab3-test">Test</a>
 
-        <a class="sidebar__link" href="#lab4">
-          <span class="sidebar__num">05</span>
-          <span>Agent Ops</span>
-        </a>
-
       </nav>
     </aside>
 
@@ -1031,7 +1026,7 @@ bash import_all.sh</div>
               <div class="step-body">
                 <div class="step-title">Visit the Tavily website and sign up</div>
                 <p>Go to <a href="https://www.tavily.com/" target="_blank" rel="noopener" style="color:var(--primary-color)">tavily.com</a>, sign up or log in to your account.</p>
-                <img src="LAB_2_MCP_TAVILY/images/image3.png" alt="Tavily website" style="margin-top:.75rem;max-width:100%;border:1px solid var(--border-color);border-radius:6px;">
+                <img src="LAB_2_MCP_TAVILY/images/image3.png" alt="Tavily website" style="margin-top:.75rem;max-width:60%;border:1px solid var(--border-color);border-radius:6px;">
               </div>
             </li>
             <li class="step-item">
@@ -1039,7 +1034,7 @@ bash import_all.sh</div>
               <div class="step-body">
                 <div class="step-title">Copy your API key</div>
                 <p>From your Tavily dashboard, copy your API key — you will need it in Step 3.</p>
-                <img src="LAB_2_MCP_TAVILY/images/image4.png" alt="Tavily API key" style="margin-top:.75rem;max-width:100%;border:1px solid var(--border-color);border-radius:6px;">
+                <img src="LAB_2_MCP_TAVILY/images/image4.png" alt="Tavily API key" style="margin-top:.75rem;max-width:60%;border:1px solid var(--border-color);border-radius:6px;">
               </div>
             </li>
           </ol>
@@ -1064,7 +1059,7 @@ bash import_all.sh</div>
                   </tr>
                 </table>
                 <!-- <img src="LAB_2_MCP_TAVILY/images/image-5.png" alt="Create tavily agent" style="margin-top:.75rem;max-width:100%;border:1px solid var(--border-color);border-radius:6px;"> -->
-                <img src="LAB_2_MCP_TAVILY/images/image.png" alt="Agent name and description" style="margin-top:.5rem;max-width:100%;border:1px solid var(--border-color);border-radius:6px;">
+                <img src="LAB_2_MCP_TAVILY/images/image.png" alt="Agent name and description" style="margin-top:.5rem;max-width:60%;border:1px solid var(--border-color);border-radius:6px;">
               </div>
             </li>
             <li class="step-item">
@@ -1098,7 +1093,7 @@ bash import_all.sh</div>
               <div class="step-num">7</div>
               <div class="step-body">
                 <div class="step-title">Click Add MCP Server in the top-right corner</div>
-                <img src="LAB_2_MCP_TAVILY/images/image-2.png" alt="Add MCP Server button" style="margin-top:.75rem;max-width:100%;border:1px solid var(--border-color);border-radius:6px;">
+                <img src="LAB_2_MCP_TAVILY/images/image-2.png" alt="Add MCP Server button" style="margin-top:.75rem;max-width:60%;border:1px solid var(--border-color);border-radius:6px;">
               </div>
             </li>
             <li class="step-item">
@@ -1172,99 +1167,85 @@ bash import_all.sh</div>
         <div class="section-header">
           <div class="section-kicker">Lab 3</div>
           <h2>Pre-built Email Manager Agent</h2>
-          <p class="section-lead">Deploy a pre-built Google Email Manager agent from the watsonx Orchestrate Discovery catalogue, connect it to a Gmail account via OAuth2, and send your first AI-drafted HR email.</p>
+          <p class="section-lead">Deploy a pre-built Google Email Manager agent directly from the watsonx Orchestrate Discovery catalogue. The agent comes with Gmail tools already built in and a connection that is pre-configured for you — no OAuth setup required.</p>
         </div>
 
+        <!-- Step 1 — Discovery -->
         <div id="lab3-discovery" class="subsection">
-          <h3>Step 1 — Find the Pre-built Email Manager</h3>
+          <h3>Step 1 — Find the Pre-built Email Manager in Discovery</h3>
           <ol class="step-list">
             <li class="step-item">
               <div class="step-num">1</div>
               <div class="step-body">
-                <div class="step-title">Go to the Discovery page</div>
-                <p>In watsonx Orchestrate, navigate to the <strong>Discovery</strong> page from the left-hand menu.</p>
+                <div class="step-title">Go to the Discovery page and search for <code>google</code></div>
+                <p>In watsonx Orchestrate, navigate to the <strong>Discovery</strong> page from the left-hand menu. Type <code>google</code> in the search bar to filter pre-built agents.</p>
+                <img src="LAB_3_PREBUILD_GMAIL_AGENT/Screenshot 2569-07-07 at 19.49.28.png" alt="Discovery page — search for google pre-built agents" style="margin-top:.75rem;max-width:100%;border:1px solid var(--border-color);border-radius:6px;">
               </div>
             </li>
             <li class="step-item">
               <div class="step-num">2</div>
               <div class="step-body">
-                <div class="step-title">Search for the Google pre-built agent</div>
-                <p>In the search bar, type <code>google</code>. Find and select <strong>Email Manager</strong>.</p>
+                <div class="step-title">Select <strong>Email Manager</strong> and click <strong>Use template</strong></div>
+                <p>Find the <strong>Email Manager</strong> card in the results, click on it, then click the <strong>Use template</strong> button to add it to your workspace.</p>
+                <img src="LAB_3_PREBUILD_GMAIL_AGENT/image.png" alt="Email Manager — Use template button" style="margin-top:.75rem;max-width:100%;border:1px solid var(--border-color);border-radius:6px;">
               </div>
             </li>
           </ol>
         </div>
 
+        <!-- Step 2 — Inspect pre-built tools -->
         <div id="lab3-connection" class="subsection">
-          <h3>Step 2 — Configure the Gmail Connection</h3>
+          <h3>Step 2 — Inspect the Pre-built Tools &amp; Connection</h3>
           <ol class="step-list">
             <li class="step-item">
               <div class="step-num">3</div>
               <div class="step-body">
-                <div class="step-title">Open Tools &gt; Connection</div>
-                <p>Inside the Email Manager agent, click the <strong>Tools</strong> tab, then select <strong>Connection</strong>.</p>
+                <div class="step-title">Scroll down to the Tools section</div>
+                <p>Once the agent opens in the editor, scroll down to the <strong>Tools</strong> section. You will see the pre-built Gmail tools that are already included with this template.</p>
+                <img src="LAB_3_PREBUILD_GMAIL_AGENT/image-1.png" alt="Pre-built Gmail tools in the Tools section" style="margin-top:.75rem;max-width:100%;border:1px solid var(--border-color);border-radius:6px;">
               </div>
             </li>
             <li class="step-item">
               <div class="step-num">4</div>
               <div class="step-body">
-                <div class="step-title">Fill in the OAuth2 credentials</div>
-                <p>Enter the following values in the connection form. The Client ID and Client Secret come from your Google Cloud OAuth2 App.</p>
-                <table class="creds-table" style="margin-top:.5rem;">
-                  <tr><td>Authentication type</td><td>OAuth2 Authorization Code</td></tr>
-                  <tr><td>Server URL</td><td>https://gmail.googleapis.com/</td></tr>
-                  <tr><td>Token URL</td><td>https://oauth2.googleapis.com/token</td></tr>
-                  <tr><td>Authorization URL</td><td>https://accounts.google.com/o/oauth2/v2/auth</td></tr>
-                  <tr><td>Client ID</td><td><em>(from your Google Cloud OAuth2 App)</em></td></tr>
-                  <tr><td>Client Secret</td><td><em>(from your Google Cloud OAuth2 App)</em></td></tr>
-                  <tr><td>Scope</td><td>https://mail.google.com/</td></tr>
-                  <tr><td>Token request field</td><td>prompt = consent</td></tr>
-                  <tr><td>Auth request fields</td><td>base_url = https://gmail.googleapis.com/<br>access_type = offline</td></tr>
-                </table>
-                <details class="hint-toggle" style="margin-top:.75rem;">
-                  <summary>Where do I get the Client ID and Secret?</summary>
-                  <div class="hint-toggle__body">
-                    <p>Go to the <a href="https://console.cloud.google.com/" target="_blank" rel="noopener" style="color:var(--primary-color)">Google Cloud Console</a>, create or select a project, navigate to <strong>APIs &amp; Services &gt; Credentials</strong>, and create an OAuth 2.0 Client ID. Make sure the Gmail API is enabled for your project.</p>
-                  </div>
-                </details>
+                <div class="step-title">Click the three-dot menu next to a tool &rarr; <strong>Edit details</strong></div>
+                <p>Click the <strong>⋯</strong> (three-dot) icon next to any Gmail tool and select <strong>Edit details</strong>. You will see that the Gmail connection has <strong>already been configured</strong> for you — no manual OAuth2 setup is needed.</p>
+                <img src="LAB_3_PREBUILD_GMAIL_AGENT/Screenshot 2569-07-07 at 19.54.56.png" alt="Edit details — connection already configured" style="margin-top:.75rem;max-width:100%;border:1px solid var(--border-color);border-radius:6px;">
+                <div class="callout callout--success" style="margin-top:.75rem;">
+                  <div class="callout__label">Connection ready</div>
+                  <p>The Gmail OAuth2 connection is pre-configured in this template. You can proceed directly to testing the agent.</p>
+                </div>
               </div>
             </li>
           </ol>
         </div>
 
+        <!-- Step 3 — Test -->
         <div id="lab3-test" class="subsection">
           <h3>Step 3 — Test the Email Agent</h3>
-          <p style="font-size:13px;color:var(--text-secondary);margin-bottom:.75rem;">Once the connection is configured, send a test email with the prompt below.</p>
+          <p style="font-size:13px;color:var(--text-secondary);margin-bottom:1rem;">Open the agent chat panel and try the two prompts below. They cover the two most common HR email workflows: <strong>listing incoming emails</strong> and <strong>sending an HR notification</strong>.</p>
+
+          <!-- Example 1 — List emails -->
+          <div class="step-subheading">Example 1 — List Incoming HR Emails</div>
           <div class="prompt-card">
             <div class="prompt-card__header">
-              <span class="prompt-card__title">Sample prompt — HR email</span>
+              <span class="prompt-card__title">Prompt — list emails</span>
               <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
             </div>
-            <div class="prompt-body">send email to &lt;your email&gt; with
-topic: Reminder — Annual Leave Policy Update
-content: Dear Team, please be informed that the annual leave policy has been updated. Kindly review the new policy document shared by HR and ensure compliance by the end of this month. For any questions, contact the HR department directly.</div>
+            <div class="prompt-body">List the 5 most recent emails in my inbox</div>
           </div>
-          <div class="callout callout--info" style="margin-top:1rem;">
-            <div class="callout__label">Tip</div>
-            <p>Replace <code>&lt;your email&gt;</code> with your actual email address. The agent will compose and send the message through the connected Gmail account.</p>
+
+          <!-- Example 2 — Send HR email -->
+          <div class="step-subheading" style="margin-top:1.25rem;">Example 2 — Send an HR Notification Email</div>
+          <div class="prompt-card">
+            <div class="prompt-card__header">
+              <span class="prompt-card__title">Prompt — send email</span>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-body">send email to &lt;your-email&gt; with
+topic: Your dental appointment
+content: we have already scheduled your appointment</div>
           </div>
-        </div>
-      </section>
-
-      <!-- ════════════════════════════════════════════════ -->
-      <!-- SECTION 4 — AGENT OPS -->
-      <!-- ════════════════════════════════════════════════ -->
-      <section class="section" id="lab4">
-        <div class="section-header">
-          <div class="section-kicker">Lab 4</div>
-          <h2>Agent Ops</h2>
-          <p class="section-lead">Operational topics for managing, monitoring, and maintaining your deployed agents in production.</p>
-        </div>
-
-        <div class="coming-soon">
-          <div class="coming-soon__label">Content Coming Soon</div>
-          <h3>Agent Ops — Under Construction</h3>
-          <p>This section will cover agent observability, versioning, rollback strategies, and production best practices. Check back soon for updates.</p>
         </div>
       </section>
 
