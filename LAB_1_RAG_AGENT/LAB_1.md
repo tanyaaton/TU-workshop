@@ -2,7 +2,8 @@
 2. click on 'Create agent' ![alt text](image.png)
 3. select 'Create from scratch'
 4. Nmae you agent `[]` and description ```[]```
-5. scroll down to knowledgebase section and select upload file and add 3 file in `policy` folder
+5. scroll down to knowledgebase section ![alt text](image-1.png) and click 'Add source' then 'New knowledge'![alt text](image-2.png) and add 3 file from the `policy` folder
+6. in knowledge detail ```[]``` and knowledge name ```[]```![alt text](image-3.png)
 6. add behaviour ```[]```
 7. try asking the following question
 เอกสาร 1: นโยบายความเป็นส่วนตัว (HR-PL-001)

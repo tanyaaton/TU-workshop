@@ -767,7 +767,7 @@
               <div class="step-body">
                 <div class="step-title">Check your inbox for the invitation email</div>
                 <p>You will receive an email invitation to join the IBM watsonx Orchestrate instance for this workshop. Open the email and click <strong>Join</strong>.</p>
-                <img src="00_SETUP/image.png" alt="Invitation email screenshot" style="margin-top:.75rem;max-width:100%;border:1px solid var(--border-color);border-radius:6px;">
+                <img src="00_SETUP/image.png" alt="Invitation email screenshot" style="margin-top:.75rem;max-width:60%;border:1px solid var(--border-color);border-radius:6px;">
               </div>
             </li>
             <li class="step-item">
@@ -782,7 +782,7 @@
               <div class="step-body">
                 <div class="step-title">Log in to IBM watsonx Orchestrate</div>
                 <p>Sign in using your IBM ID. You should arrive at the watsonx Orchestrate landing page and are ready to start the labs.</p>
-                <img src="00_SETUP/image-1.png" alt="watsonx Orchestrate landing page" style="margin-top:.75rem;max-width:100%;border:1px solid var(--border-color);border-radius:6px;">
+                <img src="00_SETUP/image-1.png" alt="watsonx Orchestrate landing page" style="margin-top:.75rem;max-width:60%;border:1px solid var(--border-color);border-radius:6px;">
                 <div class="callout callout--success" style="margin-top:.75rem;">
                   <div class="callout__label">You're all set</div>
                   <p>Once you can see the watsonx Orchestrate home screen, proceed to Lab 1.</p>
@@ -872,6 +872,7 @@
               <div class="step-body">
                 <div class="step-title">Upload the three HR policy PDFs</div>
                 <p>Upload all three files from the <code>LAB_1_RAG_AGENT/policy/</code> folder:</p>
+                <img src="LAB_1_RAG_AGENT/image-2.png" alt="Add source — New knowledge screenshot" style="margin-top:.75rem;max-width:70%;border:1px solid var(--border-color);border-radius:6px;">
                 <div class="feature-grid" style="margin-top:.5rem;">
                   <div class="feature-card">
                     <h4>HR-PL-001</h4>
@@ -886,6 +887,32 @@
                     <p>นโยบายแผนการสืบทอดตำแหน่ง<br><em>(Succession Planning Policy)</em></p>
                   </div>
                 </div>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">6</div>
+              <div class="step-body">
+                <div class="step-title">Fill in the knowledge name and description</div>
+                <p>In the knowledge detail panel, enter the following:</p>
+                <table style="width:100%;border-collapse:collapse;margin-top:.5rem;font-size:.9rem;">
+                  <tr>
+                    <td style="padding:.4rem .6rem;border:1px solid var(--border-color);font-weight:600;width:30%;background:var(--surface-color);">Knowledge name</td>
+                    <td style="padding:.4rem .6rem;border:1px solid var(--border-color);"><code>hr_policy_knowledge_base</code></td>
+                  </tr>
+                  <tr>
+                    <td style="padding:.4rem .6rem;border:1px solid var(--border-color);font-weight:600;vertical-align:top;background:var(--surface-color);">Description</td>
+                    <td style="padding:.4rem .6rem;border:1px solid var(--border-color);">
+                      <p style="margin:0 0 .4rem 0;">This knowledge base provides a comprehensive and authoritative reference for the company's HR policies and guidelines. It consolidates all essential rules, procedures, and best practices required for HR teams and employees to understand workplace regulations, data privacy, information security, and talent management.</p>
+                      <ul style="margin:.25rem 0 0 1.2rem;padding:0;line-height:1.6;">
+                        <li>Defines the company's privacy policy (HR-PL-001) covering employee personal data handling, data subject rights, consent management, and data retention procedures in compliance with applicable data protection regulations.</li>
+                        <li>Contains the IT security policy (HR-IT-002) establishing information security standards, acceptable use guidelines, access control procedures, incident response protocols, and employees' responsibilities for protecting company data and systems.</li>
+                        <li>Outlines the succession planning policy (HR-TM-003) describing the framework for identifying, developing, and retaining high-potential employees for critical roles, including talent assessment criteria, development pathways, and transition procedures.</li>
+                        <li>Serves as the primary reference for HR staff and employees seeking guidance on HR compliance, data privacy rights, IT security obligations, and career development frameworks.</li>
+                      </ul>
+                    </td>
+                  </tr>
+                </table>
+                <img src="LAB_1_RAG_AGENT/image-3.png" alt="Knowledge detail — name and description screenshot" style="margin-top:.75rem;max-width:70%;border:1px solid var(--border-color);border-radius:6px;">
               </div>
             </li>
           </ol>
@@ -904,9 +931,24 @@
                     <span class="prompt-card__title">Agent instruction</span>
                     <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
                   </div>
-                  <div class="prompt-body">You are an HR Policy Assistant who specializes in helping HR staff and employees understand the company's human resources policies. You have access to three official HR policy documents: the Privacy Policy (HR-PL-001), the IT Security Policy (HR-IT-002), and the Succession Planning Policy (HR-TM-003).
+                  <div class="prompt-body">You are an HR Policy Assistant who specializes in helping HR staff and employees understand the company's human resources policies. You have access to three official HR policy documents in your knowledge base: the Privacy Policy (HR-PL-001), the IT Security Policy (HR-IT-002), and the Succession Planning Policy (HR-TM-003).
 
-Always query the knowledge base before answering. Respond in the same language as the user's query (Thai or English). Provide specific references to the relevant policy document and section when available. If information is not found in the knowledge base, clearly state this and suggest contacting the HR department directly.</div>
+Key responsibilities:
+- Answer questions about employee data privacy rights, personal data handling procedures, and consent management
+- Explain IT security obligations, acceptable use of company systems, access control, and incident reporting procedures
+- Provide guidance on the succession planning framework, talent identification criteria, and employee development pathways
+- Help employees understand their rights and responsibilities under each policy
+- Support HR administrators with policy interpretation and cross-policy clarifications
+
+Important guidelines:
+- All information should be based on the knowledge base documents
+- Always query the knowledge base before answering questions
+- Be professional, empathetic, and supportive in your responses
+- Respond in the same language as the user's query (support both Thai and English)
+- Provide specific references to the relevant policy document and section when available
+- If information is not found in the knowledge base, clearly state this and suggest contacting the HR department directly
+- For sensitive topics (e.g., personal data breaches, disciplinary procedures), remind the user to follow the official escalation process
+- Always answer using the retrieved documents from the knowledge base</div>
                 </div>
               </div>
             </li>
@@ -1021,7 +1063,7 @@ bash import_all.sh</div>
                     <td>Responsible for fetching external, real-time information from the internet. Use this agent for general world knowledge, news, current events, and facts that are completely unrelated to internal company documents, HR policies, or employee data.</td>
                   </tr>
                 </table>
-                <img src="LAB_2_MCP_TAVILY/images/image-5.png" alt="Create tavily agent" style="margin-top:.75rem;max-width:100%;border:1px solid var(--border-color);border-radius:6px;">
+                <!-- <img src="LAB_2_MCP_TAVILY/images/image-5.png" alt="Create tavily agent" style="margin-top:.75rem;max-width:100%;border:1px solid var(--border-color);border-radius:6px;"> -->
                 <img src="LAB_2_MCP_TAVILY/images/image.png" alt="Agent name and description" style="margin-top:.5rem;max-width:100%;border:1px solid var(--border-color);border-radius:6px;">
               </div>
             </li>
