@@ -1,2 +1,2 @@
-ibm-watsonx-orchestrate==1.14.1
-requests==2.32.5
+ibm-watsonx-orchestrate
+requests

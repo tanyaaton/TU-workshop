@@ -1,355 +1,285 @@
-# SQLite Database for Retail Inventory Management
+# SQLite Database for HR Management System
 
-This directory contains the SQLite database and related files for LAB 6.
+This directory contains the SQLite database and related files for LAB 4.
 
 ## 📁 Files
 
-- **`schema.sql`** - Database schema definition with tables, indexes, and views
-- **`create_database.py`** - Python script to create and populate the database
-- **`inventory.db`** - SQLite database file (created by running create_database.py)
+- **`schema.sql`** — Database schema: tables, indexes, and views
+- **`create_database.py`** — Python script to create and populate the database
+- **`hr.db`** — SQLite database file (created by running `create_database.py`)
 
 ## 🗄️ Database Structure
 
 ### Tables
 
-#### 1. products
-Master data for all products in the inventory system.
+#### 1. `departments`
+Master data for each department in the organisation.
 
 ```sql
-CREATE TABLE products (
-    product_id TEXT PRIMARY KEY,
-    product_name TEXT NOT NULL,
-    category TEXT NOT NULL,
-    unit_cost REAL NOT NULL,
-    retail_price REAL NOT NULL,
-    supplier_id TEXT NOT NULL,
-    supplier_name TEXT NOT NULL
+CREATE TABLE departments (
+    department_id     TEXT PRIMARY KEY,
+    department_name   TEXT NOT NULL,
+    location          TEXT NOT NULL,
+    head_count_budget INTEGER NOT NULL DEFAULT 0
 );
 ```
 
-**Sample Data:** 20 products across categories (Beverages, Dairy, Snacks)
+**Sample Data:** 5 departments — Engineering, HR, Finance, Sales, Operations
 
-#### 2. stores
-Information about retail store locations.
+---
+
+#### 2. `employees`
+Master data for all employees, including a self-referencing `manager_id`.
 
 ```sql
-CREATE TABLE stores (
-    store_id TEXT PRIMARY KEY,
-    store_name TEXT NOT NULL,
-    location TEXT NOT NULL,
-    manager_name TEXT NOT NULL
+CREATE TABLE employees (
+    employee_id     TEXT PRIMARY KEY,
+    full_name       TEXT NOT NULL,
+    department_id   TEXT NOT NULL,
+    job_title       TEXT NOT NULL,
+    employment_type TEXT NOT NULL DEFAULT 'Full-time',  -- Full-time | Part-time | Contract
+    hire_date       DATE NOT NULL,
+    salary          REAL NOT NULL,
+    manager_id      TEXT  -- FK → employees(employee_id)
 );
 ```
 
-**Sample Data:** 3 stores (Bangkok, Chiang Mai, Phuket)
+**Sample Data:** 35 employees across 5 departments (Bangkok, Chiang Mai, Phuket)
 
-#### 3. inventory
-Current stock levels at each store for each product.
+---
+
+#### 3. `leave_requests`
+Tracks all employee leave history.
 
 ```sql
-CREATE TABLE inventory (
-    inventory_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    product_id TEXT NOT NULL,
-    store_id TEXT NOT NULL,
-    current_stock INTEGER NOT NULL DEFAULT 0,
-    reorder_point INTEGER NOT NULL DEFAULT 0,
-    max_capacity INTEGER NOT NULL DEFAULT 0,
-    last_updated DATE NOT NULL DEFAULT CURRENT_DATE,
-    FOREIGN KEY (product_id) REFERENCES products(product_id),
-    FOREIGN KEY (store_id) REFERENCES stores(store_id),
-    UNIQUE(product_id, store_id)
+CREATE TABLE leave_requests (
+    leave_id    TEXT PRIMARY KEY,
+    employee_id TEXT NOT NULL,
+    leave_type  TEXT NOT NULL,  -- Annual | Sick | Maternity | Personal | Unpaid
+    start_date  DATE NOT NULL,
+    end_date    DATE NOT NULL,
+    days_taken  INTEGER NOT NULL DEFAULT 1,
+    status      TEXT NOT NULL DEFAULT 'Pending'  -- Approved | Pending | Rejected
 );
 ```
 
-**Sample Data:** 60 inventory records (20 products × 3 stores)
+**Sample Data:** 120 leave requests across 2024
 
-#### 4. transactions
-Historical record of all inventory movements.
+---
+
+#### 4. `performance_reviews`
+Periodic performance ratings submitted by managers.
 
 ```sql
-CREATE TABLE transactions (
-    transaction_id TEXT PRIMARY KEY,
-    product_id TEXT NOT NULL,
-    store_id TEXT NOT NULL,
-    transaction_type TEXT NOT NULL,
-    quantity INTEGER NOT NULL,
-    transaction_date DATE NOT NULL,
-    notes TEXT,
-    FOREIGN KEY (product_id) REFERENCES products(product_id),
-    FOREIGN KEY (store_id) REFERENCES stores(store_id),
-    CHECK (transaction_type IN ('Sold', 'Received', 'Adjusted', 'Returned'))
+CREATE TABLE performance_reviews (
+    review_id     TEXT PRIMARY KEY,
+    employee_id   TEXT NOT NULL,
+    review_period TEXT NOT NULL,   -- e.g. '2024-H1'
+    rating        REAL NOT NULL,   -- 1.0 – 5.0
+    reviewer_id   TEXT NOT NULL,   -- FK → employees(employee_id)
+    comments      TEXT
 );
 ```
 
-**Sample Data:** 50 transactions over the past 30 days
+**Sample Data:** 35 reviews (one per employee) for period `2024-H1`
+
+---
 
 ### Views
 
-Pre-built views for common queries:
-
-#### v_low_stock_items
-Products below reorder point with ordering recommendations.
+#### `v_headcount_by_department`
+Compares actual headcount to the approved budget and shows salary statistics per department.
 
 ```sql
-SELECT 
-    p.product_id,
-    p.product_name,
-    p.category,
-    i.store_id,
-    s.store_name,
-    i.current_stock,
-    i.reorder_point,
-    (i.reorder_point - i.current_stock) as units_to_order
-FROM products p
-JOIN inventory i ON p.product_id = i.product_id
-JOIN stores s ON i.store_id = s.store_id
-WHERE i.current_stock < i.reorder_point;
+SELECT department_name, location, head_count_budget,
+       actual_headcount, open_positions,
+       avg_salary, min_salary, max_salary, total_salary_cost
+FROM v_headcount_by_department;
 ```
 
-#### v_product_sales
-Sales summary by product with revenue and profit.
+#### `v_leave_summary`
+Leave days consumed per employee, broken down by leave type.
 
 ```sql
-SELECT 
-    p.product_id,
-    p.product_name,
-    p.category,
-    SUM(CASE WHEN t.transaction_type = 'Sold' THEN t.quantity ELSE 0 END) as total_sold,
-    SUM(CASE WHEN t.transaction_type = 'Sold' THEN t.quantity * p.retail_price ELSE 0 END) as total_revenue,
-    SUM(CASE WHEN t.transaction_type = 'Sold' THEN t.quantity * (p.retail_price - p.unit_cost) ELSE 0 END) as total_profit
-FROM products p
-LEFT JOIN transactions t ON p.product_id = t.product_id
-GROUP BY p.product_id;
+SELECT full_name, department_name,
+       annual_days_used, sick_days_used, personal_days_used,
+       maternity_days_used, total_days_taken, pending_requests
+FROM v_leave_summary;
 ```
 
-#### v_store_inventory_value
-Inventory value by store.
+#### `v_high_performers`
+Employees with a performance rating ≥ 4.0.
 
 ```sql
-SELECT 
-    s.store_id,
-    s.store_name,
-    COUNT(DISTINCT i.product_id) as product_count,
-    SUM(i.current_stock) as total_units,
-    SUM(i.current_stock * p.unit_cost) as inventory_cost_value,
-    SUM(i.current_stock * p.retail_price) as inventory_retail_value
-FROM stores s
-LEFT JOIN inventory i ON s.store_id = i.store_id
-LEFT JOIN products p ON i.product_id = p.product_id
-GROUP BY s.store_id;
+SELECT full_name, job_title, department_name,
+       salary, review_period, rating, comments
+FROM v_high_performers;
 ```
 
-#### v_category_performance
-Performance metrics by product category.
+#### `v_salary_band`
+Salary distribution (min / max / avg) grouped by department and job title.
 
 ```sql
-SELECT 
-    p.category,
-    COUNT(DISTINCT p.product_id) as product_count,
-    SUM(i.current_stock) as total_stock,
-    AVG(p.retail_price - p.unit_cost) as avg_profit_margin,
-    SUM(CASE WHEN t.transaction_type = 'Sold' THEN t.quantity ELSE 0 END) as total_sold
-FROM products p
-LEFT JOIN inventory i ON p.product_id = i.product_id
-LEFT JOIN transactions t ON p.product_id = t.product_id
-GROUP BY p.category;
+SELECT department_name, job_title, employment_type,
+       headcount, min_salary, max_salary, avg_salary, total_monthly_cost
+FROM v_salary_band;
 ```
+
+---
 
 ## 🚀 Quick Start
 
-### Create Database
+### Create the Database
 
 ```bash
+cd LAB_4_PYTHON_TEXT2SQL/database
 python3 create_database.py
 ```
 
 This will:
-1. Remove existing database if present
-2. Create new `inventory.db` file
+1. Remove any existing `hr.db`
+2. Create a fresh `hr.db`
 3. Execute schema from `schema.sql`
-4. Insert sample data
-5. Verify data integrity
+4. Insert all sample data
+5. Verify record counts
 
-### Query Database
+### Query the Database
 
-Using SQLite command line:
+**Using SQLite CLI:**
 
 ```bash
-# Open database
-sqlite3 inventory.db
+sqlite3 hr.db
 
-# List tables
 .tables
+.schema employees
 
-# Show schema
-.schema products
+SELECT * FROM v_headcount_by_department;
+SELECT * FROM v_high_performers LIMIT 10;
 
-# Query data
-SELECT * FROM products LIMIT 5;
-SELECT * FROM v_low_stock_items;
-
-# Exit
 .quit
 ```
 
-Using Python:
+**Using Python:**
 
 ```python
 import sqlite3
 import pandas as pd
 
-# Connect to database
-conn = sqlite3.connect('inventory.db')
+conn = sqlite3.connect('hr.db')
 
-# Query with pandas
-df = pd.read_sql_query("SELECT * FROM products", conn)
+df = pd.read_sql_query("SELECT * FROM v_headcount_by_department", conn)
 print(df)
 
-# Close connection
 conn.close()
 ```
 
+---
+
 ## 📊 Sample Queries
 
-### Stock Management
+### Headcount & Organisation
 
 ```sql
--- Products below reorder point
-SELECT * FROM v_low_stock_items;
+-- Headcount vs budget per department
+SELECT * FROM v_headcount_by_department;
 
--- Stock by store
-SELECT s.store_name, COUNT(*) as product_count, SUM(i.current_stock) as total_units
-FROM stores s
-JOIN inventory i ON s.store_id = i.store_id
-GROUP BY s.store_name;
+-- Employees in Engineering
+SELECT full_name, job_title, hire_date, salary
+FROM employees
+JOIN departments ON employees.department_id = departments.department_id
+WHERE departments.department_name = 'Engineering'
+ORDER BY salary DESC;
 
--- Products with zero stock
-SELECT p.product_name, s.store_name
-FROM products p
-JOIN inventory i ON p.product_id = i.product_id
-JOIN stores s ON i.store_id = s.store_id
-WHERE i.current_stock = 0;
+-- Contract employees
+SELECT full_name, job_title, department_id
+FROM employees
+WHERE employment_type = 'Contract';
 ```
 
-### Sales Analytics
+### Salary Analysis
 
 ```sql
--- Top 10 best sellers
-SELECT * FROM v_product_sales
-ORDER BY total_sold DESC
+-- Salary band by department + job title
+SELECT * FROM v_salary_band ORDER BY avg_salary DESC;
+
+-- Highest paid employees
+SELECT full_name, job_title, salary
+FROM employees
+ORDER BY salary DESC
 LIMIT 10;
 
--- Sales by category
-SELECT category, SUM(total_sold) as category_sales
-FROM v_product_sales
-GROUP BY category
-ORDER BY category_sales DESC;
-
--- Recent transactions
-SELECT t.transaction_date, p.product_name, t.transaction_type, t.quantity
-FROM transactions t
-JOIN products p ON t.product_id = p.product_id
-ORDER BY t.transaction_date DESC
-LIMIT 20;
+-- Average salary by employment type
+SELECT employment_type,
+       COUNT(*) AS headcount,
+       ROUND(AVG(salary), 2) AS avg_salary
+FROM employees
+GROUP BY employment_type;
 ```
 
-### Financial Analysis
+### Leave Management
 
 ```sql
--- Inventory value by store
-SELECT * FROM v_store_inventory_value;
+-- Leave summary per employee
+SELECT * FROM v_leave_summary ORDER BY total_days_taken DESC;
 
--- Products with highest profit margin
-SELECT product_name, 
-       retail_price - unit_cost as profit,
-       ROUND((retail_price - unit_cost) / unit_cost * 100, 2) as margin_percent
-FROM products
-ORDER BY margin_percent DESC
-LIMIT 10;
+-- Pending leave requests
+SELECT e.full_name, lr.leave_type, lr.start_date, lr.end_date, lr.days_taken
+FROM leave_requests lr
+JOIN employees e ON lr.employee_id = e.employee_id
+WHERE lr.status = 'Pending';
 
--- Total inventory value
-SELECT 
-    SUM(i.current_stock * p.unit_cost) as total_cost,
-    SUM(i.current_stock * p.retail_price) as total_retail_value,
-    SUM(i.current_stock * (p.retail_price - p.unit_cost)) as potential_profit
-FROM inventory i
-JOIN products p ON i.product_id = p.product_id;
+-- Total sick days by department
+SELECT d.department_name, SUM(lr.days_taken) AS total_sick_days
+FROM leave_requests lr
+JOIN employees e ON lr.employee_id = e.employee_id
+JOIN departments d ON e.department_id = d.department_id
+WHERE lr.leave_type = 'Sick' AND lr.status = 'Approved'
+GROUP BY d.department_name
+ORDER BY total_sick_days DESC;
 ```
+
+### Performance
+
+```sql
+-- High performers
+SELECT * FROM v_high_performers;
+
+-- Average rating by department
+SELECT d.department_name, ROUND(AVG(pr.rating), 2) AS avg_rating
+FROM performance_reviews pr
+JOIN employees e ON pr.employee_id = e.employee_id
+JOIN departments d ON e.department_id = d.department_id
+GROUP BY d.department_name
+ORDER BY avg_rating DESC;
+```
+
+---
 
 ## 🔧 Maintenance
 
-### Add New Product
+### Add a New Employee
 
 ```sql
-INSERT INTO products (product_id, product_name, category, unit_cost, retail_price, supplier_id, supplier_name)
-VALUES ('SKU021', 'New Product', 'Category', 10.00, 15.00, 'SUP001', 'Supplier Name');
-
--- Add inventory for all stores
-INSERT INTO inventory (product_id, store_id, current_stock, reorder_point, max_capacity)
-SELECT 'SKU021', store_id, 0, 50, 200
-FROM stores;
+INSERT INTO employees (employee_id, full_name, department_id, job_title, employment_type, hire_date, salary, manager_id)
+VALUES ('EMP036', 'New Employee', 'DEPT001', 'Software Engineer', 'Full-time', '2024-08-01', 70000, 'EMP001');
 ```
 
-### Update Stock Levels
+### Record a Leave Request
 
 ```sql
--- Receive inventory
-UPDATE inventory 
-SET current_stock = current_stock + 100,
-    last_updated = CURRENT_DATE
-WHERE product_id = 'SKU001' AND store_id = 'STORE001';
-
--- Record transaction
-INSERT INTO transactions (transaction_id, product_id, store_id, transaction_type, quantity, transaction_date, notes)
-VALUES ('TXN051', 'SKU001', 'STORE001', 'Received', 100, CURRENT_DATE, 'Weekly delivery');
+INSERT INTO leave_requests (leave_id, employee_id, leave_type, start_date, end_date, days_taken, status)
+VALUES ('LV0121', 'EMP001', 'Annual', '2024-12-23', '2024-12-27', 5, 'Approved');
 ```
 
-### Backup Database
-
-```bash
-# Create backup
-cp inventory.db inventory_backup_$(date +%Y%m%d).db
-
-# Or use SQLite backup command
-sqlite3 inventory.db ".backup inventory_backup.db"
-```
-
-## 📈 Performance Tips
-
-1. **Use Indexes**: Already created on frequently queried columns
-2. **Use Views**: Pre-built views for common queries
-3. **Limit Results**: Use LIMIT clause for large result sets
-4. **Analyze Queries**: Use EXPLAIN QUERY PLAN to optimize
-
-```sql
--- Check query execution plan
-EXPLAIN QUERY PLAN
-SELECT * FROM v_low_stock_items;
-```
-
-## 🔍 Troubleshooting
-
-**Database locked error:**
-- Close all connections to the database
-- Check for other processes accessing the file
-
-**Constraint violation:**
-- Verify foreign key references exist
-- Check UNIQUE constraints
-- Validate CHECK constraints
-
-**Performance issues:**
-- Add indexes on frequently queried columns
-- Use views for complex queries
-- Vacuum database periodically: `VACUUM;`
+---
 
 ## 📝 Notes
 
-- Database file size: ~100KB with sample data
+- Database file: `hr.db` (~100 KB with sample data)
 - SQLite version: 3.x compatible
 - Character encoding: UTF-8
-- Date format: YYYY-MM-DD
-- Supports Thai and English text
+- Date format: `YYYY-MM-DD`
+- Supports Thai and English employee names
 
 ---
 

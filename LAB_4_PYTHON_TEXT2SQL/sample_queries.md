@@ -1,419 +1,297 @@
-# Sample Queries for Inventory Analytics Agent
+# Sample Queries for HR Analytics Agent
 
-This document provides comprehensive test queries for the Inventory Analytics Agent in both Thai and English.
+This document provides comprehensive test queries for the HR Analytics Agent in both Thai and English.
 
-**Note:** The agent converts these natural language queries into SQL queries that run against the SQLite database.
+**Note:** The agent converts these natural language queries into SQL queries that run against the SQLite `hr.db` database.
 
 ---
 
-## 📊 Stock Level Queries
+## 👥 Headcount & Organisation Queries
 
-### Basic Stock Checks
+### Department Headcount
 
 **Thai:**
 ```
-- แสดงสต็อกทั้งหมด
-- เช็คสต็อกของสาขา STORE001
-- สินค้าไหนมีสต็อกเหลือน้อย
-- แสดงสต็อกของสินค้าในหมวด Beverages
+- แสดงจำนวนพนักงานแต่ละแผนก
+- แผนกไหนมีพนักงานมากที่สุด
+- เปรียบเทียบจำนวนพนักงานจริงกับ headcount budget
+- มีตำแหน่งว่างกี่ตำแหน่งในแต่ละแผนก
 ```
 
 **English:**
 ```
-- Show all inventory
-- Check stock at STORE001
-- Which products have low stock?
-- Show stock for Beverages category
+- Show headcount by department
+- Which department has the most employees?
+- Compare actual headcount vs approved budget
+- How many open positions are there per department?
 ```
 
-### Low Stock Alerts
+### Employee Type
 
 **Thai:**
 ```
-- แสดงสินค้าที่มีสต็อกต่ำกว่า reorder point
-- สินค้าไหนใกล้หมดที่สาขา 1
-- แสดงสินค้าที่ต้องสั่งซื้อเพิ่ม
-- สินค้าไหนที่สต็อกต่ำกว่า 20 ชิ้น
-- เช็คสินค้าที่ใกล้หมดทุกสาขา
+- มีพนักงานประเภท Contract กี่คน
+- แสดงพนักงาน Part-time ทั้งหมด
+- สัดส่วนพนักงาน Full-time กับ Contract คือเท่าไหร่
 ```
 
 **English:**
 ```
-- Show products with stock below reorder point
-- Which products are running low at store 1?
-- Show products that need reordering
-- Which products have less than 20 units?
-- Check low stock items across all stores
+- How many contract employees are there?
+- Show all part-time employees
+- What is the ratio of full-time to contract employees?
 ```
 
-### Stock by Location
+### Org Structure
 
 **Thai:**
 ```
-- เปรียบเทียบสต็อกระหว่างสาขา 1 และสาขา 2
-- สาขาไหนมีสินค้าใกล้หมดมากที่สุด
-- แสดงสต็อกของ Coca-Cola ทุกสาขา
-- สาขาไหนมีสต็อกมากที่สุด
+- ใครเป็นผู้จัดการของแผนก Engineering
+- แสดงรายชื่อพนักงานใน Finance
+- Somchai Pattana มีลูกทีมกี่คน
 ```
 
 **English:**
 ```
-- Compare stock between store 1 and store 2
-- Which store has the most low-stock items?
-- Show Coca-Cola stock across all stores
-- Which store has the highest inventory?
+- Who is the manager of the Engineering department?
+- Show all employees in the Finance department
+- How many direct reports does EMP001 have?
 ```
 
 ---
 
-## 💰 Sales Analytics Queries
+## 💰 Salary Analysis Queries
 
-### Sales Performance
+### Salary by Department
 
 **Thai:**
 ```
-- สินค้าขายดี 10 อันดับแรก
-- แสดงยอดขายของแต่ละสินค้า
-- สินค้าไหนขายได้มากที่สุดในเดือนนี้
-- ยอดขายรวมทั้งหมด
-- สินค้าไหนขายได้น้อยที่สุด
+- เปรียบเทียบเงินเดือนเฉลี่ยของแต่ละแผนก
+- แผนกไหนจ่ายเงินเดือนสูงสุด
+- แสดงช่วงเงินเดือน (min/max/avg) ของแต่ละแผนก
+- ค่าใช้จ่ายเงินเดือนรวมต่อเดือนคือเท่าไหร่
 ```
 
 **English:**
 ```
-- Top 10 best-selling products
-- Show sales by product
-- Which product sold the most this month?
-- Total sales across all products
-- Which products have the lowest sales?
+- Compare average salary by department
+- Which department has the highest salaries?
+- Show salary range (min/max/avg) per department
+- What is the total monthly salary cost?
 ```
 
-### Sales by Category
+### Salary by Job Title
 
 **Thai:**
 ```
-- ยอดขายรวมของแต่ละหมวดสินค้า
-- หมวดไหนขายดีที่สุด
-- แสดงยอดขายของหมวด Beverages
-- เปรียบเทียบยอดขายระหว่างหมวดสินค้า
+- แสดง salary band ของแต่ละตำแหน่ง
+- Software Engineer ได้เงินเดือนเฉลี่ยเท่าไหร่
+- ตำแหน่งไหนได้รับเงินเดือนสูงสุด
 ```
 
 **English:**
 ```
-- Total sales by product category
-- Which category sells the best?
-- Show sales for Beverages category
-- Compare sales between categories
+- Show salary bands by job title
+- What is the average salary for a Software Engineer?
+- Which job title has the highest average salary?
 ```
 
-### Sales by Store
+### Top Earners
 
 **Thai:**
 ```
-- แสดงยอดขายของแต่ละสาขา
-- สาขาไหนมียอดขายสูงสุด
-- เปรียบเทียบยอดขายระหว่างสาขา
-- ยอดขายของสาขา STORE001
+- พนักงานที่ได้รับเงินเดือนสูงสุด 10 คน
+- พนักงาน Contract ที่ได้รับเงินเดือนสูงสุด
+- แสดงพนักงานที่เงินเดือนสูงกว่า 80,000 บาท
 ```
 
 **English:**
 ```
-- Show sales by store
-- Which store has the highest sales?
-- Compare sales between stores
-- Sales at STORE001
+- Top 10 highest paid employees
+- Highest paid contract employees
+- Show employees earning more than 80,000 THB
 ```
 
 ---
 
-## 📦 Product Information Queries
+## 📅 Leave Management Queries
 
-### Product Details
+### Leave Summary
 
 **Thai:**
 ```
-- แสดงสินค้าทั้งหมดในหมวด Beverages
-- ราคาขายของ Coca-Cola คือเท่าไหร่
-- สินค้าไหนมีราคาแพงที่สุด
-- แสดงข้อมูลสินค้า SKU001
-- มีสินค้าอะไรบ้างในระบบ
+- สรุปวันลาของพนักงานทุกคน
+- พนักงานคนไหนลามากที่สุด
+- แสดงวันลาพักร้อนที่ใช้ไปแล้วของแต่ละคน
+- ใครมีคำขอลาค้างอนุมัติบ้าง
 ```
 
 **English:**
 ```
-- Show all products in Beverages category
-- What is the retail price of Coca-Cola?
-- Which product is the most expensive?
-- Show details for SKU001
-- What products are in the system?
+- Show leave summary for all employees
+- Who has taken the most leave days?
+- Show annual leave used per employee
+- Who has pending leave requests?
 ```
 
-### Product Categories
+### Leave by Type
 
 **Thai:**
 ```
-- มีหมวดสินค้าอะไรบ้าง
-- แสดงจำนวนสินค้าในแต่ละหมวด
-- หมวดไหนมีสินค้ามากที่สุด
-- แสดงสินค้าทั้งหมดในหมวด Dairy
+- รวมวันลาป่วยทั้งหมดในแต่ละแผนก
+- มีการลาคลอดกี่คน
+- แสดงวันลาส่วนตัวที่อนุมัติแล้ว
+- แผนกไหนมีวันลารวมมากที่สุด
 ```
 
 **English:**
 ```
-- What product categories exist?
-- Show product count by category
-- Which category has the most products?
-- Show all products in Dairy category
+- Total sick days taken per department
+- How many employees took maternity leave?
+- Show approved personal leave requests
+- Which department has the most total leave days?
+```
+
+### Pending & Rejected
+
+**Thai:**
+```
+- แสดงคำขอลาที่ยังค้างอนุมัติ
+- มีคำขอลาที่ถูกปฏิเสธกี่รายการ
+- แสดงคำขอลาของพนักงานในแผนก Engineering
+```
+
+**English:**
+```
+- Show all pending leave requests
+- How many leave requests were rejected?
+- Show leave requests for Engineering employees
 ```
 
 ---
 
-## 🏪 Supplier Queries
+## ⭐ Performance Review Queries
 
-### Supplier Information
+### High Performers
 
 **Thai:**
 ```
-- แสดงสินค้าทั้งหมดจากซัพพลายเออร์ Thai Beverage
-- ซัพพลายเออร์ไหนมีสินค้ามากที่สุด
-- มีซัพพลายเออร์อะไรบ้าง
-- แสดงข้อมูลซัพพลายเออร์ของ Coca-Cola
+- แสดงรายชื่อพนักงาน high performer (rating ≥ 4.0)
+- พนักงานที่มีคะแนน performance สูงสุด 5 คน
+- แผนกไหนมี high performer มากที่สุด
+- แสดงพนักงาน rating 5.0
 ```
 
 **English:**
 ```
-- Show all products from Thai Beverage supplier
-- Which supplier has the most products?
-- What suppliers are in the system?
-- Show supplier information for Coca-Cola
+- Show high performers (rating ≥ 4.0)
+- Top 5 employees by performance rating
+- Which department has the most high performers?
+- Show employees with a perfect 5.0 rating
 ```
 
----
-
-## 💵 Financial Queries
-
-### Profit Analysis
+### Performance by Department
 
 **Thai:**
 ```
-- สินค้าไหนมี profit margin สูงสุด
-- คำนวณกำไรของแต่ละสินค้า
-- แสดงสินค้าที่มีกำไรต่ำที่สุด
-- คำนวณ profit margin ของหมวด Beverages
+- คะแนน performance เฉลี่ยของแต่ละแผนก
+- แผนกไหนมีผลการปฏิบัติงานดีที่สุด
+- เปรียบเทียบ rating ระหว่าง Engineering กับ Sales
 ```
 
 **English:**
 ```
-- Which products have the highest profit margin?
-- Calculate profit for each product
-- Show products with lowest profit
-- Calculate profit margin for Beverages category
+- Average performance rating by department
+- Which department has the best average performance?
+- Compare ratings between Engineering and Sales
 ```
 
-### Inventory Value
+### Underperformers
 
 **Thai:**
 ```
-- คำนวณมูลค่าสต็อกรวมของแต่ละสาขา
-- มูลค่าสต็อกทั้งหมดเท่าไหร่
-- สาขาไหนมีมูลค่าสต็อกสูงสุด
-- คำนวณมูลค่าสต็อกของหมวด Dairy
+- แสดงพนักงานที่มีคะแนนต่ำกว่า 3.0
+- พนักงานที่ต้องการการพัฒนามีกี่คน
 ```
 
 **English:**
 ```
-- Calculate total inventory value by store
-- What is the total inventory value?
-- Which store has the highest inventory value?
-- Calculate inventory value for Dairy category
-```
-
----
-
-## 📈 Trend Analysis Queries
-
-### Transaction History
-
-**Thai:**
-```
-- แสดงธุรกรรมทั้งหมดของ SKU001
-- มีการรับสินค้าเมื่อไหร่บ้าง
-- แสดงการขายในช่วง 7 วันที่ผ่านมา
-- สินค้าไหนที่ไม่มีการขายเลย
-```
-
-**English:**
-```
-- Show all transactions for SKU001
-- When were products received?
-- Show sales in the last 7 days
-- Which products have no sales?
-```
-
-### Performance Trends
-
-**Thai:**
-```
-- แสดงแนวโน้มการขายของแต่ละหมวด
-- สินค้าไหนที่ยอดขายเพิ่มขึ้น
-- เปรียบเทียบยอดขายเดือนนี้กับเดือนที่แล้ว
-```
-
-**English:**
-```
-- Show sales trends by category
-- Which products have increasing sales?
-- Compare this month's sales to last month
+- Show employees with rating below 3.0
+- How many employees need a performance improvement plan?
 ```
 
 ---
 
 ## 🔍 Complex Analytical Queries
 
-### Multi-Criteria Analysis
+### Combined Analysis
 
 **Thai:**
 ```
-- แสดงสินค้าที่ขายดีแต่สต็อกต่ำ
-- หาสินค้าที่มี profit margin สูงและขายดี
-- สินค้าไหนที่มีสต็อกเกินความจำเป็น
-- แสดงสินค้าที่ควรหยุดสั่งซื้อ
+- พนักงาน high performer ที่ได้รับเงินเดือนต่ำกว่าค่าเฉลี่ยของแผนก
+- พนักงานที่ลามากและมีผลงานต่ำ
+- แสดงพนักงานใหม่ที่เข้าทำงานในปี 2023
+- พนักงาน Contract ที่มีผลงานดีควรพิจารณาเป็น Full-time
 ```
 
 **English:**
 ```
-- Show products with high sales but low stock
-- Find products with high profit margin and good sales
-- Which products have excess inventory?
-- Show products that should stop ordering
+- High performers earning below their department average
+- Employees with high leave and low performance
+- Show new hires who joined in 2023
+- Contract employees with good performance worth converting to full-time
 ```
 
-### Store Performance
+### Workforce Planning
 
 **Thai:**
 ```
-- สาขาไหนมีประสิทธิภาพดีที่สุด
-- เปรียบเทียบการจัดการสต็อกระหว่างสาขา
-- สาขาไหนมีปัญหาสินค้าขาดบ่อย
+- แผนกไหนมีตำแหน่งว่างมากที่สุด
+- คาดการณ์ค่าใช้จ่ายเงินเดือนถ้าเติมตำแหน่งว่างทั้งหมด
+- พนักงานที่ทำงานมานานกว่า 5 ปีมีกี่คน
 ```
 
 **English:**
 ```
-- Which store performs the best?
-- Compare inventory management between stores
-- Which store has frequent stockouts?
-```
-
-### Optimization Recommendations
-
-**Thai:**
-```
-- แนะนำสินค้าที่ควรสั่งซื้อเพิ่ม
-- สินค้าไหนที่ควรลดการสั่งซื้อ
-- แนะนำการปรับ reorder point
-- สินค้าไหนที่ควรโปรโมท
-```
-
-**English:**
-```
-- Recommend products to order more
-- Which products should reduce ordering?
-- Suggest reorder point adjustments
-- Which products should be promoted?
+- Which departments have the most open positions?
+- Estimate salary cost if all open positions are filled
+- How many employees have more than 5 years of tenure?
 ```
 
 ---
 
 ## 🎯 Specific Use Cases
 
-### Daily Operations
+### Daily HR Operations
 
 **Thai:**
 ```
-- รายงานสต็อกประจำวัน
-- สินค้าไหนต้องสั่งซื้อวันนี้
-- เช็คสินค้าที่หมดอายุใกล้
-- แสดงสินค้าที่ต้องตรวจนับ
+- คำขอลาที่รอการอนุมัติวันนี้
+- พนักงานใหม่ที่เข้าทำงานเดือนนี้
+- สรุปจำนวนพนักงานปัจจุบันทั้งหมด
 ```
 
 **English:**
 ```
-- Daily stock report
-- What needs to be ordered today?
-- Check products near expiration
-- Show products needing inventory count
+- Leave requests pending approval today
+- New hires this month
+- Current total employee count
 ```
 
 ### Management Reports
 
 **Thai:**
 ```
-- สรุปยอดขายรายสัปดาห์
-- รายงานประสิทธิภาพสาขา
-- วิเคราะห์ความต้องการสินค้า
-- แสดงสินค้าที่มีปัญหา
+- รายงานสรุป headcount รายแผนก
+- รายงานค่าใช้จ่ายเงินเดือนรายเดือน
+- รายงานผลการปฏิบัติงานรอบ 2024-H1
 ```
 
 **English:**
 ```
-- Weekly sales summary
-- Store performance report
-- Analyze product demand
-- Show problematic products
-```
-
-### Strategic Planning
-
-**Thai:**
-```
-- วิเคราะห์ portfolio สินค้า
-- แนะนำสินค้าใหม่ที่ควรเพิ่ม
-- ประเมินความเสี่ยงของสต็อก
-- วางแผนการสั่งซื้อไตรมาสหน้า
-```
-
-**English:**
-```
-- Analyze product portfolio
-- Recommend new products to add
-- Assess inventory risk
-- Plan next quarter's ordering
-```
-
----
-
-## 🧪 Testing Scenarios
-
-### Edge Cases
-
-**Thai:**
-```
-- แสดงสินค้าที่ไม่มีข้อมูล
-- เช็คสินค้าที่มีข้อมูลผิดปกติ
-- หาสินค้าที่มีสต็อกติดลบ
-```
-
-**English:**
-```
-- Show products with missing data
-- Check products with anomalies
-- Find products with negative stock
-```
-
-### Error Handling
-
-**Thai:**
-```
-- แสดงข้อมูลสินค้าที่ไม่มีอยู่จริง
-- เช็คสาขาที่ไม่มีในระบบ
-- หาหมวดสินค้าที่ไม่ถูกต้อง
-```
-
-**English:**
-```
-- Show data for non-existent product
-- Check non-existent store
-- Find invalid product category
+- Headcount summary report by department
+- Monthly payroll cost report
+- Performance review summary for 2024-H1
 ```
 
 ---
@@ -422,34 +300,36 @@ This document provides comprehensive test queries for the Inventory Analytics Ag
 
 ### Best Practices
 
-1. **Be Specific**: Include store IDs, product names, or categories
-2. **Use Time Ranges**: Specify "this month", "last week", etc.
-3. **Ask Follow-ups**: Build on previous results
-4. **Request Comparisons**: Compare stores, categories, or time periods
-5. **Ask for Insights**: Request recommendations or analysis
+1. **Be Specific** — mention department names, employee IDs, or date ranges
+2. **Use Follow-ups** — build on previous results (e.g. "now show only Engineering")
+3. **Ask for Comparisons** — compare departments, job titles, or time periods
+4. **Request Rankings** — "top 5", "bottom 3", "highest", "lowest"
+5. **Ask for Insights** — "what should HR do about this?"
 
-### Query Patterns
+### Good Query Examples
 
-**Good Queries:**
-- "แสดงสินค้าที่สต็อกต่ำกว่า reorder point ที่สาขา STORE001"
-- "Top 5 best-selling products in Beverages category"
-- "Compare inventory value between all stores"
+```
+- "Show salary band for all job titles in Engineering"
+- "Which department has the most pending leave requests?"
+- "Top 10 performers and their current salary"
+- "Employees hired in 2023 with performance rating above 4.0"
+```
 
-**Avoid:**
-- Too vague: "แสดงข้อมูล" (Show data)
-- Too complex: Multiple unrelated questions in one query
-- Ambiguous: "สินค้า" without context
+### Avoid
+
+- Too vague: "แสดงข้อมูลพนักงาน" (no filter or context)
+- Too broad: Asking for all tables at once
+- Ambiguous names: Use employee IDs (EMP001) or full names when possible
 
 ---
 
 ## 📝 Notes
 
-- All queries support both Thai and English
-- Results are formatted as Markdown tables
-- Insights are automatically generated
-- Follow-up questions are suggested
-- Query timeout is 30 seconds
-- Maximum 1000 rows per result
+- All queries support Thai and English
+- Results are returned as Markdown tables
+- Insights are auto-generated from the result set
+- Follow-up questions are suggested after each response
+- Maximum 1,000 rows per result
 
 ---
 

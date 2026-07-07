@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Import script for LAB 6: Inventory Analytics Agent (SQLite Version)
+# Import script for LAB 4: HR Analytics Agent (SQLite Version)
 # This script imports the Python tool and agent configuration to Watson Orchestrate
 
 echo "========================================="
-echo "LAB 6: Inventory Analytics Agent Import"
+echo "LAB 4: HR Analytics Agent Import"
 echo "Text-to-SQL with SQLite Database"
 echo "========================================="
 echo ""
@@ -36,8 +36,8 @@ fi
 echo "✅ Environment configured"
 echo ""
 
-# Check if database exists
-if [ ! -f "database/inventory.db" ]; then
+# Check if database exists — create it if not
+if [ ! -f "database/hr.db" ]; then
     echo "⚠️  Database not found. Creating database..."
     cd database
     python3 create_database.py
@@ -45,14 +45,14 @@ if [ ! -f "database/inventory.db" ]; then
     echo ""
 fi
 
-echo "✅ Database ready: database/inventory.db"
+echo "✅ Database ready: database/hr.db"
 echo ""
 
 # Confirm before proceeding
 echo "This script will import:"
-echo "  1. Python Tool: inventory_query_tool (Text-to-SQL)"
-echo "  2. Agent: inventory_analytics_agent"
-echo "  3. Database: inventory.db (SQLite)"
+echo "  1. Python Tool: hr_query_tool (Text-to-SQL)"
+echo "  2. Agent:       hr_analytics_agent"
+echo "  3. Database:    hr.db (SQLite)"
 echo ""
 read -p "Do you want to continue? (y/n) " -n 1 -r
 echo ""
@@ -68,7 +68,6 @@ echo "Step 1: Installing Dependencies"
 echo "========================================="
 echo ""
 
-# Install Python dependencies
 echo "Installing Watson Orchestrate SDK and dependencies..."
 cd tools
 pip install -r requirements.txt
@@ -89,7 +88,7 @@ echo ""
 
 # Copy database to tools directory for package upload
 echo "Copying database to tools directory..."
-cp database/inventory.db tools/
+cp database/hr.db tools/
 
 if [ $? -eq 0 ]; then
     echo "✅ Database copied to tools/"
@@ -104,9 +103,8 @@ echo "Step 3: Importing Python Tool with Database"
 echo "========================================="
 echo ""
 
-# Check if tool file exists
-if [ ! -f "tools/inventory_query_tool.py" ]; then
-    echo "❌ Error: tools/inventory_query_tool.py not found"
+if [ ! -f "tools/hr_query_tool.py" ]; then
+    echo "❌ Error: tools/hr_query_tool.py not found"
     exit 1
 fi
 
@@ -115,8 +113,7 @@ echo "✅ Database package ready"
 echo ""
 echo "Importing tool with package root (includes database)..."
 
-# Import the Python tool with package root
-orchestrate tools import --kind python -f tools/inventory_query_tool.py --package-root tools/
+orchestrate tools import --kind python -f tools/hr_query_tool.py --package-root tools/
 
 if [ $? -eq 0 ]; then
     echo "✅ Tool and database imported successfully as package"
@@ -125,9 +122,9 @@ else
     echo ""
     echo "Alternative: Manual UI Import"
     echo "  1. Go to Toolset → Add Tool → Python"
-    echo "  2. Upload: tools/inventory_query_tool.py"
+    echo "  2. Upload: tools/hr_query_tool.py"
     echo "  3. Select 'Package Root': tools/"
-    echo "  4. This will upload inventory.db automatically"
+    echo "  4. This will upload hr.db automatically"
 fi
 
 echo ""
@@ -136,12 +133,11 @@ echo "Step 4: Importing Agent"
 echo "========================================="
 echo ""
 
-# Import agent
-echo "Importing inventory_analytics_agent..."
+echo "Importing hr_analytics_agent..."
 
-if [ -f "agent/inventory_analytics_agent.yaml" ]; then
-    orchestrate agents import -f agent/inventory_analytics_agent.yaml
-    
+if [ -f "agent/hr_analytics_agent.yaml" ]; then
+    orchestrate agents import -f agent/hr_analytics_agent.yaml
+
     if [ $? -eq 0 ]; then
         echo "✅ Agent imported successfully"
     else
@@ -149,7 +145,7 @@ if [ -f "agent/inventory_analytics_agent.yaml" ]; then
         echo "Please check the error message above"
     fi
 else
-    echo "❌ Error: agent/inventory_analytics_agent.yaml not found"
+    echo "❌ Error: agent/hr_analytics_agent.yaml not found"
     exit 1
 fi
 
@@ -158,23 +154,23 @@ echo "========================================="
 echo "Import Complete!"
 echo "========================================="
 echo ""
-echo "✅ SQLite database created and populated"
+echo "✅ SQLite HR database created and populated"
 echo "✅ Python Text-to-SQL tool ready"
 echo "✅ Agent configured"
 echo ""
 echo "Next steps:"
 echo "  1. Verify the tool is linked to the database"
 echo "  2. Test the agent with sample queries from sample_queries.md"
-echo "  3. Check agent behavior and adjust if needed"
+echo "  3. Check agent behaviour and adjust instructions if needed"
 echo ""
 echo "Database Information:"
-echo "  Location: database/inventory.db"
-echo "  Tables: products, stores, inventory, transactions"
-echo "  Records: 20 products, 3 stores, 60 inventory items, 50 transactions"
+echo "  Location: database/hr.db"
+echo "  Tables:   departments, employees, leave_requests, performance_reviews"
+echo "  Records:  5 departments, 35 employees, 120 leave requests, 35 reviews"
 echo ""
 echo "Sample test queries:"
-echo "  Thai: แสดงสินค้าที่มีสต็อกต่ำกว่า reorder point"
-echo "  English: Show products with stock below reorder point"
+echo "  Thai:    แสดงจำนวนพนักงานแต่ละแผนกเทียบกับ headcount budget"
+echo "  English: Show high performers with rating above 4.0"
 echo ""
 echo "For more queries, see: sample_queries.md"
 echo ""

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HR Database Schema — LAB 4</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    background: #ffffff;
+    color: #1f2328;
+    padding: 32px 24px 48px;
+  }
+  h1 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+  .subtitle { color: #57606a; font-size: 13px; margin-bottom: 32px; }
+  .canvas { max-width: 900px; margin: 0 auto; position: relative; }
+  .tables-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; position: relative; z-index: 1; }
+  .table-card { border: 1.5px solid #e5e7eb; border-radius: 8px; overflow: hidden; }
+  .table-header { padding: 8px 14px; font-weight: 700; font-size: 13px; letter-spacing: 0.02em; display: flex; align-items: center; gap: 8px; }
+  .table-header .badge { font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .th-departments { background: #dbeafe; color: #1e40af; }
+  .th-employees   { background: #dcfce7; color: #166534; }
+  .th-leave       { background: #fef9c3; color: #854d0e; }
+  .th-reviews     { background: #fce7f3; color: #9d174d; }
+  .badge-table { background: #e0f2fe; color: #0369a1; }
+  table { width: 100%; border-collapse: collapse; }
+  th { font-size: 11px; font-weight: 600; color: #57606a; text-transform: uppercase; letter-spacing: 0.04em; padding: 5px 14px; background: #f7f8fa; border-bottom: 1px solid #e5e7eb; text-align: left; }
+  td { padding: 5px 14px; font-size: 13px; border-bottom: 1px solid #f0f1f3; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  .col-name { font-family: "SF Mono", "Consolas", monospace; color: #1f2328; }
+  .col-type { color: #3b82d4; font-family: monospace; font-size: 12px; }
+  .col-note { color: #57606a; font-size: 12px; }
+  .pk { color: #d97706; font-weight: 700; }
+  .fk { color: #7c5cd8; }
+  .rel-section, .views-section, .counts-section { max-width: 900px; margin: 32px auto 0; }
+  .rel-section h2, .views-section h2, .counts-section h2 { font-size: 15px; font-weight: 700; margin-bottom: 12px; }
+  .rel-table { width: 100%; border-collapse: collapse; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden; }
+  .rel-table th { background: #f7f8fa; padding: 7px 14px; font-size: 12px; text-align: left; color: #57606a; text-transform: uppercase; letter-spacing:.04em; }
+  .rel-table td { padding: 7px 14px; font-size: 13px; border-top: 1px solid #f0f1f3; }
+  .arrow { color: #3b82d4; font-weight: 700; }
+  code { font-family: "SF Mono","Consolas",monospace; background: #f0f1f3; padding: 1px 5px; border-radius: 3px; font-size: 12px; }
+  .views-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .view-box { border: 1.5px dashed #d1d5db; border-radius: 8px; padding: 12px 14px; }
+  .view-box .vname { font-family: monospace; font-weight: 700; color: #1f2328; font-size: 13px; margin-bottom: 4px; }
+  .view-box .vdesc { color: #57606a; font-size: 12px; margin-bottom: 6px; }
+  .view-box .vcols { font-family: monospace; font-size: 11px; color: #3b82d4; }
+  .counts-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .count-tile { border: 1px solid #e5e7eb; border-radius: 8px; padding: 14px; text-align: center; }
+  .count-num { font-size: 28px; font-weight: 700; color: #3b82d4; }
+  .count-label { font-size: 12px; color: #57606a; margin-top: 2px; }
+  footer { max-width: 900px; margin: 40px auto 0; padding-top: 16px; border-top: 1px solid #e5e7eb; text-align: center; font-size: 12px; color: #57606a; }
+</style>
+</head>
+<body>
+
+<div style="max-width:900px;margin:0 auto 0;">
+  <h1>HR Database Schema</h1>
+  <p class="subtitle">LAB 4 · Python Text-to-SQL · SQLite · hr.db</p>
+</div>
+
+<div class="canvas">
+  <div class="tables-grid">
+
+    <div class="table-card" id="tbl-dept">
+      <div class="table-header th-departments">departments <span class="badge badge-table">TABLE</span></div>
+      <table>
+        <thead><tr><th>Column</th><th>Type</th><th>Constraint</th></tr></thead>
+        <tbody>
+          <tr><td class="col-name pk">department_id</td><td class="col-type">TEXT</td><td class="col-note pk">PK</td></tr>
+          <tr><td class="col-name">department_name</td><td class="col-type">TEXT</td><td class="col-note">NOT NULL</td></tr>
+          <tr><td class="col-name">location</td><td class="col-type">TEXT</td><td class="col-note">NOT NULL</td></tr>
+          <tr><td class="col-name">head_count_budget</td><td class="col-type">INTEGER</td><td class="col-note">DEFAULT 0</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-card" id="tbl-emp">
+      <div class="table-header th-employees">employees <span class="badge badge-table">TABLE</span></div>
+      <table>
+        <thead><tr><th>Column</th><th>Type</th><th>Constraint</th></tr></thead>
+        <tbody>
+          <tr><td class="col-name pk">employee_id</td><td class="col-type">TEXT</td><td class="col-note pk">PK</td></tr>
+          <tr><td class="col-name">full_name</td><td class="col-type">TEXT</td><td class="col-note">NOT NULL</td></tr>
+          <tr><td class="col-name fk">department_id</td><td class="col-type">TEXT</td><td class="col-note fk">FK → departments</td></tr>
+          <tr><td class="col-name">job_title</td><td class="col-type">TEXT</td><td class="col-note">NOT NULL</td></tr>
+          <tr><td class="col-name">employment_type</td><td class="col-type">TEXT</td><td class="col-note">Full-time|Part-time|Contract</td></tr>
+          <tr><td class="col-name">hire_date</td><td class="col-type">DATE</td><td class="col-note">NOT NULL</td></tr>
+          <tr><td class="col-name">salary</td><td class="col-type">REAL</td><td class="col-note">≥ 0</td></tr>
+          <tr><td class="col-name fk">manager_id</td><td class="col-type">TEXT</td><td class="col-note fk">FK → employees (self)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-card" id="tbl-leave">
+      <div class="table-header th-leave">leave_requests <span class="badge badge-table">TABLE</span></div>
+      <table>
+        <thead><tr><th>Column</th><th>Type</th><th>Constraint</th></tr></thead>
+        <tbody>
+          <tr><td class="col-name pk">leave_id</td><td class="col-type">TEXT</td><td class="col-note pk">PK</td></tr>
+          <tr><td class="col-name fk">employee_id</td><td class="col-type">TEXT</td><td class="col-note fk">FK → employees</td></tr>
+          <tr><td class="col-name">leave_type</td><td class="col-type">TEXT</td><td class="col-note">Annual|Sick|Maternity|Personal|Unpaid</td></tr>
+          <tr><td class="col-name">start_date</td><td class="col-type">DATE</td><td class="col-note">NOT NULL</td></tr>
+          <tr><td class="col-name">end_date</td><td class="col-type">DATE</td><td class="col-note">NOT NULL</td></tr>
+          <tr><td class="col-name">days_taken</td><td class="col-type">INTEGER</td><td class="col-note">&gt; 0</td></tr>
+          <tr><td class="col-name">status</td><td class="col-type">TEXT</td><td class="col-note">Approved|Pending|Rejected</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-card" id="tbl-rev">
+      <div class="table-header th-reviews">performance_reviews <span class="badge badge-table">TABLE</span></div>
+      <table>
+        <thead><tr><th>Column</th><th>Type</th><th>Constraint</th></tr></thead>
+        <tbody>
+          <tr><td class="col-name pk">review_id</td><td class="col-type">TEXT</td><td class="col-note pk">PK</td></tr>
+          <tr><td class="col-name fk">employee_id</td><td class="col-type">TEXT</td><td class="col-note fk">FK → employees</td></tr>
+          <tr><td class="col-name">review_period</td><td class="col-type">TEXT</td><td class="col-note">e.g. 2024-H1</td></tr>
+          <tr><td class="col-name">rating</td><td class="col-type">REAL</td><td class="col-note">1.0 – 5.0</td></tr>
+          <tr><td class="col-name fk">reviewer_id</td><td class="col-type">TEXT</td><td class="col-note fk">FK → employees (manager)</td></tr>
+          <tr><td class="col-name">comments</td><td class="col-type">TEXT</td><td class="col-note">nullable</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<div class="rel-section">
+  <h2>Relationships</h2>
+  <table class="rel-table">
+    <thead><tr><th>From (FK)</th><th></th><th>To (PK)</th><th>Cardinality</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><code>employees.department_id</code></td><td class="arrow">→</td><td><code>departments.department_id</code></td><td>Many-to-One</td><td>Each employee belongs to one department</td></tr>
+      <tr><td><code>employees.manager_id</code></td><td class="arrow">→</td><td><code>employees.employee_id</code></td><td>Many-to-One (self)</td><td>Each employee optionally has a manager</td></tr>
+      <tr><td><code>leave_requests.employee_id</code></td><td class="arrow">→</td><td><code>employees.employee_id</code></td><td>Many-to-One</td><td>Each leave request belongs to one employee</td></tr>
+      <tr><td><code>performance_reviews.employee_id</code></td><td class="arrow">→</td><td><code>employees.employee_id</code></td><td>Many-to-One</td><td>Each review is for one employee</td></tr>
+      <tr><td><code>performance_reviews.reviewer_id</code></td><td class="arrow">→</td><td><code>employees.employee_id</code></td><td>Many-to-One</td><td>Each review is submitted by a manager</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="views-section">
+  <h2>Pre-built Views</h2>
+  <div class="views-grid">
+    <div class="view-box">
+      <div class="vname">v_headcount_by_department</div>
+      <div class="vdesc">Actual headcount vs approved budget, salary stats per department</div>
+      <div class="vcols">department_name · location · head_count_budget · actual_headcount · open_positions · avg/min/max/total salary</div>
+    </div>
+    <div class="view-box">
+      <div class="vname">v_leave_summary</div>
+      <div class="vdesc">Leave days used per employee, broken down by type (approved only)</div>
+      <div class="vcols">full_name · department · annual · sick · personal · maternity · total_days · pending</div>
+    </div>
+    <div class="view-box">
+      <div class="vname">v_high_performers</div>
+      <div class="vdesc">Employees with performance rating ≥ 4.0</div>
+      <div class="vcols">full_name · job_title · department · salary · review_period · rating · comments</div>
+    </div>
+    <div class="view-box">
+      <div class="vname">v_salary_band</div>
+      <div class="vdesc">Salary distribution grouped by department × job title × employment type</div>
+      <div class="vcols">department · job_title · employment_type · headcount · min/max/avg/total salary</div>
+    </div>
+  </div>
+</div>
+
+<div class="counts-section">
+  <h2>Sample Data</h2>
+  <div class="counts-grid">
+    <div class="count-tile"><div class="count-num">5</div><div class="count-label">Departments</div></div>
+    <div class="count-tile"><div class="count-num">35</div><div class="count-label">Employees</div></div>
+    <div class="count-tile"><div class="count-num">120</div><div class="count-label">Leave Requests</div></div>
+    <div class="count-tile"><div class="count-num">35</div><div class="count-label">Performance Reviews</div></div>
+  </div>
+</div>
+
+<div style="max-width:900px;margin:20px auto 0;display:flex;gap:24px;font-size:12px;color:#57606a;flex-wrap:wrap;">
+  <span><span style="color:#d97706;font-weight:700;">PK</span> — Primary Key</span>
+  <span><span style="color:#7c5cd8;">FK</span> — Foreign Key</span>
+  <span style="border:1.5px dashed #d1d5db;padding:1px 8px;border-radius:4px;">dashed border = VIEW</span>
+  <span style="border:1.5px solid #e5e7eb;padding:1px 8px;border-radius:4px;">solid border = TABLE</span>
+</div>
+
+<footer>Made with IBM Bob</footer>
+</body>
+</html>

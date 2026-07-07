@@ -1,194 +1,211 @@
 #!/usr/bin/env python3
 """
-Create and populate SQLite database for Retail Inventory Management
+Create and populate SQLite database for HR Management System
 This script creates the database schema and inserts sample data
 """
 
 import sqlite3
 import os
 from datetime import datetime, timedelta
+import random
 
-def create_database(db_path='inventory.db'):
+# ── Seed for reproducibility ──────────────────────────────────────────────────
+random.seed(42)
+
+
+def create_database(db_path='hr.db'):
     """Create SQLite database with schema and sample data"""
-    
-    # Remove existing database if it exists
+
     if os.path.exists(db_path):
         os.remove(db_path)
         print(f"Removed existing database: {db_path}")
-    
-    # Connect to database (creates new file)
+
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
-    
+    cursor.execute("PRAGMA foreign_keys = ON")
+
     print(f"Creating database: {db_path}")
-    
-    # Read and execute schema
+
     schema_path = os.path.join(os.path.dirname(__file__), 'schema.sql')
     with open(schema_path, 'r', encoding='utf-8') as f:
         schema_sql = f.read()
-    
-    # Execute schema (split by semicolon to handle multiple statements)
-    for statement in schema_sql.split(';'):
-        if statement.strip():
-            cursor.execute(statement)
-    
+
+    conn.executescript(schema_sql)
+
     print("✓ Schema created")
-    
-    # Insert sample data
+
     insert_sample_data(cursor)
-    
-    # Commit changes
+
     conn.commit()
-    
-    # Verify data
     verify_database(cursor)
-    
     conn.close()
+
     print(f"\n✓ Database created successfully: {db_path}")
     print(f"  Location: {os.path.abspath(db_path)}")
 
 
 def insert_sample_data(cursor):
     """Insert sample data into all tables"""
-    
+
     print("\nInserting sample data...")
-    
-    # Insert Stores
-    stores = [
-        ('STORE001', 'Central Bangkok', 'Bangkok, Thailand', 'Somchai Pattana'),
-        ('STORE002', 'Chiang Mai Branch', 'Chiang Mai, Thailand', 'Narin Srisuk'),
-        ('STORE003', 'Phuket Branch', 'Phuket, Thailand', 'Pimchanok Thongchai'),
+
+    # ── Departments ───────────────────────────────────────────────────────────
+    departments = [
+        ('DEPT001', 'Engineering',  'Bangkok',    15),
+        ('DEPT002', 'HR',           'Bangkok',     8),
+        ('DEPT003', 'Finance',      'Bangkok',    10),
+        ('DEPT004', 'Sales',        'Chiang Mai', 12),
+        ('DEPT005', 'Operations',   'Phuket',     10),
     ]
-    
-    cursor.executemany('''
-        INSERT INTO stores (store_id, store_name, location, manager_name)
-        VALUES (?, ?, ?, ?)
-    ''', stores)
-    print(f"  ✓ Inserted {len(stores)} stores")
-    
-    # Insert Products
-    products = [
-        ('SKU001', 'Coca-Cola 1.5L', 'Beverages', 18.50, 25.00, 'SUP001', 'Thai Beverage Co.'),
-        ('SKU002', 'Fresh Milk 1L', 'Dairy', 35.00, 45.00, 'SUP002', 'Dairy Farm Ltd.'),
-        ('SKU003', 'Lay\'s Chips 50g', 'Snacks', 8.00, 12.00, 'SUP003', 'Snack World'),
-        ('SKU004', 'Pepsi 1.5L', 'Beverages', 18.00, 24.00, 'SUP001', 'Thai Beverage Co.'),
-        ('SKU005', 'Yogurt 150g', 'Dairy', 12.00, 18.00, 'SUP002', 'Dairy Farm Ltd.'),
-        ('SKU006', 'Pringles 110g', 'Snacks', 35.00, 49.00, 'SUP003', 'Snack World'),
-        ('SKU007', 'Mineral Water 1.5L', 'Beverages', 8.00, 12.00, 'SUP004', 'Pure Water Co.'),
-        ('SKU008', 'Cheese Slice 200g', 'Dairy', 45.00, 65.00, 'SUP002', 'Dairy Farm Ltd.'),
-        ('SKU009', 'Doritos 150g', 'Snacks', 25.00, 35.00, 'SUP003', 'Snack World'),
-        ('SKU010', 'Orange Juice 1L', 'Beverages', 28.00, 39.00, 'SUP005', 'Fresh Juice Ltd.'),
-        ('SKU011', 'Butter 250g', 'Dairy', 55.00, 75.00, 'SUP002', 'Dairy Farm Ltd.'),
-        ('SKU012', 'Potato Chips 100g', 'Snacks', 15.00, 22.00, 'SUP003', 'Snack World'),
-        ('SKU013', 'Green Tea 500ml', 'Beverages', 12.00, 18.00, 'SUP006', 'Tea Master Co.'),
-        ('SKU014', 'Ice Cream 1L', 'Dairy', 85.00, 120.00, 'SUP007', 'Ice Cream Factory'),
-        ('SKU015', 'Chocolate Bar 50g', 'Snacks', 18.00, 25.00, 'SUP008', 'Sweet Treats'),
-        ('SKU016', 'Energy Drink 250ml', 'Beverages', 22.00, 32.00, 'SUP009', 'Energy Plus'),
-        ('SKU017', 'Cream Cheese 200g', 'Dairy', 65.00, 89.00, 'SUP002', 'Dairy Farm Ltd.'),
-        ('SKU018', 'Popcorn 100g', 'Snacks', 20.00, 29.00, 'SUP003', 'Snack World'),
-        ('SKU019', 'Iced Coffee 250ml', 'Beverages', 25.00, 35.00, 'SUP010', 'Coffee House'),
-        ('SKU020', 'Whipping Cream 250ml', 'Dairy', 48.00, 68.00, 'SUP002', 'Dairy Farm Ltd.'),
+    cursor.executemany(
+        'INSERT INTO departments (department_id, department_name, location, head_count_budget) VALUES (?,?,?,?)',
+        departments
+    )
+    print(f"  ✓ Inserted {len(departments)} departments")
+
+    # ── Employees (managers first, then their direct reports) ─────────────────
+    # Row: (employee_id, full_name, department_id, job_title, employment_type, hire_date, salary, manager_id)
+    employees = [
+        # ── Department Heads (no manager) ──
+        ('EMP001', 'Somchai Pattana',     'DEPT001', 'Engineering Manager',  'Full-time', '2019-03-15', 120000, None),
+        ('EMP002', 'Narin Srisuk',        'DEPT002', 'HR Manager',           'Full-time', '2018-06-01', 110000, None),
+        ('EMP003', 'Pimchanok Thongchai', 'DEPT003', 'Finance Manager',      'Full-time', '2017-11-20', 115000, None),
+        ('EMP004', 'Waree Kaewnoi',       'DEPT004', 'Sales Manager',        'Full-time', '2020-01-10', 105000, None),
+        ('EMP005', 'Thanakorn Yodrak',    'DEPT005', 'Operations Manager',   'Full-time', '2019-07-22', 100000, None),
+
+        # ── Engineering ──
+        ('EMP006', 'Arisa Moonthong',     'DEPT001', 'Senior Software Engineer', 'Full-time', '2020-04-01', 95000, 'EMP001'),
+        ('EMP007', 'Krit Jantaraporn',    'DEPT001', 'Software Engineer',        'Full-time', '2021-08-15', 75000, 'EMP001'),
+        ('EMP008', 'Lalita Chaisuwan',    'DEPT001', 'Software Engineer',        'Full-time', '2022-02-28', 72000, 'EMP001'),
+        ('EMP009', 'Natthawut Burana',    'DEPT001', 'Data Engineer',            'Full-time', '2021-05-10', 80000, 'EMP001'),
+        ('EMP010', 'Pensri Rattana',      'DEPT001', 'QA Engineer',              'Full-time', '2022-09-01', 68000, 'EMP001'),
+        ('EMP011', 'Rungrot Siriporn',    'DEPT001', 'DevOps Engineer',          'Full-time', '2020-11-15', 90000, 'EMP001'),
+        ('EMP012', 'Siriporn Chaichana',  'DEPT001', 'Software Engineer',        'Contract',  '2023-01-01', 65000, 'EMP001'),
+        ('EMP013', 'Tanawat Pholdee',     'DEPT001', 'Junior Developer',         'Full-time', '2023-06-01', 55000, 'EMP006'),
+        ('EMP014', 'Unchalee Wongkam',    'DEPT001', 'Junior Developer',         'Full-time', '2023-07-15', 55000, 'EMP006'),
+
+        # ── HR ──
+        ('EMP015', 'Varanya Sooksai',     'DEPT002', 'HR Officer',               'Full-time', '2020-03-01', 65000, 'EMP002'),
+        ('EMP016', 'Wanchai Prempree',    'DEPT002', 'Recruiter',                'Full-time', '2021-10-01', 60000, 'EMP002'),
+        ('EMP017', 'Ying Wattana',        'DEPT002', 'Payroll Specialist',       'Full-time', '2019-12-01', 70000, 'EMP002'),
+        ('EMP018', 'Zara Pimchan',        'DEPT002', 'HR Officer',               'Part-time', '2022-04-01', 38000, 'EMP002'),
+
+        # ── Finance ──
+        ('EMP019', 'Anan Boonsri',        'DEPT003', 'Senior Accountant',        'Full-time', '2019-08-15', 88000, 'EMP003'),
+        ('EMP020', 'Bunyarit Chaimongkol','DEPT003', 'Accountant',               'Full-time', '2021-01-10', 68000, 'EMP003'),
+        ('EMP021', 'Chanida Thanakit',    'DEPT003', 'Financial Analyst',        'Full-time', '2020-06-01', 80000, 'EMP003'),
+        ('EMP022', 'Darunee Petcharat',   'DEPT003', 'Accountant',               'Full-time', '2022-03-15', 65000, 'EMP003'),
+        ('EMP023', 'Eknarin Suksamran',   'DEPT003', 'Payroll Accountant',       'Contract',  '2023-02-01', 60000, 'EMP003'),
+
+        # ── Sales ──
+        ('EMP024', 'Fon Charoenwong',     'DEPT004', 'Senior Sales Executive',   'Full-time', '2020-05-01', 78000, 'EMP004'),
+        ('EMP025', 'Gamon Prachaya',      'DEPT004', 'Sales Executive',          'Full-time', '2021-09-01', 62000, 'EMP004'),
+        ('EMP026', 'Hathai Rattanawong',  'DEPT004', 'Sales Executive',          'Full-time', '2022-01-15', 60000, 'EMP004'),
+        ('EMP027', 'Ittipat Noinoi',      'DEPT004', 'Sales Executive',          'Full-time', '2021-11-01', 60000, 'EMP004'),
+        ('EMP028', 'Janya Srisuwan',      'DEPT004', 'Account Manager',          'Full-time', '2020-08-01', 72000, 'EMP004'),
+        ('EMP029', 'Kamolchanok Yimram',  'DEPT004', 'Sales Coordinator',        'Part-time', '2022-06-01', 35000, 'EMP004'),
+
+        # ── Operations ──
+        ('EMP030', 'Laksana Pornprasit',  'DEPT005', 'Operations Supervisor',    'Full-time', '2020-02-01', 75000, 'EMP005'),
+        ('EMP031', 'Manop Taweekul',      'DEPT005', 'Logistics Coordinator',    'Full-time', '2021-04-15', 58000, 'EMP005'),
+        ('EMP032', 'Natchaya Sonthi',     'DEPT005', 'Logistics Coordinator',    'Full-time', '2022-08-01', 56000, 'EMP005'),
+        ('EMP033', 'Oraphan Ruangrit',    'DEPT005', 'Warehouse Officer',        'Full-time', '2021-06-01', 52000, 'EMP005'),
+        ('EMP034', 'Pakorn Srikham',      'DEPT005', 'Warehouse Officer',        'Full-time', '2022-10-01', 50000, 'EMP005'),
+        ('EMP035', 'Quam Pornthep',       'DEPT005', 'Warehouse Officer',        'Contract',  '2023-03-01', 48000, 'EMP005'),
     ]
-    
-    cursor.executemany('''
-        INSERT INTO products (product_id, product_name, category, unit_cost, retail_price, supplier_id, supplier_name)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-    ''', products)
-    print(f"  ✓ Inserted {len(products)} products")
-    
-    # Insert Inventory
-    inventory = []
-    for product in products:
-        product_id = product[0]
-        for store in stores:
-            store_id = store[0]
-            # Vary stock levels
-            if 'SKU001' in product_id or 'SKU002' in product_id:
-                current_stock = 45  # Low stock
-                reorder_point = 50
-            elif 'SKU003' in product_id:
-                current_stock = 120  # Good stock
-                reorder_point = 50
-            else:
-                import random
-                current_stock = random.randint(30, 150)
-                reorder_point = random.randint(40, 60)
-            
-            max_capacity = 200
-            last_updated = datetime.now().strftime('%Y-%m-%d')
-            
-            inventory.append((product_id, store_id, current_stock, reorder_point, max_capacity, last_updated))
-    
-    cursor.executemany('''
-        INSERT INTO inventory (product_id, store_id, current_stock, reorder_point, max_capacity, last_updated)
-        VALUES (?, ?, ?, ?, ?, ?)
-    ''', inventory)
-    print(f"  ✓ Inserted {len(inventory)} inventory records")
-    
-    # Insert Transactions
-    transactions = []
-    base_date = datetime.now() - timedelta(days=30)
-    
-    # Generate sample transactions
-    for i in range(1, 51):
-        txn_id = f"TXN{str(i).zfill(4)}"
-        product_id = products[(i-1) % len(products)][0]
-        store_id = stores[(i-1) % len(stores)][0]
-        
-        # Mix of transaction types
-        if i % 5 == 0:
-            txn_type = 'Received'
-            quantity = 100
-            notes = 'Weekly delivery'
-        elif i % 17 == 0:
-            txn_type = 'Returned'
-            quantity = 2
-            notes = 'Customer return'
+    cursor.executemany(
+        '''INSERT INTO employees
+           (employee_id, full_name, department_id, job_title, employment_type, hire_date, salary, manager_id)
+           VALUES (?,?,?,?,?,?,?,?)''',
+        employees
+    )
+    print(f"  ✓ Inserted {len(employees)} employees")
+
+    # ── Leave Requests ────────────────────────────────────────────────────────
+    leave_types   = ['Annual', 'Sick', 'Personal', 'Maternity', 'Unpaid']
+    leave_weights = [0.45,     0.30,   0.15,       0.05,        0.05]
+    statuses      = ['Approved', 'Approved', 'Approved', 'Pending', 'Rejected']
+
+    emp_ids = [e[0] for e in employees]
+    base    = datetime(2024, 1, 1)
+    leave_rows = []
+
+    for i in range(1, 121):
+        leave_id   = f"LV{str(i).zfill(4)}"
+        emp_id     = random.choice(emp_ids)
+        ltype      = random.choices(leave_types, weights=leave_weights)[0]
+        status     = random.choice(statuses)
+        days       = 90 if ltype == 'Maternity' else random.randint(1, 5)
+        start_dt   = base + timedelta(days=random.randint(0, 340))
+        end_dt     = start_dt + timedelta(days=days - 1)
+        leave_rows.append((leave_id, emp_id, ltype,
+                           start_dt.strftime('%Y-%m-%d'),
+                           end_dt.strftime('%Y-%m-%d'),
+                           days, status))
+
+    cursor.executemany(
+        '''INSERT INTO leave_requests
+           (leave_id, employee_id, leave_type, start_date, end_date, days_taken, status)
+           VALUES (?,?,?,?,?,?,?)''',
+        leave_rows
+    )
+    print(f"  ✓ Inserted {len(leave_rows)} leave requests")
+
+    # ── Performance Reviews ───────────────────────────────────────────────────
+    review_rows = []
+    manager_map = {e[0]: e[7] for e in employees}   # emp_id → manager_id
+
+    for idx, emp in enumerate(employees):
+        emp_id     = emp[0]
+        reviewer   = manager_map[emp_id] if manager_map[emp_id] else emp_id
+        rating     = round(random.uniform(2.5, 5.0), 1)
+        period     = '2024-H1'
+        review_id  = f"REV{str(idx + 1).zfill(3)}"
+
+        if rating >= 4.5:
+            comment = "Outstanding performance. Exceeds all targets."
+        elif rating >= 4.0:
+            comment = "Strong contributor. Meets and often exceeds expectations."
+        elif rating >= 3.0:
+            comment = "Solid performance. Meets most expectations."
         else:
-            txn_type = 'Sold'
-            quantity = (i % 10) + 1
-            notes = 'Regular sale'
-        
-        txn_date = (base_date + timedelta(days=i % 30)).strftime('%Y-%m-%d')
-        
-        transactions.append((txn_id, product_id, store_id, txn_type, quantity, txn_date, notes))
-    
-    cursor.executemany('''
-        INSERT INTO transactions (transaction_id, product_id, store_id, transaction_type, quantity, transaction_date, notes)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-    ''', transactions)
-    print(f"  ✓ Inserted {len(transactions)} transactions")
+            comment = "Needs improvement in key areas. Action plan in progress."
+
+        review_rows.append((review_id, emp_id, period, rating, reviewer, comment))
+
+    cursor.executemany(
+        '''INSERT INTO performance_reviews
+           (review_id, employee_id, review_period, rating, reviewer_id, comments)
+           VALUES (?,?,?,?,?,?)''',
+        review_rows
+    )
+    print(f"  ✓ Inserted {len(review_rows)} performance reviews")
 
 
 def verify_database(cursor):
     """Verify database contents"""
-    
+
     print("\nVerifying database...")
-    
-    tables = ['products', 'stores', 'inventory', 'transactions']
-    for table in tables:
+    for table in ['departments', 'employees', 'leave_requests', 'performance_reviews']:
         cursor.execute(f"SELECT COUNT(*) FROM {table}")
         count = cursor.fetchone()[0]
         print(f"  ✓ {table}: {count} records")
-    
-    # Test a view
-    cursor.execute("SELECT COUNT(*) FROM v_low_stock_items")
-    low_stock_count = cursor.fetchone()[0]
-    print(f"  ✓ Low stock items: {low_stock_count} products")
+
+    cursor.execute("SELECT COUNT(*) FROM v_high_performers")
+    print(f"  ✓ v_high_performers: {cursor.fetchone()[0]} employees rated ≥ 4.0")
 
 
 if __name__ == '__main__':
-    # Create database in the same directory as this script
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    db_path = os.path.join(script_dir, 'inventory.db')
-    
+    db_path    = os.path.join(script_dir, 'hr.db')
+
     print("=" * 60)
     print("SQLite Database Creation Script")
-    print("Retail Inventory Management System")
+    print("HR Management System")
     print("=" * 60)
-    
+
     create_database(db_path)
-    
+
     print("\n" + "=" * 60)
     print("Database is ready for use!")
     print("=" * 60)
