@@ -130,9 +130,9 @@
       max-width: 960px;
     }
 
-    /* ── SECTION ── */
-    .section { padding: 2rem 0; border-bottom: 1px solid var(--border-color); }
-    .section:last-child { border-bottom: none; }
+    /* ── SECTION (page-based routing) ── */
+    .section { display: none; padding: 2rem 0; }
+    .section.active { display: block; }
     .section-header { margin-bottom: 1.5rem; }
     .section-kicker {
       font-size: 11px; font-weight: 600; letter-spacing: .12em;
@@ -535,6 +535,39 @@
       .content { margin-left: 0; padding: 1rem; }
     }
 
+    /* ── PAGE NAV (prev / next) ── */
+    .page-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-color);
+      gap: 1rem;
+    }
+    .page-nav__btn {
+      display: inline-flex; align-items: center; gap: .45rem;
+      padding: .55rem 1.1rem;
+      font-size: 13px; font-weight: 600;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      background: var(--bg-color);
+      color: var(--text-primary);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all .15s;
+    }
+    .page-nav__btn:hover { background: var(--primary-color); color: #fff; border-color: var(--primary-color); }
+    .page-nav__btn--primary {
+      background: var(--primary-color); color: #fff;
+      border-color: var(--primary-color);
+    }
+    .page-nav__btn--primary:hover { background: var(--primary-hover); border-color: var(--primary-hover); }
+    .page-nav__spacer { flex: 1; }
+    .page-nav__label {
+      font-size: 11px; color: var(--text-secondary); text-align: center;
+    }
+
     /* ── FOOTER ── */
     .page-footer {
       text-align: center; padding: 1.5rem 1rem;
@@ -563,59 +596,40 @@
       <div class="sidebar__title">Lab Sections</div>
       <nav class="sidebar__nav" aria-label="Table of contents">
 
-        <a class="sidebar__link active" href="#overview">
+        <a class="sidebar__link active" href="#overview" data-page="overview">
           <span class="sidebar__num">00</span>
           <span>Overview</span>
         </a>
 
-        <a class="sidebar__link" href="#setup">
+        <a class="sidebar__link" href="#setup" data-page="setup">
           <span class="sidebar__num">01</span>
           <span>Setup</span>
         </a>
-        <a class="sidebar__sublink" href="#setup-invite">Accept Invitation</a>
 
-        <a class="sidebar__link" href="#lab1">
+        <a class="sidebar__link" href="#lab1" data-page="lab1">
           <span class="sidebar__num">02</span>
           <span>Lab 1 — HR Policy RAG</span>
         </a>
-        <a class="sidebar__sublink" href="#lab1-create">Create Agent</a>
-        <a class="sidebar__sublink" href="#lab1-kb">Knowledge Base</a>
-        <a class="sidebar__sublink" href="#lab1-behaviour">Behaviour</a>
-        <a class="sidebar__sublink" href="#lab1-test">Test Questions</a>
 
-        <a class="sidebar__link" href="#lab2">
+        <a class="sidebar__link" href="#lab2" data-page="lab2">
           <span class="sidebar__num">03</span>
           <span>Lab 2 — Web Search Agent</span>
         </a>
-        <a class="sidebar__sublink" href="#lab2-apikey">Tavily API Key</a>
-        <a class="sidebar__sublink" href="#lab2-create">Create Agent</a>
-        <a class="sidebar__sublink" href="#lab2-mcp">MCP Server</a>
-        <a class="sidebar__sublink" href="#lab2-test">Test Questions</a>
 
-        <a class="sidebar__link" href="#lab3">
+        <a class="sidebar__link" href="#lab3" data-page="lab3">
           <span class="sidebar__num">04</span>
           <span>Lab 3 — Email Agent</span>
         </a>
-        <a class="sidebar__sublink" href="#lab3-discovery">Discovery</a>
-        <a class="sidebar__sublink" href="#lab3-connection">Gmail Connection</a>
-        <a class="sidebar__sublink" href="#lab3-test">Test</a>
 
-        <a class="sidebar__link" href="#lab4">
+        <a class="sidebar__link" href="#lab4" data-page="lab4">
           <span class="sidebar__num">05</span>
           <span>Lab 4 — HR Analytics (SQL)</span>
         </a>
-        <a class="sidebar__sublink" href="#lab4-create">Create Agent</a>
-        <a class="sidebar__sublink" href="#lab4-tool">Add Tool</a>
-        <a class="sidebar__sublink" href="#lab4-behaviour">Behaviour</a>
-        <a class="sidebar__sublink" href="#lab4-test">Test Questions</a>
 
-        <a class="sidebar__link" href="#lab5">
+        <a class="sidebar__link" href="#lab5" data-page="lab5">
           <span class="sidebar__num">06</span>
           <span>Lab 5 — Master Orchestrator</span>
         </a>
-        <a class="sidebar__sublink" href="#lab5-create">Create Agent</a>
-        <a class="sidebar__sublink" href="#lab5-collaborators">Add Collaborators</a>
-        <a class="sidebar__sublink" href="#lab5-test">Test</a>
 
       </nav>
     </aside>
@@ -1590,7 +1604,94 @@ Respond in the same language as the user (Thai or English).</div>
   </footer>
 
   <script>
-    // Sidebar toggle
+    // ── PAGE ORDER ──────────────────────────────────────────────────────────
+    const PAGE_ORDER = ['overview', 'setup', 'lab1', 'lab2', 'lab3', 'lab4', 'lab5'];
+    const PAGE_LABELS = {
+      overview: 'Overview',
+      setup:    'Setup',
+      lab1:     'Lab 1 — HR Policy RAG',
+      lab2:     'Lab 2 — Web Search Agent',
+      lab3:     'Lab 3 — Email Agent',
+      lab4:     'Lab 4 — HR Analytics (SQL)',
+      lab5:     'Lab 5 — Master Orchestrator',
+    };
+
+    // ── INJECT PREV / NEXT NAV INTO EVERY SECTION ───────────────────────────
+    PAGE_ORDER.forEach((id, idx) => {
+      const sec = document.getElementById(id);
+      if (!sec) return;
+      const prevId = PAGE_ORDER[idx - 1] || null;
+      const nextId = PAGE_ORDER[idx + 1] || null;
+
+      const nav = document.createElement('div');
+      nav.className = 'page-nav';
+
+      if (prevId) {
+        const btn = document.createElement('a');
+        btn.className = 'page-nav__btn';
+        btn.href = '#' + prevId;
+        btn.innerHTML = '&#8592; ' + PAGE_LABELS[prevId];
+        nav.appendChild(btn);
+      } else {
+        nav.appendChild(Object.assign(document.createElement('span'), { className: 'page-nav__spacer' }));
+      }
+
+      const lbl = document.createElement('span');
+      lbl.className = 'page-nav__label';
+      lbl.textContent = (idx + 1) + ' / ' + PAGE_ORDER.length;
+      nav.appendChild(lbl);
+
+      if (nextId) {
+        const btn = document.createElement('a');
+        btn.className = 'page-nav__btn page-nav__btn--primary';
+        btn.href = '#' + nextId;
+        btn.innerHTML = PAGE_LABELS[nextId] + ' &#8594;';
+        nav.appendChild(btn);
+      } else {
+        nav.appendChild(Object.assign(document.createElement('span'), { className: 'page-nav__spacer' }));
+      }
+
+      sec.appendChild(nav);
+    });
+
+    // ── ROUTER ──────────────────────────────────────────────────────────────
+    const sidebarLinks = document.querySelectorAll('.sidebar__link[data-page]');
+
+    function showPage(pageId) {
+      const id = PAGE_ORDER.includes(pageId) ? pageId : 'overview';
+
+      // Show / hide sections
+      PAGE_ORDER.forEach(pid => {
+        const el = document.getElementById(pid);
+        if (el) el.classList.toggle('active', pid === id);
+      });
+
+      // Update sidebar active state
+      sidebarLinks.forEach(l => {
+        l.classList.toggle('active', l.dataset.page === id);
+      });
+
+      // Update document title
+      document.title = PAGE_LABELS[id]
+        ? PAGE_LABELS[id] + ' — BDMS Workshop Lab Guide'
+        : 'BDMS Workshop Lab Guide';
+
+      // Scroll content area back to top
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+
+    // Handle hash changes (back/forward + link clicks)
+    function onHashChange() {
+      const hash = window.location.hash.replace('#', '') || 'overview';
+      showPage(hash);
+    }
+
+    window.addEventListener('hashchange', onHashChange);
+
+    // Initial load
+    onHashChange();
+
+    // ── SIDEBAR MOBILE TOGGLE ────────────────────────────────────────────────
     const toggle = document.getElementById('menuToggle');
     const sidebar = document.getElementById('sidebar');
     toggle.addEventListener('click', () => {
@@ -1598,21 +1699,14 @@ Respond in the same language as the user (Thai or English).</div>
       toggle.setAttribute('aria-expanded', sidebar.classList.contains('open'));
     });
 
-    // Highlight active sidebar link on scroll
-    const sections = document.querySelectorAll('section[id]');
-    const links = document.querySelectorAll('.sidebar__link');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          links.forEach(l => l.classList.remove('active'));
-          const active = document.querySelector(`.sidebar__link[href="#${entry.target.id}"]`);
-          if (active) active.classList.add('active');
-        }
+    // Close sidebar on link click (mobile)
+    sidebarLinks.forEach(l => {
+      l.addEventListener('click', () => {
+        sidebar.classList.remove('open');
       });
-    }, { rootMargin: '-40% 0px -55% 0px' });
-    sections.forEach(s => observer.observe(s));
+    });
 
-    // Shared copy helper with execCommand fallback
+    // ── COPY HELPERS ─────────────────────────────────────────────────────────
     function _doCopy(text, btn) {
       function onSuccess() {
         btn.textContent = 'Copied!';
@@ -1636,13 +1730,11 @@ Respond in the same language as the user (Thai or English).</div>
       document.body.removeChild(ta);
     }
 
-    // Copy prompt text
     function copyPrompt(btn) {
       const body = btn.closest('.prompt-card').querySelector('.prompt-body');
       _doCopy(body.textContent.trim(), btn);
     }
 
-    // Copy branch command
     function copyBranch(boxId, text, btn) {
       _doCopy(text, btn);
     }
