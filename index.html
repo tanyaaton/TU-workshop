@@ -347,9 +347,10 @@
     .feature-card {
       background: var(--bg-alt); border: 1px solid var(--border-color);
       border-radius: 4px; padding: 1.25rem;
+      display: flex; flex-direction: column;
     }
     .feature-card h4 { font-size: 13px; font-weight: 600; margin-bottom: .4rem; }
-    .feature-card p  { font-size: 12px; color: var(--text-secondary); line-height: 1.55; }
+    .feature-card p  { font-size: 12px; color: var(--text-secondary); line-height: 1.55; flex: 1; }
 
     /* ── OVERVIEW / AGENT CARDS ── */
     .agent-grid {
@@ -897,20 +898,23 @@
               <div class="step-num">5</div>
               <div class="step-body">
                 <div class="step-title">Upload the three HR policy PDFs</div>
-                <p>Upload all three files from the <code>LAB_1_RAG_AGENT/policy/</code> folder:</p>
+                <p>Download and upload all three PDF files below:</p>
                 <img src="LAB_1_RAG_AGENT/image-2.png" alt="Add source — New knowledge screenshot" style="margin-top:.75rem;max-width:70%;border:1px solid var(--border-color);border-radius:6px;">
                 <div class="feature-grid" style="margin-top:.5rem;">
                   <div class="feature-card">
                     <h4>HR-PL-001</h4>
                     <p>นโยบายความเป็นส่วนตัว<br><em>(Privacy Policy)</em></p>
+                    <a class="download-btn" href="https://github.com/tanyaaton/TU-workshop/raw/feat/LAB_1_RAG_AGENT/policy/HR-PL-001_%E0%B8%99%E0%B9%82%E0%B8%A2%E0%B8%9A%E0%B8%B2%E0%B8%A2%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B9%80%E0%B8%9B%E0%B9%87%E0%B8%99%E0%B8%AA%E0%B9%88%E0%B8%A7%E0%B8%99%E0%B8%95%E0%B8%B1%E0%B8%A7.pdf" target="_blank" rel="noopener" download>&#8595; Download PDF</a>
                   </div>
                   <div class="feature-card">
                     <h4>HR-IT-002</h4>
                     <p>นโยบายความมั่นคงปลอดภัยด้านเทคโนโลยีสารสนเทศ<br><em>(IT Security Policy)</em></p>
+                    <a class="download-btn" href="https://github.com/tanyaaton/TU-workshop/raw/feat/LAB_1_RAG_AGENT/policy/HR-IT-002_%E0%B8%99%E0%B9%82%E0%B8%A2%E0%B8%9A%E0%B8%B2%E0%B8%A2%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%A1%E0%B8%B1%E0%B9%88%E0%B8%99%E0%B8%84%E0%B8%87%E0%B8%9B%E0%B8%A5%E0%B8%AD%E0%B8%94%E0%B8%A0%E0%B8%B1%E0%B8%A2%E0%B8%94%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B9%80%E0%B8%97%E0%B8%84%E0%B9%82%E0%B8%99%E0%B9%82%E0%B8%A5%E0%B8%A2%E0%B8%B5%E0%B8%AA%E0%B8%B2%E0%B8%A3%E0%B8%AA%E0%B8%99%E0%B9%80%E0%B8%97%E0%B8%A8.pdf" target="_blank" rel="noopener" download>&#8595; Download PDF</a>
                   </div>
                   <div class="feature-card">
                     <h4>HR-TM-003</h4>
                     <p>นโยบายแผนการสืบทอดตำแหน่ง<br><em>(Succession Planning Policy)</em></p>
+                    <a class="download-btn" href="https://github.com/tanyaaton/TU-workshop/raw/feat/LAB_1_RAG_AGENT/policy/HR-TM-003_%E0%B8%99%E0%B9%82%E0%B8%A2%E0%B8%9A%E0%B8%B2%E0%B8%A2%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%AA%E0%B8%B7%E0%B8%9A%E0%B8%97%E0%B8%AD%E0%B8%94%E0%B8%95%E0%B8%B3%E0%B9%81%E0%B8%AB%E0%B8%99%E0%B9%88%E0%B8%87.pdf" target="_blank" rel="noopener" download>&#8595; Download PDF</a>
                   </div>
                 </div>
               </div>
@@ -970,7 +974,8 @@ Important guidelines:
 - All information should be based on the knowledge base documents
 - Always query the knowledge base before answering questions
 - Be professional, empathetic, and supportive in your responses
-- Respond in the same language as the user's query (support both Thai and English)
+- This agent primarily serves Thai-speaking HR staff and employees — most queries will be in Thai
+- Always respond in Thai by default; switch to English only if the user writes in English
 - Provide specific references to the relevant policy document and section when available
 - If information is not found in the knowledge base, clearly state this and suggest contacting the HR department directly
 - For sensitive topics (e.g., personal data breaches, disciplinary procedures), remind the user to follow the official escalation process
@@ -1165,7 +1170,10 @@ bash import_all.sh</div>
                     <span class="prompt-card__title">Agent instruction</span>
                     <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
                   </div>
-                  <div class="prompt-body">Always use the tavily search tools for every user questions. Do not use your own training data and knowledge.</div>
+                  <div class="prompt-body">Always use the tavily search tools for every user question. Do not use your own training data and knowledge.
+
+This agent primarily serves Thai-speaking HR staff — most queries will be in Thai.
+Always respond in Thai by default; switch to English only if the user writes in English.</div>
                 </div>
               </div>
             </li>
@@ -1401,7 +1409,10 @@ DO:
 - Surface HR insights (e.g. open positions, high leave usage, top performers)
 - Respect employee data confidentiality in your tone
 
-Always be professional, data-driven, and respect HR confidentiality!</div>
+Always be professional, data-driven, and respect HR confidentiality!
+
+This agent primarily serves Thai-speaking HR staff — most queries will be in Thai.
+Always respond in Thai by default; switch to English only if the user writes in English.</div>
                 </div>
               </div>
             </li>
