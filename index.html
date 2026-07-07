@@ -552,7 +552,7 @@
       <div class="logo-dot" aria-hidden="true"></div>
       <div>
         <div class="brand-kicker">IBM watsonx Orchestrate — BDMS Workshop</div>
-        <h1 class="brand-title">Pre-built Email Agent &middot; RAG Agent &middot; Multi-Agent</h1>
+        <h1 class="brand-title">RAG Agent &middot; Web Search &middot; Email Agent &middot; Text-to-SQL &middot; Multi-Agent</h1>
       </div>
     </div>
   </header>
@@ -600,6 +600,23 @@
         <a class="sidebar__sublink" href="#lab3-connection">Gmail Connection</a>
         <a class="sidebar__sublink" href="#lab3-test">Test</a>
 
+        <a class="sidebar__link" href="#lab4">
+          <span class="sidebar__num">05</span>
+          <span>Lab 4 — HR Analytics (SQL)</span>
+        </a>
+        <a class="sidebar__sublink" href="#lab4-create">Create Agent</a>
+        <a class="sidebar__sublink" href="#lab4-tool">Add Tool</a>
+        <a class="sidebar__sublink" href="#lab4-behaviour">Behaviour</a>
+        <a class="sidebar__sublink" href="#lab4-test">Test Questions</a>
+
+        <a class="sidebar__link" href="#lab5">
+          <span class="sidebar__num">06</span>
+          <span>Lab 5 — Master Orchestrator</span>
+        </a>
+        <a class="sidebar__sublink" href="#lab5-create">Create Agent</a>
+        <a class="sidebar__sublink" href="#lab5-collaborators">Add Collaborators</a>
+        <a class="sidebar__sublink" href="#lab5-test">Test</a>
+
       </nav>
     </aside>
 
@@ -610,7 +627,7 @@
       <div class="hero-banner">
         <span class="brand-kicker">IBM watsonx Orchestrate — BDMS Samitivej Workshop</span>
         <h2>Welcome to the Lab Guide</h2>
-        <p>In this workshop you will build a suite of HR Helpdesk agents on IBM watsonx Orchestrate — four specialised sub-agents and a master orchestrator that ties them all together. Follow each section in order.</p>
+        <p>In this workshop you will build five labs on IBM watsonx Orchestrate — four specialised sub-agents and a master orchestrator that ties them all together. Follow each section in order.</p>
       </div>
 
       <!-- ════════════════════════════════════════════════ -->
@@ -658,8 +675,8 @@
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#198038" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
             </div>
             <div class="agent-card__num">Sub-agent 4</div>
-            <h4>Database / API Agent</h4>
-            <p>Connects to HR systems and databases via API tools to look up employee records, leave balances, payroll data, and more.</p>
+            <h4>HR Analytics Agent</h4>
+            <p>Converts natural language questions (Thai/English) into SQL queries against a live HR database — headcount, salaries, leave, and performance data.</p>
           </div>
 
         </div>
@@ -684,7 +701,7 @@
                 </div>
                 <div class="arch-sub arch-sub--api">
                   <div class="arch-sub__tag">Sub-agent 4</div>
-                  <div class="arch-sub__name">Database / API Agent</div>
+                  <div class="arch-sub__name">HR Analytics Agent</div>
                 </div>
               </div>
               <div class="arch-connector">&#8594;</div>
@@ -728,8 +745,8 @@
             <li class="step-item">
               <div class="step-num" style="background:#198038;">4</div>
               <div class="step-body">
-                <div class="step-title">Database / API Agent</div>
-                <p>Expose HR system APIs as tools so the agent can query employee records, leave balances, payroll details, and other live data on demand.</p>
+                <div class="step-title">HR Analytics Agent (Text-to-SQL)</div>
+                <p>Connect a pre-imported Python tool to a SQLite HR database. The agent translates natural language questions into SQL and returns structured results about employees, salaries, leave, and performance.</p>
               </div>
             </li>
             <li class="step-item">
@@ -1246,6 +1263,322 @@ bash import_all.sh</div>
 topic: Your dental appointment
 content: we have already scheduled your appointment</div>
           </div>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════ -->
+      <!-- SECTION 4 — LAB 4: HR ANALYTICS TEXT-TO-SQL     -->
+      <!-- ════════════════════════════════════════════════ -->
+      <section class="section" id="lab4">
+        <div class="section-header">
+          <div class="section-kicker">Lab 4</div>
+          <h2>HR Analytics Agent (Text-to-SQL)</h2>
+          <p class="section-lead">Create an HR Analytics agent that translates natural language questions — in Thai or English — into SQL queries against a live SQLite HR database. The <code>hr_query_tool</code> has already been imported into the instance for you, so all you need to do is create the agent and connect the tool.</p>
+        </div>
+
+        <!-- Step 1 — Create agent -->
+        <div id="lab4-create" class="subsection">
+          <h3>Step 1 — Create a New Agent</h3>
+          <ol class="step-list">
+            <li class="step-item">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <div class="step-title">Open the Agent Builder</div>
+                <p>Click the <strong>hamburger menu</strong> (☰) in the top-left corner, then select <strong>Build</strong>.</p>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <div class="step-title">Create agent from scratch</div>
+                <p>Click <strong>Create agent</strong>, then select <strong>Create from scratch</strong>.</p>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <div class="step-title">Name and describe your agent</div>
+                <p>Enter the following details, then click <strong>Create</strong>:</p>
+                <table class="creds-table" style="margin-top:.5rem;">
+                  <tr>
+                    <td>Name</td>
+                    <td><code>hr_analytics_agent</code></td>
+                  </tr>
+                  <tr>
+                    <td>Description</td>
+                    <td>Provides conversational HR analytics using natural language to SQL conversion. Can answer questions about employee headcount, salary bands, leave balances, performance ratings, and department comparisons in both Thai and English. Uses a SQLite database for data storage.</td>
+                  </tr>
+                </table>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <!-- Step 2 — Add the pre-imported tool -->
+        <div id="lab4-tool" class="subsection">
+          <h3>Step 2 — Add the HR Query Tool</h3>
+          <div class="callout callout--info" style="margin-bottom:1rem;">
+            <div class="callout__label">Tool already imported</div>
+            <p>The <code>hr_query_tool</code> (including the HR SQLite database) has already been imported into this watsonx Orchestrate instance. You just need to connect it to your agent.</p>
+          </div>
+          <ol class="step-list">
+            <li class="step-item">
+              <div class="step-num">4</div>
+              <div class="step-body">
+                <div class="step-title">Scroll down to the Tools section and click <strong>Add tool +</strong></div>
+                <p>In the agent editor, scroll down to the <strong>Tools</strong> section and click the <strong>Add tool +</strong> button.</p>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">5</div>
+              <div class="step-body">
+                <div class="step-title">Select <strong>From this instance</strong></div>
+                <p>Choose <strong>From this instance</strong> (not MCP Server or upload) to browse tools already available in the shared instance.</p>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">6</div>
+              <div class="step-body">
+                <div class="step-title">Find and add <code>hr_query_tool</code></div>
+                <p>Search for <code>hr_query_tool</code> in the tool list, select it, and click <strong>Add</strong> to attach it to your agent.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <!-- Step 3 — Behaviour -->
+        <div id="lab4-behaviour" class="subsection">
+          <h3>Step 3 — Set Agent Behaviour</h3>
+          <ol class="step-list">
+            <li class="step-item">
+              <div class="step-num">7</div>
+              <div class="step-body">
+                <div class="step-title">Scroll to the Behaviour section and paste the instruction</div>
+                <div class="prompt-card">
+                  <div class="prompt-card__header">
+                    <span class="prompt-card__title">Agent instruction</span>
+                    <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+                  </div>
+                  <div class="prompt-body">You are an HR Analytics assistant for HR staff and managers.
+
+CRITICAL RULES FOR TOOL USAGE:
+1. NEVER generate SQL queries yourself
+2. ALWAYS pass the user's natural language query directly to hr_query_tool
+3. The tool handles ALL SQL generation and database queries
+4. Your role is to present the tool's results in a friendly, helpful way
+
+When the user asks a question:
+1. Call hr_query_tool with the user's query as-is (Thai or English)
+2. Wait for the tool to return results
+3. Present the results in clear Markdown tables
+4. Highlight important insights from the data
+5. Provide actionable HR recommendations
+6. Suggest relevant follow-up questions
+
+DO NOT:
+- Generate SQL queries yourself
+- Access the database directly
+- Modify the user's query before passing it to the tool
+- Make assumptions about specific employee data
+
+DO:
+- Pass natural language queries to the tool unchanged
+- Explain results clearly and professionally
+- Surface HR insights (e.g. open positions, high leave usage, top performers)
+- Respect employee data confidentiality in your tone
+
+Always be professional, data-driven, and respect HR confidentiality!</div>
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <!-- Step 4 — Test -->
+        <div id="lab4-test" class="subsection">
+          <h3>Step 4 — Test the Agent</h3>
+          <p style="font-size:13px;color:var(--text-secondary);margin-bottom:.75rem;">Try the following Thai and English questions to verify the agent is correctly converting natural language to SQL and returning data.</p>
+
+          <div class="step-subheading">👥 Headcount &amp; Organisation</div>
+          <ul style="font-size:13px;color:var(--text-secondary);margin:.5rem 0 .75rem 1.25rem;line-height:2;">
+            <li>แสดงจำนวนพนักงานแต่ละแผนกเทียบกับ headcount budget</li>
+            <li>แผนกไหนมีตำแหน่งว่างมากที่สุด</li>
+            <li>มีพนักงานประเภท Contract กี่คน</li>
+          </ul>
+
+          <div class="step-subheading">💰 Salary Analysis</div>
+          <ul style="font-size:13px;color:var(--text-secondary);margin:.5rem 0 .75rem 1.25rem;line-height:2;">
+            <li>เปรียบเทียบเงินเดือนเฉลี่ยของแต่ละแผนก</li>
+            <li>แผนกไหนจ่ายเงินเดือนสูงสุด</li>
+            <li>พนักงานที่ได้รับเงินเดือนสูงสุด 10 คน</li>
+          </ul>
+
+          <div class="step-subheading">📅 Leave Management</div>
+          <ul style="font-size:13px;color:var(--text-secondary);margin:.5rem 0 .75rem 1.25rem;line-height:2;">
+            <li>แสดงสรุปวันลาของพนักงานทุกคน จัดเรียงจากมากไปน้อย</li>
+            <li>ใครมีคำขอลาค้างอนุมัติบ้าง</li>
+            <li>รวมวันลาป่วยทั้งหมดในแต่ละแผนก</li>
+          </ul>
+
+          <div class="step-subheading">⭐ Performance</div>
+          <ul style="font-size:13px;color:var(--text-secondary);margin:.5rem 0 0 1.25rem;line-height:2;">
+            <li>แสดงรายชื่อพนักงาน high performer ที่มีคะแนน performance สูงสุด</li>
+            <li>แผนกไหนมีผลการปฏิบัติงานดีที่สุด</li>
+            <li>แสดงพนักงานที่มีคะแนนต่ำกว่า 3.0</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════ -->
+      <!-- SECTION 5 — LAB 5: MASTER ORCHESTRATOR          -->
+      <!-- ════════════════════════════════════════════════ -->
+      <section class="section" id="lab5">
+        <div class="section-header">
+          <div class="section-kicker">Lab 5</div>
+          <h2>HR Helpdesk Master Orchestrator</h2>
+          <p class="section-lead">Create the final master agent that ties all four sub-agents together. HR staff interact with this single agent and it automatically delegates every request to the correct specialist — RAG, web search, email, or HR analytics.</p>
+        </div>
+
+        <!-- Step 1 — Create agent -->
+        <div id="lab5-create" class="subsection">
+          <h3>Step 1 — Create a New Agent</h3>
+          <ol class="step-list">
+            <li class="step-item">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <div class="step-title">Open the Agent Builder and create from scratch</div>
+                <p>Click the <strong>hamburger menu</strong> (☰) → <strong>Build</strong> → <strong>Create agent</strong> → <strong>Create from scratch</strong>.</p>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <div class="step-title">Name and describe your agent</div>
+                <p>Enter the following details, then click <strong>Create</strong>:</p>
+                <table class="creds-table" style="margin-top:.5rem;">
+                  <tr>
+                    <td>Name</td>
+                    <td><code>hr_helpdesk_orchestrator</code></td>
+                  </tr>
+                  <tr>
+                    <td>Description</td>
+                    <td>Master HR Helpdesk Orchestrator — routes employee and HR team questions to the correct specialist sub-agent: Policy RAG for internal HR policy questions, Web Search for real-time external information, Email Manager for inbox and email tasks, and HR Analytics for employee data queries.</td>
+                  </tr>
+                </table>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <!-- Step 2 — Add collaborators -->
+        <div id="lab5-collaborators" class="subsection">
+          <h3>Step 2 — Add All Four Sub-agents as Collaborators</h3>
+          <div class="callout callout--info" style="margin-bottom:1rem;">
+            <div class="callout__label">What are Collaborators?</div>
+            <p>Collaborators are other agents that this master agent can delegate tasks to. Add each of the four agents you built in Labs 1–4.</p>
+          </div>
+          <ol class="step-list">
+            <li class="step-item">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <div class="step-title">Scroll down to the <strong>Collaborators</strong> section</div>
+                <p>In the agent editor, scroll down until you see the <strong>Collaborators</strong> section (below the Tools section).</p>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">4</div>
+              <div class="step-body">
+                <div class="step-title">Click <strong>Add collaborator +</strong> and add all four agents</div>
+                <p>Click <strong>Add collaborator +</strong> and search for each agent by name. Add all four, one at a time:</p>
+                <div class="feature-grid" style="margin-top:.75rem;">
+                  <div class="feature-card" style="border-left:3px solid #0f62fe;">
+                    <h4>1 · hr_policy_agent</h4>
+                    <p>Answers questions from the HR policy knowledge base (RAG).</p>
+                  </div>
+                  <div class="feature-card" style="border-left:3px solid #007d79;">
+                    <h4>2 · tavily_search_agent</h4>
+                    <p>Searches the internet for current labour law, salary benchmarks, and news.</p>
+                  </div>
+                  <div class="feature-card" style="border-left:3px solid #8a3ffc;">
+                    <h4>3 · Email Manager</h4>
+                    <p>Reads, drafts, and sends emails through the connected Gmail account.</p>
+                  </div>
+                  <div class="feature-card" style="border-left:3px solid #198038;">
+                    <h4>4 · hr_analytics_agent</h4>
+                    <p>Answers data questions (headcount, salary, leave, performance) via SQL.</p>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <!-- Step 3 — Behaviour -->
+        <div class="subsection">
+          <h3>Step 3 — Set Agent Behaviour</h3>
+          <ol class="step-list">
+            <li class="step-item">
+              <div class="step-num">5</div>
+              <div class="step-body">
+                <div class="step-title">Scroll to the Behaviour section and paste the instruction</div>
+                <div class="prompt-card">
+                  <div class="prompt-card__header">
+                    <span class="prompt-card__title">Agent instruction</span>
+                    <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+                  </div>
+                  <div class="prompt-body">You are the HR Helpdesk Orchestrator — the single point of contact for all HR-related questions and tasks.
+
+You have four specialist sub-agents available as collaborators. Route every request to the correct one:
+
+1. hr_policy_agent — Use for any question about internal company HR policies: privacy policy, IT security policy, succession planning policy, employee rights and responsibilities under those documents.
+
+2. tavily_search_agent — Use for any question that requires current, real-world information from the internet: minimum wage rates, public holidays, labour law updates, market salary benchmarks, news, or anything NOT in internal documents.
+
+3. Email Manager — Use for any task involving emails: reading inbox, listing emails, drafting a reply, or sending an email.
+
+4. hr_analytics_agent — Use for any question about internal employee data: headcount, salary analysis, leave history, performance ratings, department comparisons.
+
+ROUTING RULES:
+- Always delegate to the most appropriate sub-agent — never answer from your own knowledge
+- If unsure, ask the user one clarifying question before routing
+- You may call multiple sub-agents in sequence if the request spans more than one domain
+- Always present results clearly and suggest a related follow-up question
+
+Respond in the same language as the user (Thai or English).</div>
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <!-- Step 4 — Test -->
+        <div id="lab5-test" class="subsection">
+          <h3>Step 4 — Test the Master Orchestrator</h3>
+          <p style="font-size:13px;color:var(--text-secondary);margin-bottom:.75rem;">Each prompt below should be routed to a different sub-agent. Verify the orchestrator delegates correctly.</p>
+
+          <div class="step-subheading">→ Should route to hr_policy_agent</div>
+          <ul style="font-size:13px;color:var(--text-secondary);margin:.5rem 0 .75rem 1.25rem;line-height:2;">
+            <li>รหัสผ่านของพนักงานต้องมีความยาวขั้นต่ำกี่ตัวอักษร?</li>
+            <li>What are an employee's data privacy rights under our policy?</li>
+          </ul>
+
+          <div class="step-subheading">→ Should route to tavily_search_agent</div>
+          <ul style="font-size:13px;color:var(--text-secondary);margin:.5rem 0 .75rem 1.25rem;line-height:2;">
+            <li>ค่าแรงขั้นต่ำในประเทศไทยตอนนี้เท่าไหร่?</li>
+            <li>What are the public holidays in Thailand this year?</li>
+          </ul>
+
+          <div class="step-subheading">→ Should route to Email Manager</div>
+          <ul style="font-size:13px;color:var(--text-secondary);margin:.5rem 0 .75rem 1.25rem;line-height:2;">
+            <li>List my 5 most recent emails</li>
+          </ul>
+
+          <div class="step-subheading">→ Should route to hr_analytics_agent</div>
+          <ul style="font-size:13px;color:var(--text-secondary);margin:.5rem 0 0 1.25rem;line-height:2;">
+            <li>แสดงจำนวนพนักงานแต่ละแผนกเทียบกับ headcount budget</li>
+            <li>แสดงรายชื่อพนักงาน high performer ที่มีคะแนน performance สูงสุด</li>
+            <li>เปรียบเทียบเงินเดือนเฉลี่ยของแต่ละแผนก</li>
+          </ul>
         </div>
       </section>
 
