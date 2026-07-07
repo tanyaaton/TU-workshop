@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IBM watsonx Orchestrate — BDMS Workshop Lab Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary-color: #0f62fe;
+      --primary-hover: #0353e9;
+      --success-color: #198038;
+      --warning-color: #f1c21b;
+      --danger-color: #da1e28;
+      --bg-color: #fff;
+      --bg-alt: #f4f4f4;
+      --text-primary: #161616;
+      --text-secondary: #525252;
+      --border-color: #e0e0e0;
+      --sidebar-width: 280px;
+      --header-height: 48px;
+      --code-bg: #f6f8fa;
+      --code-border: #d0d7de;
+    }
+
+    body {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-primary);
+      background: var(--bg-color);
+    }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--header-height);
+      background: #161616;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1rem;
+      z-index: 100;
+      box-shadow: 0 2px 6px rgba(0,0,0,.3);
+    }
+    .topbar__brand { display: flex; align-items: center; gap: .75rem; }
+    .menu-toggle {
+      background: none; border: none; color: #fff;
+      font-size: 1.25rem; cursor: pointer; padding: .25rem .5rem;
+      border-radius: 4px; line-height: 1;
+    }
+    .menu-toggle:hover { background: rgba(255,255,255,.1); }
+    .logo-dot {
+      width: 10px; height: 10px;
+      background: #0f62fe; border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .brand-kicker {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: .12em; color: #a8a8a8;
+      text-transform: uppercase;
+    }
+    .brand-title { font-size: 13px; font-weight: 500; color: #fff; }
+
+    /* ── LAYOUT ── */
+    .layout {
+      display: flex;
+      padding-top: var(--header-height);
+      min-height: 100vh;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: var(--sidebar-width);
+      flex-shrink: 0;
+      background: #f4f4f4;
+      border-right: 1px solid var(--border-color);
+      position: fixed;
+      top: var(--header-height);
+      left: 0; bottom: 0;
+      overflow-y: auto;
+      transition: transform .2s ease;
+      z-index: 90;
+    }
+    .sidebar__title {
+      padding: 1rem;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border-color);
+    }
+    .sidebar__nav { display: flex; flex-direction: column; padding: .5rem 0; }
+    .sidebar__link {
+      display: flex; align-items: center; gap: .5rem;
+      padding: .6rem 1rem;
+      text-decoration: none; color: var(--text-secondary);
+      font-size: 13px; font-weight: 400;
+      border-left: 3px solid transparent;
+      transition: all .15s;
+    }
+    .sidebar__link:hover { background: #e8e8e8; color: var(--text-primary); }
+    .sidebar__link.active {
+      color: var(--primary-color);
+      border-left-color: var(--primary-color);
+      background: #e8f0fe; font-weight: 500;
+    }
+    .sidebar__num {
+      font-size: 11px; font-weight: 600; color: var(--text-secondary);
+      font-family: 'IBM Plex Mono', monospace; min-width: 22px;
+    }
+    .sidebar__sublink {
+      display: block; padding: .4rem 1rem .4rem 2.75rem;
+      text-decoration: none; color: var(--text-secondary);
+      font-size: 12px; border-left: 3px solid transparent;
+      transition: all .15s;
+    }
+    .sidebar__sublink:hover { background: #e8e8e8; color: var(--text-primary); }
+
+    /* ── CONTENT ── */
+    .content {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 2rem;
+      max-width: 960px;
+    }
+
+    /* ── SECTION ── */
+    .section { padding: 2rem 0; border-bottom: 1px solid var(--border-color); }
+    .section:last-child { border-bottom: none; }
+    .section-header { margin-bottom: 1.5rem; }
+    .section-kicker {
+      font-size: 11px; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--primary-color);
+      margin-bottom: .25rem;
+    }
+    .section-header h2 {
+      font-size: 1.75rem; font-weight: 600;
+      color: var(--text-primary); margin-bottom: .75rem;
+    }
+    .section-lead {
+      font-size: 15px; color: var(--text-secondary);
+      max-width: 720px; line-height: 1.7;
+    }
+
+    /* ── STEP LIST ── */
+    .step-list { list-style: none; padding: 0; margin: 1.25rem 0; display: flex; flex-direction: column; gap: 1rem; }
+    .step-item {
+      display: flex; gap: 1rem; align-items: flex-start;
+      border: 1px solid var(--border-color);
+      border-radius: 6px; padding: 1rem 1.25rem;
+      background: var(--bg-color);
+    }
+    .step-num {
+      flex-shrink: 0;
+      width: 28px; height: 28px;
+      background: var(--primary-color); color: #fff;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; font-family: 'IBM Plex Mono', monospace;
+    }
+    .step-body { flex: 1; }
+    .step-body p { font-size: 13px; color: var(--text-secondary); margin-bottom: .4rem; }
+    .step-body p:last-child { margin-bottom: 0; }
+    .step-title { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: .35rem; }
+
+    /* ── HINT TOGGLE ── */
+    .hint-toggle {
+      margin-top: .75rem;
+      border: 1px solid #c8d6f5;
+      border-radius: 6px;
+      background: #eaf0ff;
+      overflow: hidden;
+    }
+    .hint-toggle summary {
+      list-style: none;
+      cursor: pointer;
+      padding: .55rem .9rem;
+      font-size: 12px; font-weight: 600;
+      color: var(--primary-color);
+      display: flex; align-items: center; gap: .4rem;
+      user-select: none;
+    }
+    .hint-toggle summary::-webkit-details-marker { display: none; }
+    .hint-toggle summary::before {
+      content: '▶';
+      font-size: 9px;
+      transition: transform .15s;
+      display: inline-block;
+    }
+    .hint-toggle[open] summary::before { transform: rotate(90deg); }
+    .hint-toggle__body {
+      padding: .6rem .9rem .75rem;
+      border-top: 1px solid #c8d6f5;
+      font-size: 13px; color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .hint-toggle__body p { margin: 0 0 .4rem; }
+    .hint-toggle__body p:last-child { margin-bottom: 0; }
+    .hint-toggle__body code {
+      background: #dce8ff; border-radius: 3px;
+      padding: .1em .35em; font-size: 12px;
+    }
+
+    .hint-troubleshoot {
+      margin-top: .75rem;
+      padding: .5rem .75rem;
+      background: #fff8e1;
+      border-left: 3px solid #f0a500;
+      border-radius: 0 4px 4px 0;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    /* ── DOWNLOAD BUTTON ── */
+    .download-btn {
+      display: inline-block;
+      margin-top: .5rem;
+      padding: .55rem 1.25rem;
+      background: var(--primary-color);
+      color: #fff;
+      font-size: 13px; font-weight: 600;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background .15s;
+    }
+    .download-btn:hover { background: #2563c4; }
+
+    .step-subheading {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .08em; color: var(--text-secondary);
+      margin: .6rem 0 .3rem;
+    }
+
+    /* ── PROMPT CARD ── */
+    .prompt-card {
+      border: 1px solid var(--code-border);
+      border-radius: 6px; overflow: hidden; margin: .75rem 0;
+    }
+    .prompt-card__header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .5rem .75rem;
+      background: #f0f3f6;
+      border-bottom: 1px solid var(--code-border);
+    }
+    .prompt-card__title { font-size: 12px; font-weight: 600; color: var(--text-secondary); }
+    .copy-btn {
+      font-size: 11px; font-weight: 600; padding: .2rem .6rem;
+      background: #fff; border: 1px solid var(--code-border);
+      border-radius: 4px; cursor: pointer; color: var(--text-secondary);
+      transition: all .15s;
+    }
+    .copy-btn:hover { background: var(--primary-color); color: #fff; border-color: var(--primary-color); }
+    .copy-btn.copied { background: var(--success-color); color: #fff; border-color: var(--success-color); }
+    .prompt-body {
+      padding: .75rem; font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px; line-height: 1.6; white-space: pre-wrap;
+      background: var(--code-bg); color: var(--text-primary);
+      overflow-x: auto;
+    }
+
+    /* ── CALLOUT ── */
+    .callout {
+      border-radius: 4px; padding: 1rem;
+      border-left: 4px solid; margin: 1rem 0;
+    }
+    .callout--info    { background: #eaf0ff; border-color: var(--primary-color); }
+    .callout--success { background: #f0f8f1; border-color: var(--success-color); }
+    .callout--warning { background: #fdf6e3; border-color: var(--warning-color); }
+    .callout--tip     { background: #f4f4f4; border-color: #6f6f6f; }
+    .callout__label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .1em; color: var(--text-secondary); margin-bottom: .25rem;
+    }
+    .callout p { font-size: 13px; color: var(--text-secondary); }
+    .callout code {
+      font-family: 'IBM Plex Mono', monospace; font-size: 12px;
+      background: rgba(0,0,0,.06); padding: 1px 5px; border-radius: 3px;
+    }
+
+    /* ── BRANCH BOX ── */
+    .branch-box {
+      background: #161616; color: #fff;
+      border-radius: 6px; padding: 1rem 1.25rem;
+      margin: 1rem 0;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+    }
+    .branch-box__label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: #a8a8a8; margin-bottom: .3rem; }
+    .branch-box code {
+      font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #78a9ff;
+      background: none; padding: 0;
+    }
+    .branch-box .copy-btn {
+      background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.2); color: #fff;
+    }
+    .branch-box .copy-btn:hover { background: var(--primary-color); border-color: var(--primary-color); }
+
+    /* ── CREDENTIALS TABLE ── */
+    .creds-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin: .75rem 0;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    .creds-table tr:not(:last-child) td { border-bottom: 1px solid var(--border-color); }
+    .creds-table td {
+      padding: .5rem .75rem;
+      vertical-align: top;
+    }
+    .creds-table td:first-child {
+      font-weight: 600;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      width: 200px;
+      background: var(--bg-alt);
+    }
+    .creds-table td:last-child {
+      color: var(--text-primary);
+      word-break: break-all;
+    }
+
+    /* ── BADGE ── */
+    .badge {
+      display: inline-block; padding: .2rem .6rem;
+      font-size: 11px; font-weight: 600; border-radius: 20px;
+      background: #e8f0fe; color: var(--primary-color);
+      letter-spacing: .05em; margin-left: .25rem;
+    }
+    .badge--green { background: #defbe6; color: #198038; }
+    .badge--orange { background: #fff3e0; color: #e65100; }
+
+    /* ── SUBSECTION ── */
+    .subsection { margin-top: 1.75rem; }
+    .subsection h3 {
+      font-size: 1.1rem; font-weight: 600;
+      margin-bottom: .75rem; color: var(--text-primary);
+      padding-bottom: .4rem; border-bottom: 1px solid var(--border-color);
+    }
+
+    /* ── FEATURE GRID ── */
+    .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 1rem; margin: 1rem 0; }
+    .feature-card {
+      background: var(--bg-alt); border: 1px solid var(--border-color);
+      border-radius: 4px; padding: 1.25rem;
+    }
+    .feature-card h4 { font-size: 13px; font-weight: 600; margin-bottom: .4rem; }
+    .feature-card p  { font-size: 12px; color: var(--text-secondary); line-height: 1.55; }
+
+    /* ── INLINE CODE ── */
+    code {
+      font-family: 'IBM Plex Mono', monospace; font-size: 12px;
+      background: #e0e0e0; padding: 1px 5px; border-radius: 3px;
+    }
+
+    /* ── HERO ── */
+    .hero-banner {
+      background: linear-gradient(135deg, #161616 0%, #262626 100%);
+      border-radius: 6px; padding: 2rem;
+      color: #fff; margin-bottom: 2rem;
+    }
+    .hero-banner .brand-kicker { color: #78a9ff; display: block; margin-bottom: .5rem; }
+    .hero-banner h2 { font-size: 2rem; font-weight: 600; margin-bottom: .75rem; }
+    .hero-banner p  { font-size: 14px; color: #c6c6c6; max-width: 640px; line-height: 1.7; }
+
+    /* ── COMING SOON ── */
+    .coming-soon {
+      border: 2px dashed var(--border-color);
+      border-radius: 6px;
+      padding: 3rem 2rem;
+      text-align: center;
+      background: var(--bg-alt);
+      margin-top: 1rem;
+    }
+    .coming-soon__label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .12em; color: var(--text-secondary);
+      margin-bottom: .5rem;
+    }
+    .coming-soon h3 { font-size: 1.1rem; font-weight: 600; color: var(--text-primary); margin-bottom: .4rem; }
+    .coming-soon p  { font-size: 13px; color: var(--text-secondary); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.open { transform: translateX(0); }
+      .content { margin-left: 0; padding: 1rem; }
+    }
+
+    /* ── FOOTER ── */
+    .page-footer {
+      text-align: center; padding: 1.5rem 1rem;
+      border-top: 1px solid var(--border-color);
+      color: #a8a8a8; font-size: 12px;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar__brand">
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">☰</button>
+      <div class="logo-dot" aria-hidden="true"></div>
+      <div>
+        <div class="brand-kicker">IBM watsonx Orchestrate — BDMS Workshop</div>
+        <h1 class="brand-title">Pre-built Email Agent &middot; RAG Agent &middot; Multi-Agent</h1>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <!-- ── SIDEBAR ── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar__title">Lab Sections</div>
+      <nav class="sidebar__nav" aria-label="Table of contents">
+
+        <a class="sidebar__link active" href="#setup">
+          <span class="sidebar__num">00</span>
+          <span>Setup</span>
+        </a>
+        <a class="sidebar__sublink" href="#setup-trial">Free Trial</a>
+        <a class="sidebar__sublink" href="#setup-launch">Launch Instance</a>
+
+        <a class="sidebar__link" href="#lab1">
+          <span class="sidebar__num">01</span>
+          <span>Lab 1 — Email Agent</span>
+        </a>
+        <a class="sidebar__sublink" href="#lab1-discovery">Discovery</a>
+        <a class="sidebar__sublink" href="#lab1-connection">Configure Connection</a>
+        <a class="sidebar__sublink" href="#lab1-test">Test the Agent</a>
+
+        <a class="sidebar__link" href="#lab2">
+          <span class="sidebar__num">02</span>
+          <span>Lab 2 — RAG Agent</span>
+        </a>
+        <a class="sidebar__sublink" href="#lab2-ui">UI Approach</a>
+        <a class="sidebar__sublink" href="#lab2-adk">ADK Approach</a>
+
+        <a class="sidebar__link" href="#lab3">
+          <span class="sidebar__num">03</span>
+          <span>Lab 3 — Multi-Agent</span>
+        </a>
+        <a class="sidebar__sublink" href="#lab3-build">Build Multi-Agent</a>
+        <a class="sidebar__sublink" href="#lab3-test">Test Questions</a>
+
+        <a class="sidebar__link" href="#lab4">
+          <span class="sidebar__num">04</span>
+          <span>Agent Ops</span>
+        </a>
+
+      </nav>
+    </aside>
+
+    <!-- ── MAIN CONTENT ── -->
+    <main class="content" id="main-content">
+
+      <!-- HERO -->
+      <div class="hero-banner">
+        <span class="brand-kicker">IBM watsonx Orchestrate — BDMS Samitivej Workshop</span>
+        <h2>Welcome to the Lab Guide</h2>
+        <p>This guide walks you through four hands-on labs covering IBM watsonx Orchestrate: setting up your environment, deploying a pre-built Email agent, building a RAG agent with a knowledge base, and composing a multi-agent system. Follow each section in order.</p>
+      </div>
+
+      <!-- ════════════════════════════════════════════════ -->
+      <!-- SECTION 0 — SETUP -->
+      <!-- ════════════════════════════════════════════════ -->
+      <section class="section" id="setup">
+        <div class="section-header">
+          <div class="section-kicker">Before You Begin</div>
+          <h2>Setup</h2>
+          <p class="section-lead">Complete this once before starting any lab. You will register for a free trial, access the IBM dashboard, and launch a watsonx Orchestrate instance.</p>
+        </div>
+
+        <div id="setup-trial" class="subsection">
+          <h3>Step 1 — Register for a Free Trial</h3>
+          <ol class="step-list">
+            <li class="step-item">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <div class="step-title">Go to the watsonx Orchestrate product page</div>
+                <p>Open your browser and navigate to the IBM watsonx Orchestrate product page.</p>
+                <a href="https://www.ibm.com/products/watsonx-orchestrate" class="download-btn" target="_blank" rel="noopener">Open IBM watsonx Orchestrate</a>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <div class="step-title">Start the free trial</div>
+                <p>Scroll to the bottom of the page, click <strong>Free Trial</strong>, and fill in your account information to register.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <div id="setup-launch" class="subsection">
+          <h3>Step 2 — Launch Your Instance</h3>
+          <ol class="step-list">
+            <li class="step-item">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <div class="step-title">Go to the IBM dashboard</div>
+                <p>After registration, navigate to your IBM product dashboard.</p>
+                <a href="https://myibm.ibm.com/dashboard/" class="download-btn" target="_blank" rel="noopener">Open IBM Dashboard</a>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">4</div>
+              <div class="step-body">
+                <div class="step-title">Find watsonx Orchestrate and click Launch</div>
+                <p>Under <strong>My Products</strong>, locate IBM watsonx Orchestrate and click <strong>Launch</strong>.</p>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">5</div>
+              <div class="step-body">
+                <div class="step-title">Create a new instance</div>
+                <p>Click <strong>Create new instance</strong> and select the <strong>us-east</strong> region.</p>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">6</div>
+              <div class="step-body">
+                <div class="step-title">Launch the instance</div>
+                <p>Click <strong>Launch</strong>. You should now see the watsonx Orchestrate front page and are ready to start the labs.</p>
+                <div class="callout callout--success" style="margin-top:.75rem;">
+                  <div class="callout__label">You're all set</div>
+                  <p>Once you can see the watsonx Orchestrate home screen, proceed to Lab 1.</p>
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════ -->
+      <!-- SECTION 1 — LAB 1 -->
+      <!-- ════════════════════════════════════════════════ -->
+      <section class="section" id="lab1">
+        <div class="section-header">
+          <div class="section-kicker">Lab 1</div>
+          <h2>Pre-built Email Agent</h2>
+          <p class="section-lead">Deploy and configure a pre-built Google Email Manager agent from the watsonx Orchestrate Discovery catalogue, connect it to Gmail via OAuth2, and send your first AI-generated email.</p>
+        </div>
+
+        <!-- Discovery -->
+        <div id="lab1-discovery" class="subsection">
+          <h3>Step 1 — Find the Email Manager Agent</h3>
+          <ol class="step-list">
+            <li class="step-item">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <div class="step-title">Open the Discovery page</div>
+                <p>In watsonx Orchestrate, navigate to the <strong>Discovery</strong> page using the left-hand navigation.</p>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <div class="step-title">Search for the Google pre-built agent</div>
+                <p>In the search bar, type <code>google</code> to filter the catalogue. Locate and select <strong>Email Manager</strong>.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <!-- Connection -->
+        <div id="lab1-connection" class="subsection">
+          <h3>Step 2 — Configure the Gmail Connection</h3>
+          <ol class="step-list">
+            <li class="step-item">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <div class="step-title">Open the Tools &gt; Connection settings</div>
+                <p>Inside the Email Manager agent, click <strong>Tools</strong> in the top tabs, then select <strong>Connection</strong>.</p>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">4</div>
+              <div class="step-body">
+                <div class="step-title">Enter the Gmail OAuth2 credentials</div>
+                <p>Fill in the connection form using the values below. You will need a Client ID and Client Secret from your Google Cloud OAuth2 App (step 4 of the Google setup).</p>
+                <table class="creds-table">
+                  <tr>
+                    <td>Authentication type</td>
+                    <td>OAuth2 Authorization Code</td>
+                  </tr>
+                  <tr>
+                    <td>Server URL</td>
+                    <td>https://gmail.googleapis.com/</td>
+                  </tr>
+                  <tr>
+                    <td>Token URL</td>
+                    <td>https://oauth2.googleapis.com/token</td>
+                  </tr>
+                  <tr>
+                    <td>Authorization URL</td>
+                    <td>https://accounts.google.com/o/oauth2/v2/auth</td>
+                  </tr>
+                  <tr>
+                    <td>Client ID</td>
+                    <td><em>(from your Google Cloud OAuth2 App)</em></td>
+                  </tr>
+                  <tr>
+                    <td>Client Secret</td>
+                    <td><em>(from your Google Cloud OAuth2 App)</em></td>
+                  </tr>
+                  <tr>
+                    <td>Scope</td>
+                    <td>https://mail.google.com/</td>
+                  </tr>
+                  <tr>
+                    <td>Token request field</td>
+                    <td>prompt = consent</td>
+                  </tr>
+                  <tr>
+                    <td>Auth request fields</td>
+                    <td>base_url = https://gmail.googleapis.com/<br>access_type = offline</td>
+                  </tr>
+                </table>
+                <details class="hint-toggle">
+                  <summary>Where do I get the Client ID and Secret?</summary>
+                  <div class="hint-toggle__body">
+                    <p>Go to the <a href="https://console.cloud.google.com/" target="_blank" rel="noopener" style="color:var(--primary-color)">Google Cloud Console</a>, create or select a project, navigate to <strong>APIs &amp; Services &gt; Credentials</strong>, and create an OAuth 2.0 Client ID. Make sure the Gmail API is enabled for your project.</p>
+                  </div>
+                </details>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <!-- Test -->
+        <div id="lab1-test" class="subsection">
+          <h3>Step 3 — Test the Email Agent</h3>
+          <p style="font-size:13px;color:var(--text-secondary);margin-bottom:.75rem;">
+            Once the connection is configured, test the agent by sending yourself an email using the prompt below.
+          </p>
+          <div class="prompt-card">
+            <div class="prompt-card__header">
+              <span class="prompt-card__title">Sample prompt — send a test email</span>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-body">send email to &lt;your email&gt; with 
+topic: Your dental appointment
+content: we have already scheduled your appointment</div>
+          </div>
+          <div class="callout callout--info" style="margin-top:1rem;">
+            <div class="callout__label">Tip</div>
+            <p>Replace <code>&lt;your email&gt;</code> with your actual email address. The agent will compose and send the message through your connected Gmail account.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════ -->
+      <!-- SECTION 2 — LAB 2 -->
+      <!-- ════════════════════════════════════════════════ -->
+      <section class="section" id="lab2">
+        <div class="section-header">
+          <div class="section-kicker">Lab 2</div>
+          <h2>RAG Agent with Knowledge Base</h2>
+          <p class="section-lead">Build an agent from scratch, attach a PDF knowledge base, and enable retrieval-augmented generation (RAG) so the agent can answer questions grounded in your documents. You can complete this lab using either the UI or the ADK CLI.</p>
+        </div>
+
+        <!-- UI Approach -->
+        <div id="lab2-ui" class="subsection">
+          <h3>Option A — UI Approach</h3>
+          <ol class="step-list">
+            <li class="step-item">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <div class="step-title">Create a new agent from scratch</div>
+                <p>In watsonx Orchestrate, click <strong>Create agent</strong> and choose the <strong>from scratch</strong> option. Give the agent a name and description.</p>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <div class="step-title">Add a Knowledge Base</div>
+                <p>Inside the agent editor, click <strong>Add Knowledge Base</strong> and choose <strong>Import file</strong>.</p>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <div class="step-title">Upload the dental department knowledge base</div>
+                <p>Upload one of the following PDF files from the workshop repository:</p>
+                <div class="feature-grid" style="margin-top:.5rem;">
+                  <div class="feature-card">
+                    <h4>English version</h4>
+                    <p><code>LAB_2_RAG _AGENT/policy/dental_department_knowledge_base.pdf</code></p>
+                  </div>
+                  <div class="feature-card">
+                    <h4>Thai version</h4>
+                    <p><code>LAB_2_RAG _AGENT/policy/dental_department_knowledge_base_th.pdf</code></p>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <!-- ADK Approach -->
+        <div id="lab2-adk" class="subsection">
+          <h3>Option B — ADK (CLI) Approach</h3>
+          <ol class="step-list">
+            <li class="step-item">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <div class="step-title">Activate your environment</div>
+                <p>Open a terminal and run the following command, replacing the placeholders with your environment name and API key:</p>
+                <div class="prompt-card">
+                  <div class="prompt-card__header">
+                    <span class="prompt-card__title">Terminal — activate environment</span>
+                    <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+                  </div>
+                  <div class="prompt-body">orchestrate env activate &lt;your-env-name&gt; -a &lt;your-api-key&gt;</div>
+                </div>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <div class="step-title">Run the import script</div>
+                <p>Execute the provided import script to deploy all agent resources in one go:</p>
+                <div class="prompt-card">
+                  <div class="prompt-card__header">
+                    <span class="prompt-card__title">Terminal — import all resources</span>
+                    <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+                  </div>
+                  <div class="prompt-body">bash import_all.sh</div>
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════ -->
+      <!-- SECTION 3 — LAB 3 -->
+      <!-- ════════════════════════════════════════════════ -->
+      <section class="section" id="lab3">
+        <div class="section-header">
+          <div class="section-kicker">Lab 3</div>
+          <h2>Multi-Agent System</h2>
+          <p class="section-lead">Compose a multi-agent system by connecting the Email Agent from Lab 1 and the RAG Agent from Lab 2 as collaborators, then deploy and test the orchestrator agent end-to-end.</p>
+        </div>
+
+        <!-- Build -->
+        <div id="lab3-build" class="subsection">
+          <h3>Step 1 — Build the Multi-Agent Orchestrator</h3>
+          <ol class="step-list">
+            <li class="step-item">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <div class="step-title">Create a new agent from scratch</div>
+                <p>In watsonx Orchestrate, click <strong>Create agent</strong> and choose the <strong>from scratch</strong> option. This will be your orchestrator agent.</p>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <div class="step-title">Add collaborator agents</div>
+                <p>In the agent editor, select the <strong>Collaborators</strong> section and add both:</p>
+                <ul style="font-size:13px;color:var(--text-secondary);margin:.5rem 0 0 1.25rem;line-height:1.8;">
+                  <li>The <strong>Email Manager Agent</strong> created in Lab 1</li>
+                  <li>The <strong>RAG Agent</strong> (Dental Knowledge Base) created in Lab 2</li>
+                </ul>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <div class="step-title">Deploy the orchestrator agent</div>
+                <p>Click <strong>Deploy</strong> to publish the multi-agent system and make it available for testing.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <!-- Test -->
+        <div id="lab3-test" class="subsection">
+          <h3>Step 2 — Test the Multi-Agent System</h3>
+          <p style="font-size:13px;color:var(--text-secondary);margin-bottom:.75rem;">
+            Use the following test questions to verify that the orchestrator correctly routes requests to the appropriate collaborator agent.
+          </p>
+          <div class="callout callout--warning">
+            <div class="callout__label">Coming Soon</div>
+            <p>Sample test questions will be added here. Try asking questions that combine knowledge retrieval from the dental policy documents <strong>and</strong> sending an email with the answer.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════ -->
+      <!-- SECTION 4 — AGENT OPS -->
+      <!-- ════════════════════════════════════════════════ -->
+      <section class="section" id="lab4">
+        <div class="section-header">
+          <div class="section-kicker">Lab 4</div>
+          <h2>Agent Ops</h2>
+          <p class="section-lead">Operational topics for managing, monitoring, and maintaining your deployed agents in production.</p>
+        </div>
+
+        <div class="coming-soon">
+          <div class="coming-soon__label">Content Coming Soon</div>
+          <h3>Agent Ops — Under Construction</h3>
+          <p>This section will cover agent observability, versioning, rollback strategies, and production best practices. Check back soon for updates.</p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="page-footer">
+    Made with IBM Bob
+  </footer>
+
+  <script>
+    // Sidebar toggle
+    const toggle = document.getElementById('menuToggle');
+    const sidebar = document.getElementById('sidebar');
+    toggle.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', sidebar.classList.contains('open'));
+    });
+
+    // Highlight active sidebar link on scroll
+    const sections = document.querySelectorAll('section[id]');
+    const links = document.querySelectorAll('.sidebar__link');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          links.forEach(l => l.classList.remove('active'));
+          const active = document.querySelector(`.sidebar__link[href="#${entry.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    sections.forEach(s => observer.observe(s));
+
+    // Shared copy helper with execCommand fallback
+    function _doCopy(text, btn) {
+      function onSuccess() {
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(onSuccess).catch(() => _fallbackCopy(text, btn, onSuccess));
+      } else {
+        _fallbackCopy(text, btn, onSuccess);
+      }
+    }
+
+    function _fallbackCopy(text, btn, onSuccess) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
+      document.body.appendChild(ta);
+      ta.focus(); ta.select();
+      try { if (document.execCommand('copy')) onSuccess(); } catch(e) {}
+      document.body.removeChild(ta);
+    }
+
+    // Copy prompt text
+    function copyPrompt(btn) {
+      const body = btn.closest('.prompt-card').querySelector('.prompt-body');
+      _doCopy(body.textContent.trim(), btn);
+    }
+
+    // Copy branch command
+    function copyBranch(boxId, text, btn) {
+      _doCopy(text, btn);
+    }
+  </script>
+
+</body>
+</html>

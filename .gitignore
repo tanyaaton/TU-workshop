@@ -195,3 +195,5 @@ docker-compose.override.yml
 *.pid
 *.seed
 *.pid.lock
+
+note.txt
