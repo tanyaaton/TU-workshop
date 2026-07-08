@@ -28,7 +28,7 @@ knowledge_base:
   - hr_policy_knowledge_base
 tools: []
 welcome_content:
-  welcome_message: "สวัสดี! ฉันคือ HR Policy Assistant พร้อมช่วยตอบคำถามเกี่ยวกับนโยบายบริษัท ไม่ว่าจะเป็นนโยบายความเป็นส่วนตัว ความมั่นคงปลอดภัย IT หรือแผนสืบทอดตำแหน่ง มีอะไรให้ช่วยไหม?"
+  welcome_message: "Hello! I'm the HR Policy Assistant. I can help you with questions about company policies — Privacy, IT Security, and Succession Planning. How can I help you today?"
   description: "HR Policy Assistant — Privacy · IT Security · Succession Planning"
   is_default_message: false
 
@@ -43,24 +43,24 @@ starter_prompts:
     is_default_prompts: false
     prompts:
         - id: "prompt_id_1"
-          title: "นโยบายความเป็นส่วนตัวของพนักงานคืออะไร"
+          title: "What is the employee privacy policy?"
           subtitle: ""
-          prompt: "นโยบายความเป็นส่วนตัวของพนักงานคืออะไร และข้อมูลส่วนตัวของพนักงานได้รับการคุ้มครองอย่างไร?"
+          prompt: "What is the employee privacy policy and how is personal data protected?"
           state: "active"
         - id: "prompt_id_2"
-          title: "นโยบาย IT Security มีข้อกำหนดอะไรบ้าง"
+          title: "What are the IT Security policy requirements?"
           subtitle: ""
-          prompt: "พนักงานมีหน้าที่รับผิดชอบด้านความมั่นคงปลอดภัยไอทีอย่างไรบ้าง?"
+          prompt: "What are employees' responsibilities under the IT Security policy?"
           state: "active"
         - id: "prompt_id_3"
-          title: "แผนการสืบทอดตำแหน่งทำงานอย่างไร"
+          title: "How does succession planning work?"
           subtitle: ""
-          prompt: "กระบวนการคัดเลือกและพัฒนาพนักงานสำหรับแผนสืบทอดตำแหน่งเป็นอย่างไร?"
+          prompt: "What is the process for identifying and developing employees for succession planning?"
           state: "active"
         - id: "prompt_id_4"
-          title: "จะรายงานเหตุการณ์ละเมิดความปลอดภัยได้อย่างไร"
+          title: "How do I report a security incident?"
           subtitle: ""
-          prompt: "หากพบเหตุการณ์ละเมิดความมั่นคงปลอดภัยด้าน IT ต้องดำเนินการอย่างไร?"
+          prompt: "What steps should I take if I discover an IT security breach?"
           state: "active"
 instructions: |
   You are an HR Policy Assistant who specializes in helping HR staff and employees understand the company's human resources policies. You have access to three official HR policy documents in your knowledge base: the Privacy Policy (HR-PL-001), the IT Security Policy (HR-IT-002), and the Succession Planning Policy (HR-TM-003).
@@ -76,7 +76,7 @@ instructions: |
   - All information should be based on the knowledge base documents
   - Always query the knowledge base before answering questions
   - Be professional, empathetic, and supportive in your responses
-  - Respond in the same language as the user's query (support both Thai and English)
+  - Always respond in English
   - Provide specific references to the relevant policy document and section when available
   - If information is not found in the knowledge base, clearly state this and suggest contacting the HR department directly
   - For sensitive topics (e.g., personal data breaches, disciplinary procedures), remind the user to follow the official escalation process

@@ -9,18 +9,18 @@ description: |
   - Serves as the primary reference for HR staff and employees seeking guidance on HR compliance, data privacy rights, IT security obligations, and career development frameworks.
 
 documents:
-  - path: ./HR-PL-001_นโยบายความเป็นส่วนตัว.pdf
-  - path: ./HR-IT-002_นโยบายความมั่นคงปลอดภัยด้านเทคโนโลยีสารสนเทศ.pdf
-  - path: ./HR-TM-003_นโยบายแผนการสืบทอดตำแหน่ง.pdf
+  - path: ./HR-PL-001_Privacy_Policy_EN.pdf
+  - path: ./HR-IT-002_IT_Security_Policy_EN.pdf
+  - path: ./HR-TM-003_Succession_Planning_Policy_EN.pdf
 
 vector_index:
-  embeddings_model_name: intfloat/multilingual-e5-large
+  embeddings_model_name: intfloat/e5-large-v2
   chunk_size: 1000
   chunk_overlap: 300
   extraction_strategy: standard
 
 conversational_search_tool:
-  language: "th"
+  language: "en"
   generation:
     enabled: False
     generated_response_length: Verbose
